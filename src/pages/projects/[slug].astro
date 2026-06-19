@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { projects, galleryPool, type Project } from '../../data/projects';
+import { btsGallery } from '../../data/btsGallery';
 
 export function getStaticPaths() {
   return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
@@ -13,8 +14,9 @@ const { project } = Astro.props;
 
 const filters = ['ALL', 'PHOTO', 'VIDEO'];
 
-// Galerie placeholder (aceleași momentan) — de înlocuit cu media reală per proiect.
-const gallery = galleryPool;
+// Galeria reală Torjai per proiect. Pagina BEHIND THE LENS (BTS) folosește
+// media reală din public/bts/; restul proiectelor folosesc deocamdată placeholder.
+const gallery = project.slug === 'behind-the-lens' ? btsGallery : galleryPool;
 ---
 
 <BaseLayout
@@ -106,21 +108,25 @@ const gallery = galleryPool;
                   ]}
                   style="border-radius: 45px;"
                 >
-                  <img
-                    alt={`${project.title} — ${item.type} ${i + 1}`}
-                    class:list={['card-img', layout === 'tall' && 'h-full object-cover']}
-                    src={item.src}
-                    style="border-radius: 45px;"
-                  />
-                  {item.type === 'video' && (
-                    <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
-                      <span
-                        class="material-symbols-outlined text-6xl text-white/90 drop-shadow-lg"
-                        aria-hidden="true"
-                      >
-                        play_circle
-                      </span>
-                    </div>
+                  {item.type === 'video' ? (
+                    <video
+                      class:list={['card-img', layout === 'tall' && 'h-full object-cover']}
+                      src={item.src}
+                      poster={item.poster}
+                      controls
+                      preload="none"
+                      playsinline
+                      style="border-radius: 45px;"
+                    />
+                  ) : (
+                    <img
+                      alt={`${project.title} — photo ${i + 1}`}
+                      class:list={['card-img', layout === 'tall' && 'h-full object-cover']}
+                      src={item.src}
+                      loading="lazy"
+                      decoding="async"
+                      style="border-radius: 45px;"
+                    />
                   )}
                 </div>
               </article>
