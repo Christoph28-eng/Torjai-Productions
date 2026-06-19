@@ -4,14 +4,17 @@
 
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { galleryPool, videoThumb, videoEmbed, type ProjectVideo } from '../data/projects';
+import { galleryPool, videoThumb, videoEmbed, type ProjectVideo, type GalleryItem } from '../data/projects';
 
 /** Un element afișat în galerie: o poză sau un clip. */
 export type DisplayItem = {
   type: 'photo' | 'video';
   thumb: string;
   full: string;
+  /** URL de embed pentru clipuri Vimeo/YouTube (iframe). Gol pentru poze / video local. */
   embed: string;
+  /** Calea unui fișier video local (MP4) servit din public/. Gol pentru poze / embed. */
+  videoSrc?: string;
   alt: string;
 };
 
@@ -72,4 +75,28 @@ export async function buildGallery({
   }
 
   return gallery;
+}
+
+/**
+ * Mapează o listă de `GalleryItem` (media reală din public/, ex. `btsGallery`)
+ * la `DisplayItem` pentru componenta Gallery. Clipurile sunt fișiere MP4 locale
+ * (`videoSrc`), cu posterul ca thumbnail în grilă. Nu se optimizează — fișierele
+ * sunt deja în public/.
+ */
+export function galleryItemsToDisplay(
+  items: GalleryItem[],
+  { photoAlt, videoAlt }: { photoAlt: string; videoAlt: string },
+): DisplayItem[] {
+  return items.map((it) =>
+    it.type === 'video'
+      ? {
+          type: 'video',
+          thumb: it.poster ?? it.src,
+          full: it.poster ?? it.src,
+          embed: '',
+          videoSrc: it.src,
+          alt: videoAlt,
+        }
+      : { type: 'photo', thumb: it.src, full: it.src, embed: '', alt: photoAlt },
+  );
 }

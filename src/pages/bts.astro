@@ -1,34 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Gallery from '../components/Gallery.astro';
-import { buildGallery } from '../lib/gallery';
-import type { ImageMetadata } from 'astro';
-import { btsVideos } from '../data/bts';
+import { galleryItemsToDisplay } from '../lib/gallery';
+import { btsGallery } from '../data/btsGallery';
 
 // ============================================================================
 //  GALERIE BTS (Behind The Scenes)
-//  - Poze: fișiere din src/assets/bts/ (optimizate automat de Astro).
-//  - Video: lista `btsVideos` din src/data/bts.ts (Vimeo / YouTube).
-//  Formatul galeriei e identic cu cel din interiorul unui proiect (vezi Gallery.astro).
+//  Media reală în public/bts/ (poze WebP + video MP4 + postere WebP), listată
+//  în src/data/btsGallery.ts. Formatul galeriei e identic cu cel din interiorul
+//  unui proiect (vezi Gallery.astro): click pe poză/clip → lightbox cu navigare.
 // ============================================================================
-const photoModules = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/bts/*.{jpg,jpeg,png,webp,avif}',
-  { eager: true },
-);
-
-const localPhotos: { name: string; image: ImageMetadata }[] = [];
-for (const [path, mod] of Object.entries(photoModules)) {
-  const m = path.match(/\/bts\/([^/]+)$/);
-  if (!m) continue;
-  localPhotos.push({ name: m[1], image: mod.default });
-}
-
-const gallery = await buildGallery({
-  localPhotos,
-  videos: btsVideos,
+const gallery = galleryItemsToDisplay(btsGallery, {
   photoAlt: 'Behind The Scenes — Torjai Productions',
   videoAlt: 'Behind The Scenes — video',
-  fallbackAlt: 'Behind The Scenes',
 });
 ---
 
@@ -50,7 +34,7 @@ const gallery = await buildGallery({
 </BaseLayout>
 
 <!--
-  Cum adaugi media la pagina BTS — vezi docs/GHID-CONTINUT.md:
-  - Poze: pune fișierele în src/assets/bts/ (numite 01.jpg, 02.jpg, ...).
-  - Video: adaugă în src/data/bts.ts, în lista `btsVideos`: { provider, id }.
+  Media BTS reală e în public/bts/ (poze, video, postere) și e listată în
+  src/data/btsGallery.ts. Pentru a o schimba, regenerează acel fișier din
+  procesarea footage-ului (vezi docs/GHID-CONTINUT.md).
 -->

@@ -87,21 +87,19 @@ Apoi adaugă-i pozele (pasul 1) și/sau videourile (pasul 2).
 
 Pagina **BTS** (din meniu) arată ca o pagină de proiect: titlul *Behind The
 Scenes* și sub el o galerie cu poze și video, cu filtrele ALL / PHOTO / VIDEO.
+Click pe o poză sau pe un clip → se deschide pe tot ecranul (lightbox), cu
+clipurile redate direct în pagină.
 
-- **Poze:** pune fișierele direct în `src/assets/bts/`, numite în ordine
-  (`01.jpg`, `02.jpg`, `03.jpg` ...). Apar automat în galerie.
-- **Video:** urcă clipul pe Vimeo/YouTube și adaugă-l în `src/data/bts.ts`, în
-  lista `btsVideos`:
+Media BTS reală nu stă ca celelalte poze de proiect, ci direct în folderul
+`public/bts/`:
 
-```ts
-export const btsVideos: ProjectVideo[] = [
-  { provider: 'vimeo', id: '123456789' },
-  { provider: 'youtube', id: 'AbCdEfGhIjk' },
-];
-```
+- `public/bts/photos/` — pozele (WebP).
+- `public/bts/videos/` — clipurile (MP4), găzduite chiar în site.
+- `public/bts/posters/` — câte un cadru-poster (WebP) pentru fiecare clip.
 
-Funcționează la fel ca la proiecte (vezi pașii 1 și 2). Până adaugi media reală,
-pagina afișează imagini placeholder.
+Lista completă (ce poză / ce clip, în ce ordine) e în `src/data/btsGallery.ts`.
+Acel fișier e **generat automat** din procesarea footage-ului — cel mai simplu
+e să-l regenerezi cu unealta de procesare, nu să-l editezi de mână.
 
 ---
 

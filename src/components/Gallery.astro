@@ -64,6 +64,7 @@ const { items, filters = ['ALL', 'PHOTO', 'VIDEO'] } = Astro.props;
                 data-type={item.type}
                 data-full={item.full}
                 data-embed={item.embed}
+                data-video-src={item.videoSrc}
                 data-alt={item.alt}
                 aria-label={item.type === 'video' ? 'Play video' : 'View photo'}
                 class:list={[
