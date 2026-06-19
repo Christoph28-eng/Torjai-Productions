@@ -198,8 +198,11 @@ export const projectBySlug = (slug: string) => projects.find((p) => p.slug === s
 // Galerie placeholder pentru paginile individuale (de înlocuit cu media reală per proiect).
 // `type` controlează filtrele PHOTO/VIDEO de pe pagina proiectului.
 export interface GalleryItem {
+  /** Pentru `photo`: calea imaginii. Pentru `video`: calea fișierului .mp4. */
   src: string;
   type: 'photo' | 'video';
+  /** Imagine-poster (thumbnail) afișată pentru un video înainte de redare. */
+  poster?: string;
 }
 
 export const galleryPool: GalleryItem[] = [
