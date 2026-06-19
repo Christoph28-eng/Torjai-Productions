@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Disciplines pentru marquee-ul de capabilități
+const disciplines = [
+  'VIDEO PRODUCTION',
+  'PHOTOGRAPHY',
+  'COLOR GRADING',
+  'SOUND DESIGN',
+  'VFX',
+  'CAMERA ROBOTICS',
+  'TECHNICAL SCOUTING',
+  '8K CINEMA',
+];
+
+// Servicii principale — evoluție a blocului „Precision driven" de pe Home.
+// (Conținut placeholder, dar realist — de înlocuit cu copy-ul final Torjai.)
+const services = [
+  {
+    n: '01',
+    icon: 'videocam',
+    title: 'Video Production',
+    desc: 'End-to-end cinematography for brands that demand precision. From the first board to the final frame, we shoot with intent.',
+    items: ['Commercials', 'Brand films', 'Music videos', 'Documentaries'],
+  },
+  {
+    n: '02',
+    icon: 'photo_camera',
+    title: 'Photography',
+    desc: 'High-resolution stills built with the same lighting discipline as our motion work — engineered, never accidental.',
+    items: ['Campaign', 'Product', 'Editorial', 'Behind the scenes'],
+  },
+  {
+    n: '03',
+    icon: 'movie_edit',
+    title: 'Post-Production',
+    desc: 'A finishing pipeline tuned for industrial aesthetics. We grade, cut and design sound until every detail holds.',
+    items: ['Editing', 'Color grading', 'Sound design', 'VFX & compositing'],
+  },
+];
+
+---
+
+<BaseLayout
+  title="Services — Torjai Productions"
+  description="Capabilities of Torjai Productions — video, photography, post-production, technical scouting and camera robotics, engineered in Berlin."
+>
+  <!-- Film grain overlay -->
+  <div class="film-grain"></div>
+
+  <!-- ===================== HERO ===================== -->
+  <section
+    class="relative overflow-hidden border-b border-studio-grey bg-gradient-to-b from-black to-background px-margin-mobile pb-24 pt-40 md:px-margin-desktop md:pb-32 md:pt-52"
+  >
+    <!-- Reticle corners -->
+    <div class="pointer-events-none absolute inset-0 m-margin-mobile md:m-margin-desktop">
+      <div class="reticle-tl"></div>
+      <div class="reticle-tr"></div>
+      <div class="reticle-bl"></div>
+      <div class="reticle-br"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-container-max">
+      <div class="flex items-center gap-3">
+        <span class="inline-block h-2 w-2 rounded-full bg-technical-amber"></span>
+        <p class="font-label-technical text-label-technical uppercase tracking-widest text-technical-amber">
+          02 // Capabilities
+        </p>
+      </div>
+
+      <h1
+        class="mt-8 bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#222222] bg-clip-text font-display-xl text-[18vw] uppercase leading-[0.82] tracking-tighter text-transparent sm:text-[16vw] md:text-[200px] lg:text-[240px]"
+      >
+        WHAT WE<br />BUILD
+      </h1>
+
+      <div class="mt-10 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <p class="max-w-2xl font-body-lg text-body-lg text-on-surface-variant">
+          A full-stack production house engineered for high-end photo and film.
+          We own every link in the chain — from technical scouting and motion-control
+          rigs to color, sound and final master — so the vision survives intact from
+          board to broadcast.
+        </p>
+        <a
+          href="#services"
+          class="group inline-flex shrink-0 items-center gap-3 self-start rounded-full border border-outline px-7 py-4 font-label-button text-label-button uppercase tracking-wider text-on-surface transition-colors duration-300 hover:border-technical-amber hover:text-technical-amber"
+        >
+          Explore the stack
+          <span
+            class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-y-1"
+            aria-hidden="true">arrow_downward</span
+          >
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DISCIPLINES MARQUEE ===================== -->
+  <section class="relative overflow-hidden border-b border-studio-grey bg-surface-container-lowest py-10">
+    <div class="flex items-center">
+      <div class="flex animate-marquee-reverse items-center gap-12 whitespace-nowrap px-6">
+        {
+          disciplines.map((d) => (
+            <span class="flex items-center gap-12">
+              <span class="cursor-default font-headline-md text-xl uppercase tracking-widest text-on-surface-variant/40 transition-colors hover:text-on-surface md:text-2xl">
+                {d}
+              </span>
+              <span class="material-symbols-outlined text-technical-amber/60" aria-hidden="true">
+                add
+              </span>
+            </span>
+          ))
+        }
+      </div>
+      <div
+        class="flex animate-marquee-reverse items-center gap-12 whitespace-nowrap px-6"
+        aria-hidden="true"
+      >
+        {
+          disciplines.map((d) => (
+            <span class="flex items-center gap-12">
+              <span class="cursor-default font-headline-md text-xl uppercase tracking-widest text-on-surface-variant/40 transition-colors hover:text-on-surface md:text-2xl">
+                {d}
+              </span>
+              <span class="material-symbols-outlined text-technical-amber/60">add</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES GRID ===================== -->
+  <section
+    id="services"
+    class="scroll-mt-28 bg-background px-margin-mobile py-28 md:px-margin-desktop md:py-36"
+  >
+    <div class="mx-auto max-w-container-max">
+      <!-- Section header -->
+      <div class="mb-16 flex flex-col gap-6 md:mb-24 md:flex-row md:items-end md:justify-between">
+        <div>
+          <span class="mb-5 block font-label-technical text-label-technical uppercase tracking-widest text-technical-amber">
+            01 // Core services
+          </span>
+          <h2 class="font-headline-lg text-headline-lg-mobile uppercase leading-[0.9] tracking-tighter text-on-surface md:text-headline-lg">
+            Three disciplines,<br />one pipeline.
+          </h2>
+        </div>
+        <p class="max-w-md font-body-md text-body-md text-on-surface-variant">
+          Each capability is a department in its own right — yet they run on a single
+          schedule, a single look and a single point of contact. No hand-offs, no drift.
+        </p>
+      </div>
+
+      <!-- Cards -->
+      <div class="grid grid-cols-1 gap-px overflow-hidden rounded-[2rem] border border-studio-grey bg-studio-grey md:grid-cols-2 lg:grid-cols-3">
+        {
+          services.map((s) => (
+            <article class="group relative flex flex-col bg-surface-container p-8 transition-colors duration-300 hover:bg-surface-container-high md:p-10">
+              <div class="mb-8 flex items-center justify-between">
+                <div class="flex h-14 w-14 items-center justify-center rounded-full border border-outline-variant transition-all duration-300 group-hover:border-technical-amber group-hover:bg-technical-amber">
+                  <span
+                    class="material-symbols-outlined text-2xl text-on-surface transition-colors duration-300 group-hover:text-deep-charcoal"
+                    aria-hidden="true">{s.icon}</span
+                  >
+                </div>
+                <span class="font-label-technical text-label-technical tracking-widest text-on-surface-variant/50">
+                  {s.n}
+                </span>
+              </div>
+
+              <h3 class="mb-3 font-headline-md text-2xl uppercase leading-tight tracking-tight text-on-surface md:text-3xl">
+                {s.title}
+              </h3>
+              <p class="mb-8 font-body-md text-body-md text-on-surface-variant">
+                {s.desc}
+              </p>
+
+              <ul class="mt-auto flex flex-col gap-2 border-t border-outline-variant/40 pt-6">
+                {s.items.map((item) => (
+                  <li class="flex items-center gap-3 font-label-technical text-[11px] uppercase tracking-wider text-on-surface-variant">
+                    <span class="material-symbols-outlined text-base text-technical-amber" aria-hidden="true">
+                      chevron_right
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="relative overflow-hidden border-t border-studio-grey bg-gradient-to-b from-background to-black px-margin-mobile py-32 text-center md:px-margin-desktop md:py-44">
+    <div class="mx-auto flex max-w-container-max flex-col items-center">
+      <span class="mb-8 font-label-technical text-label-technical uppercase tracking-widest text-technical-amber">
+        03 // Start a production
+      </span>
+      <h2 class="font-display-xl text-[14vw] uppercase leading-[0.85] tracking-tighter text-on-surface md:text-[140px] lg:text-[160px]">
+        Let&rsquo;s build it.
+      </h2>
+      <p class="mt-10 max-w-xl font-body-lg text-body-lg text-on-surface-variant">
+        Tell us what you&rsquo;re making. We&rsquo;ll bring the cameras, the crew and the
+        craft — and a plan that survives contact with the set.
+      </p>
+      <a
+        href="/contact"
+        class="group mt-12 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#d99500] to-technical-amber px-10 py-5 font-label-button text-label-button uppercase tracking-wider text-deep-charcoal transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,176,0,0.4)]"
+      >
+        Start production
+        <span
+          class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true">arrow_forward</span
+        >
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<!--
+  TODO conținut:
+  - Copy-ul serviciilor e draft realist — înlocuiește-l cu textul final Torjai.
+  - Marquee-ul de discipline reflectă serviciile oferite; ajustează lista dacă se schimbă oferta.
+-->

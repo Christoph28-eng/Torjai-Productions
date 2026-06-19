@@ -1,0 +1,29 @@
+---
+// Conținutul „About Torjai" — randat o singură dată, folosit în varianta
+// desktop și cea mobilă (vezi index.astro).
+const p1 =
+  "I'm Christian, the person behind Torjai Productions. I work as DOP, and photography, film, and art direction are where I started, crafting visuals that feel genuinely distinct is what drives me.";
+const p2 =
+  "I don't think great production should be out of reach. From social media content and campaigns to image films, short films, and documentaries, my work comes down to one thing: turning what you imagine into something real on screen.";
+---
+
+<span class="mb-4 block font-label-technical text-label-technical text-technical-amber">
+  04 // ABOUT TORJAI
+</span>
+<h2 class="mb-6 font-headline-lg text-5xl uppercase leading-[0.9] tracking-tighter">
+  ABOUT TORJAI
+</h2>
+<p class="mb-6 font-body-md text-tertiary">{p1}</p>
+<p class="mb-10 font-body-md text-sm text-on-surface-variant">{p2}</p>
+<div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+  <a
+    href="/about"
+    class="border border-outline bg-transparent px-8 py-3 font-label-button text-xs uppercase text-white transition-colors duration-300 hover:bg-white hover:text-deep-charcoal"
+  >
+    MEET THE TEAM
+  </a>
+  <div class="flex flex-col">
+    <span class="font-label-technical text-[10px] text-tertiary">ESTABLISHED</span>
+    <span class="font-label-button text-sm text-white">2018</span>
+  </div>
+</div>

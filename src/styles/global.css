@@ -1,0 +1,290 @@
+@import 'tailwindcss';
+
+/* ================================================================== */
+/*  DESIGN TOKENS — portate din configul Tailwind v3 al Stitch        */
+/*  în sintaxa CSS-first Tailwind v4 (@theme).                        */
+/* ================================================================== */
+@theme {
+  /* --- Culori de brand --- */
+  --color-deep-charcoal: #121212;
+  --color-technical-amber: #ffb000;
+  --color-studio-grey: #2c2c2c;
+  --color-status-active: #00ff41;
+
+  /* --- Sistem de culori (Material-style) --- */
+  --color-primary: #c9c6c5;
+  --color-on-primary: #313030;
+  --color-primary-container: #050505;
+  --color-on-primary-container: #797777;
+  --color-primary-fixed: #e5e2e1;
+  --color-primary-fixed-dim: #c9c6c5;
+  --color-on-primary-fixed: #1c1b1b;
+  --color-on-primary-fixed-variant: #474646;
+  --color-inverse-primary: #5f5e5e;
+
+  --color-secondary: #ffd393;
+  --color-on-secondary: #432c00;
+  --color-secondary-container: #fdaf00;
+  --color-on-secondary-container: #694600;
+  --color-secondary-fixed: #ffddaf;
+  --color-secondary-fixed-dim: #ffba43;
+  --color-on-secondary-fixed: #281800;
+  --color-on-secondary-fixed-variant: #614000;
+
+  --color-tertiary: #c6c6c7;
+  --color-on-tertiary: #2f3131;
+  --color-tertiary-container: #040505;
+  --color-on-tertiary-container: #767778;
+  --color-tertiary-fixed: #e2e2e2;
+  --color-tertiary-fixed-dim: #c6c6c7;
+  --color-on-tertiary-fixed: #1a1c1c;
+  --color-on-tertiary-fixed-variant: #454747;
+
+  --color-background: #131313;
+  --color-on-background: #e5e2e1;
+
+  --color-surface: #131313;
+  --color-on-surface: #e5e2e1;
+  --color-surface-dim: #131313;
+  --color-surface-bright: #393939;
+  --color-surface-variant: #353535;
+  --color-on-surface-variant: #c4c7c7;
+  --color-surface-tint: #c9c6c5;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container: #20201f;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353535;
+  --color-inverse-surface: #e5e2e1;
+  --color-inverse-on-surface: #313030;
+
+  --color-outline: #8e9192;
+  --color-outline-variant: #444748;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* --- Familii de font --- */
+  --font-display-xl: 'Anton', sans-serif;
+  --font-headline-lg: 'Anton', sans-serif;
+  --font-headline-lg-mobile: 'Anton', sans-serif;
+  --font-headline-md: 'Anton', sans-serif;
+  --font-body-lg: 'Geist', sans-serif;
+  --font-body-md: 'Geist', sans-serif;
+  --font-label-button: 'Geist', sans-serif;
+  --font-label-technical: 'Space Mono', monospace;
+
+  /* --- Dimensiuni de font (cu line-height / spacing / weight) --- */
+  --text-display-xl: 120px;
+  --text-display-xl--line-height: 110px;
+  --text-display-xl--letter-spacing: 0.02em;
+  --text-display-xl--font-weight: 400;
+
+  --text-headline-lg: 64px;
+  --text-headline-lg--line-height: 72px;
+  --text-headline-lg--font-weight: 400;
+
+  --text-headline-lg-mobile: 48px;
+  --text-headline-lg-mobile--line-height: 52px;
+  --text-headline-lg-mobile--font-weight: 400;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 40px;
+  --text-headline-md--font-weight: 400;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+
+  --text-label-button: 14px;
+  --text-label-button--line-height: 16px;
+  --text-label-button--letter-spacing: 0.05em;
+  --text-label-button--font-weight: 600;
+
+  --text-label-technical: 12px;
+  --text-label-technical--line-height: 16px;
+  --text-label-technical--letter-spacing: 0.1em;
+  --text-label-technical--font-weight: 400;
+
+  /* --- Spacing custom --- */
+  --spacing-gutter: 32px;
+  --spacing-margin-mobile: 20px;
+  --spacing-margin-tablet: 40px;
+  --spacing-margin-desktop: 80px;
+  --spacing-unit: 8px;
+
+  /* --- Container max-width (→ max-w-container-max) --- */
+  --container-container-max: 1440px;
+}
+
+/* ================================================================== */
+/*  STILURI DE BAZĂ                                                    */
+/* ================================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar industrial */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-container-low);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-studio-grey);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-technical-amber);
+}
+
+/* ================================================================== */
+/*  UTILITARE CUSTOM (din <style>-urile Stitch)                        */
+/* ================================================================== */
+
+/* Film grain overlay (Home) */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+/* Viewfinder reticle (Home hero) */
+.reticle-tl,
+.reticle-tr,
+.reticle-bl,
+.reticle-br {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--color-technical-amber);
+  z-index: 10;
+  pointer-events: none;
+}
+.reticle-tl {
+  top: 0;
+  left: 0;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.reticle-tr {
+  top: 0;
+  right: 0;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+.reticle-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+.reticle-br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Marquee (Home) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.animate-marquee {
+  animation: marquee 45s linear infinite;
+  display: flex;
+  width: max-content;
+}
+.animate-marquee-reverse {
+  animation: marquee-reverse 35s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+/* Diagonal split background (Home about) — pe mobil e fundal solid întunecat
+   (split-ul diagonal e un efect gândit pentru desktop). */
+.bg-diagonal-split {
+  background: var(--color-deep-charcoal);
+}
+@media (min-width: 768px) {
+  .bg-diagonal-split {
+    background: linear-gradient(110deg, #ffffff 40%, var(--color-background) 40%);
+  }
+}
+
+/* FAQ: rotește chevronul când <details> e deschis */
+summary .material-symbols-outlined {
+  transition: transform 0.2s ease;
+}
+details[open] > summary .material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+/* Project cards (Projects) */
+.card-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: #f9fafb;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+.group:hover .card-image-wrapper {
+  border-color: var(--color-technical-amber);
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(80%) contrast(1.1);
+  transition:
+    filter 0.5s ease,
+    transform 0.7s ease;
+}
+.group:hover .card-img {
+  filter: grayscale(0%) contrast(1);
+  transform: scale(1.02);
+}
+.tech-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Respectă preferința de reducere a mișcării */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation: none;
+  }
+}

@@ -1,0 +1,103 @@
+---
+const links = [
+  { num: '01', label: 'PROJECTS', href: '/projects' },
+  { num: '02', label: 'SERVICES', href: '/services' },
+  { num: '03', label: 'ABOUT', href: '/about' },
+  { num: '04', label: 'CONTACT', href: '/contact' },
+];
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header class="fixed top-6 left-1/2 z-50 w-[calc(100%-40px)] max-w-6xl -translate-x-1/2">
+  <div
+    class="flex items-center justify-between rounded-full border border-white/10 bg-black/80 px-8 py-3 shadow-2xl backdrop-blur-xl"
+  >
+    <!-- Monogram -->
+    <a href="/" class="flex items-center" aria-label="Torjai Productions — home">
+      <div
+        class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-technical-amber to-[#b27b00] shadow-[0_0_15px_rgba(255,176,0,0.3)]"
+      >
+        <span class="font-headline-md text-xl leading-none text-black">T</span>
+      </div>
+    </a>
+
+    <!-- Nav desktop -->
+    <nav class="hidden items-center gap-10 lg:flex">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'font-label-technical text-[11px] tracking-widest transition-colors duration-300',
+              isActive(link.href)
+                ? 'text-technical-amber'
+                : 'text-gray-400 hover:text-white',
+            ]}
+          >
+            {link.num} {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- CTA + toggle mobil -->
+    <div class="flex items-center">
+      <a
+        href="/contact"
+        class="hidden rounded-full bg-gradient-to-r from-[#d99500] to-technical-amber px-6 py-2.5 font-label-button text-[12px] uppercase tracking-wider text-black transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,176,0,0.4)] md:block"
+      >
+        Start Production
+      </a>
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="ml-4 text-white lg:hidden"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Meniu mobil -->
+  <nav
+    id="mobile-menu"
+    class="mt-2 hidden flex-col gap-1 rounded-3xl border border-white/10 bg-black/90 p-4 shadow-2xl backdrop-blur-xl lg:hidden"
+  >
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'rounded-full px-4 py-3 font-label-technical text-sm tracking-widest transition-colors',
+            isActive(link.href)
+              ? 'bg-white/5 text-technical-amber'
+              : 'text-gray-300 hover:bg-white/5 hover:text-white',
+          ]}
+        >
+          {link.num} {link.label}
+        </a>
+      ))
+    }
+    <a
+      href="/contact"
+      class="mt-2 rounded-full bg-gradient-to-r from-[#d99500] to-technical-amber px-4 py-3 text-center font-label-button text-sm uppercase tracking-wider text-black"
+    >
+      Start Production
+    </a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    menu?.classList.toggle('flex', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>

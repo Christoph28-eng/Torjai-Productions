@@ -1,0 +1,283 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Roluri + discipline + formate pentru marquee-ul tehnic (toate derivate strict din copy).
+const marqueeItems = [
+  'CINEMATOGRAPHER',
+  'EDITOR',
+  'PHOTOGRAPHER',
+  'FOUNDER',
+  'FILM',
+  'COMMERCIALS',
+  'PHOTOGRAPHY',
+  'SHORT FILMS',
+  'DOCUMENTARIES',
+  'IMAGE FILMS',
+];
+
+// Spec-readout de origine (derivat din „Born in Germany and raised between Germany and Romania";
+// baza Berlin · Bucharest e canon de site — vezi FAQ-ul din index.astro).
+const originRows = [
+  { label: 'Origin', value: 'Born in Germany' },
+  { label: 'Raised', value: 'Germany & Romania' },
+  { label: 'Base', value: 'Berlin · Bucharest' },
+];
+---
+
+<BaseLayout
+  title="About — Torjai Productions"
+  description="Chris Torjai — cinematographer, editor, photographer and founder of Torjai Productions, working across film, commercials and photography between Berlin and Bucharest."
+>
+  <!-- Film grain overlay -->
+  <div class="film-grain"></div>
+
+  <!-- ===================== HERO ===================== -->
+  <section
+    class="relative overflow-hidden border-b border-studio-grey bg-gradient-to-b from-black to-background px-margin-mobile pb-24 pt-40 md:px-margin-desktop md:pb-32 md:pt-52"
+  >
+    <!-- Reticle corners -->
+    <div class="pointer-events-none absolute inset-0 m-margin-mobile md:m-margin-desktop">
+      <div class="reticle-tl"></div>
+      <div class="reticle-tr"></div>
+      <div class="reticle-bl"></div>
+      <div class="reticle-br"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-container-max">
+      <div class="flex items-center gap-3">
+        <span class="inline-block h-2 w-2 rounded-full bg-technical-amber"></span>
+        <p class="font-label-technical text-label-technical uppercase tracking-widest text-technical-amber">
+          03 // About
+        </p>
+      </div>
+
+      <h1
+        class="mt-8 bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#222222] bg-clip-text font-display-xl text-[18vw] uppercase leading-[0.82] tracking-tighter text-transparent sm:text-[16vw] md:text-[200px] lg:text-[220px]"
+      >
+        <span class="sr-only"
+          >Chris Torjai — cinematographer, editor, photographer and founder of Torjai
+          Productions.</span
+        >
+        <span aria-hidden="true">BEHIND THE<br />LENS</span>
+      </h1>
+
+      <div class="mt-10 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+        <div class="max-w-2xl">
+          <!-- Spec-readout în stil dosar de cameră -->
+          <div
+            class="flex flex-col gap-3 font-label-technical text-[11px] uppercase tracking-wider text-on-surface-variant sm:flex-row sm:gap-8"
+          >
+            <span>
+              <span class="text-on-surface-variant/50">ROLE</span>
+              &nbsp;Cinematographer · Editor · Photographer
+            </span>
+            <span class="sm:border-l sm:border-outline-variant sm:pl-8">
+              <span class="text-on-surface-variant/50">FOUNDER</span>
+              &nbsp;Torjai Productions
+            </span>
+          </div>
+
+          <p class="mt-6 font-body-lg text-body-lg text-on-surface-variant">
+            Chris is a cinematographer, editor, photographer and founder of Torjai
+            Productions, working across film, commercials, and photography.
+          </p>
+        </div>
+
+        <a
+          href="#story"
+          class="group inline-flex shrink-0 items-center gap-3 self-start rounded-full border border-outline px-7 py-4 font-label-button text-label-button uppercase tracking-wider text-on-surface transition-colors duration-300 hover:border-technical-amber hover:text-technical-amber"
+        >
+          Read the story
+          <span
+            class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-y-1"
+            aria-hidden="true">arrow_downward</span
+          >
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ROLES / DISCIPLINES MARQUEE ===================== -->
+  <section class="relative overflow-hidden border-b border-studio-grey bg-surface-container-lowest py-10">
+    <div class="flex items-center">
+      <div class="flex animate-marquee-reverse items-center gap-12 whitespace-nowrap px-6">
+        {
+          marqueeItems.map((item) => (
+            <span class="flex items-center gap-12">
+              <span class="cursor-default font-headline-md text-xl uppercase tracking-widest text-on-surface-variant/40 transition-colors hover:text-on-surface md:text-2xl">
+                {item}
+              </span>
+              <span class="material-symbols-outlined text-technical-amber/60" aria-hidden="true">
+                add
+              </span>
+            </span>
+          ))
+        }
+      </div>
+      <div
+        class="flex animate-marquee-reverse items-center gap-12 whitespace-nowrap px-6"
+        aria-hidden="true"
+      >
+        {
+          marqueeItems.map((item) => (
+            <span class="flex items-center gap-12">
+              <span class="cursor-default font-headline-md text-xl uppercase tracking-widest text-on-surface-variant/40 transition-colors hover:text-on-surface md:text-2xl">
+                {item}
+              </span>
+              <span class="material-symbols-outlined text-technical-amber/60">add</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STORY ===================== -->
+  <section
+    id="story"
+    class="scroll-mt-28 bg-background px-margin-mobile py-28 md:px-margin-desktop md:py-36"
+  >
+    <div class="mx-auto grid max-w-container-max grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+      <!-- Cadru portret (placeholder de tip viewfinder, sticky pe desktop) -->
+      <div class="lg:col-span-5">
+        <div class="mx-auto max-w-sm self-start lg:sticky lg:top-32 lg:max-w-none">
+          <div
+            class="relative aspect-[3/4] w-full overflow-hidden rounded-[1.5rem] border border-studio-grey bg-gradient-to-b from-surface-container to-surface-container-lowest"
+          >
+            <!-- Reticle (necesită un părinte relativ/absolut) -->
+            <div class="pointer-events-none absolute inset-4">
+              <div class="reticle-tl"></div>
+              <div class="reticle-tr"></div>
+              <div class="reticle-bl"></div>
+              <div class="reticle-br"></div>
+            </div>
+
+            <span class="absolute right-6 top-6 font-label-technical text-[10px] uppercase tracking-widest text-on-surface-variant/50">
+              FRAME 01 / DOSSIER
+            </span>
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+              <span
+                class="bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#222222] bg-clip-text font-display-xl text-[28vw] leading-none tracking-tighter text-transparent lg:text-[160px]"
+                aria-hidden="true">CT</span
+              >
+              <span class="mt-4 font-label-technical text-label-technical uppercase tracking-widest text-on-surface-variant/60">
+                PORTRAIT // PENDING UPLOAD
+              </span>
+            </div>
+
+            <!--
+              TODO (asset): înlocuiește monograma „CT" cu fotografia reală a lui Chris când e disponibilă.
+              Păstrează cadrul relative aspect-[3/4], border-ul și boxul reticle (absolute inset-4);
+              schimbă doar conținutul centrat cu un <img>/Astro Image (grayscale, ca .card-img). Ex:
+              <img src="/chris.jpg" alt="Portrait of Chris Torjai"
+                   class="absolute inset-0 h-full w-full object-cover grayscale" />
+            -->
+          </div>
+
+          <div class="mt-4 flex items-center justify-between font-label-technical text-[11px] uppercase tracking-wider text-tertiary">
+            <span>Chris Torjai</span>
+            <span class="flex items-center gap-2">
+              <span class="inline-block h-2 w-2 rounded-full bg-status-active"></span>
+              Available
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proza biografică (verbatim) -->
+      <div class="lg:col-span-7">
+        <span class="block font-label-technical text-label-technical uppercase tracking-widest text-technical-amber">
+          01 // The story
+        </span>
+        <h2 class="sr-only">The story: raised between Germany and Romania.</h2>
+
+        <!-- Titlu-poster (decorativ) -->
+        <div class="relative mt-6" aria-hidden="true">
+          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 md:gap-x-6">
+            <span class="font-headline-lg text-[12vw] uppercase leading-[0.85] tracking-tighter text-tertiary md:text-[64px] lg:text-[88px]">
+              RAISED
+            </span>
+            <span class="font-headline-lg text-[12vw] uppercase leading-[0.85] tracking-tighter text-on-surface-variant/50 md:text-[64px] lg:text-[88px]">
+              BETWEEN
+            </span>
+          </div>
+          <div class="-mt-2 flex flex-wrap items-baseline gap-x-4 pl-[6%] md:-mt-4 md:gap-x-6 md:pl-[10%]">
+            <span class="bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#222222] bg-clip-text font-headline-lg text-[12vw] uppercase leading-[0.85] tracking-tighter text-transparent md:text-[64px] lg:text-[88px]">
+              GERMANY
+            </span>
+            <span class="font-headline-lg text-[12vw] uppercase leading-[0.85] tracking-tighter text-technical-amber md:text-[64px] lg:text-[88px]">
+              &amp;
+            </span>
+            <span class="bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#222222] bg-clip-text font-headline-lg text-[12vw] uppercase leading-[0.85] tracking-tighter text-transparent md:text-[64px] lg:text-[88px]">
+              ROMANIA
+            </span>
+          </div>
+        </div>
+
+        <p class="mt-10 font-body-lg text-body-lg text-on-surface-variant">
+          Chris is a cinematographer, editor, photographer and founder of Torjai
+          Productions, working across film, commercials, and photography. Born in Germany
+          and raised between Germany and Romania, he grew up surrounded by the image, a
+          passion carried through his family since childhood, and trained his eye early,
+          building his craft on set and in post ever since.
+        </p>
+        <p class="mt-6 font-body-lg text-body-lg text-on-surface-variant">
+          Behind the camera and in the edit, he has worked on short films, documentaries,
+          and image films, handling everything from camera and lighting to color grading
+          and sound. Through his commercial work and his company, Torjai Productions, he has
+          had the opportunity to work on productions for brands such as: Samsung, Tekirdağ
+          Rakı, and EKSTRATEGY.
+        </p>
+
+        <!-- Spec-readout de origine -->
+        <div class="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-[1.25rem] border border-studio-grey bg-studio-grey sm:grid-cols-3">
+          {
+            originRows.map((row) => (
+              <div class="bg-surface-container px-6 py-5">
+                <span class="block font-label-technical text-[11px] uppercase tracking-widest text-on-surface-variant/50">
+                  {row.label}
+                </span>
+                <span class="mt-2 block font-headline-md text-lg uppercase tracking-tight text-on-surface md:text-xl">
+                  {row.value}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="relative overflow-hidden border-t border-studio-grey bg-gradient-to-b from-background to-black px-margin-mobile py-32 text-center md:px-margin-desktop md:py-44">
+    <div class="mx-auto flex max-w-container-max flex-col items-center">
+      <span class="mb-8 font-label-technical text-label-technical uppercase tracking-widest text-technical-amber">
+        02 // Work with Chris
+      </span>
+      <h2 class="font-display-xl text-[14vw] uppercase leading-[0.85] tracking-tighter text-on-surface md:text-[140px] lg:text-[160px]">
+        Let&rsquo;s make it.
+      </h2>
+      <p class="mt-10 max-w-xl font-body-lg text-body-lg text-on-surface-variant">
+        Have a film, a campaign or a story to tell? Bring the brief — Chris brings the eye.
+      </p>
+      <a
+        href="/contact"
+        class="group mt-12 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#d99500] to-technical-amber px-10 py-5 font-label-button text-label-button uppercase tracking-wider text-deep-charcoal transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,176,0,0.4)]"
+      >
+        Start a project
+        <span
+          class="material-symbols-outlined text-xl transition-transform duration-300 group-hover:translate-x-1"
+          aria-hidden="true">arrow_forward</span
+        >
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<!--
+  TODO conținut:
+  - Asset rămas: fotografia reală a lui Chris (vezi swap-point-ul din secțiunea #story).
+  - Textul biografic e folosit verbatim din copy-ul furnizat; „Torjai Production" a fost
+    normalizat la „Torjai Productions" (plural) ca să fie consecvent cu restul site-ului.
+-->

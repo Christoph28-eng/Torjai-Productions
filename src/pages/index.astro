@@ -1,0 +1,372 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutTorjai from '../components/home/AboutTorjai.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+
+const clients = [
+  'NIKE ACG',
+  'PORSCHE',
+  'BELSTAFF',
+  'ADIDAS',
+  'WILLIAMS F1',
+  "REV'IT",
+  'STYRKR',
+  'AIM',
+];
+
+// Proces de producție (coloana stângă din secțiunea "Precision driven")
+const services = [
+  {
+    n: '01',
+    title: 'Logline',
+    desc: 'You bring the idea; we sharpen the message and define the audience.',
+  },
+  {
+    n: '02',
+    title: 'Scope & Budget',
+    desc: 'Deliverables, timeline, and a transparent budget agreed up front.',
+  },
+  {
+    n: '03',
+    title: 'Treatment & Script',
+    desc: 'We shape the story, tone, and visual direction.',
+  },
+  {
+    n: '04',
+    title: 'Shot List',
+    desc: 'Every angle planned, no guesswork on set.',
+  },
+  {
+    n: '05',
+    title: 'Storyboard',
+    desc: 'A visual blueprint before a single frame is shot.',
+  },
+  {
+    n: '06',
+    title: 'Production & Post',
+    desc: 'Filming, editing, color, and sound, finished at cinematic quality.',
+  },
+];
+
+// FAQ
+const faqs = [
+  {
+    q: 'What services does Torjai Productions offer?',
+    a: "Think of us as one team that carries a project from first idea to finished film, creative development, direction, cinematography, editing, color, and sound, all under one roof. A small core handles the day-to-day, and a hand-picked network of directors, camera crews, editors, and designers lets us size the team to the job, from a two-person shoot to a full international production.",
+  },
+  {
+    q: 'What kind of films do you produce?',
+    a: "Our output splits roughly in half. One side is made for brands: image films, campaigns, and social-media content for clients in tech, finance, hospitality, lifestyle, automobile and beyond. The other is more personal: short films and documentaries we develop ourselves, where we experiment with form and voice. The two trade ideas constantly, and the client work is sharper for it.",
+  },
+  {
+    q: 'Who do you work with?',
+    a: "We work directly with brands across tech, finance, and the creator economy, among them Samsung, Ray-Ban Meta, BBB Bürgschaftsbank Berlin-Brandenburg, Tekirdağ Rakı, EKSTRATEGY, Playground Boxing Berlin, Spiky Cherry Clothing and creator Qfroost. Based in Berlin and Bucharest, we shoot wherever a project takes us.",
+  },
+  {
+    q: 'How long does a typical production take?',
+    a: "There's no fixed number, it depends on the scope of the project. A straightforward commercial can wrap in a couple of weeks; something more ambitious takes longer. Whatever the scale, the rhythm stays the same: prep, shoot, post, then a feedback round before final delivery. We're built to move fast without letting quality slip.",
+  },
+  {
+    q: 'What sets Torjai Productions apart?',
+    a: "Two things, mainly. A cinematographer's eye sits at the center of everything we make, so the work looks like film, not advertising. And because we keep the core lean and scale up only when a project needs it, we stay fast, flexible and equally at home on a single social spot or a multi-day campaign.",
+  },
+];
+---
+
+<BaseLayout
+  title="Torjai Productions — Photo & Video, Berlin"
+  description="High-end cinematography & industrial film production based in Berlin."
+>
+  <!-- Film grain overlay -->
+  <div class="film-grain"></div>
+
+  <!-- ===================== HERO ===================== -->
+  <section
+    class="relative flex h-[120vh] w-full flex-col justify-end overflow-hidden border-b border-studio-grey bg-gradient-to-t from-studio-grey to-black"
+  >
+    <div class="absolute top-32 z-20 w-full text-center md:top-40">
+      <p class="font-label-technical text-label-technical uppercase tracking-widest text-tertiary">
+        Berlin based. Available globally.
+      </p>
+    </div>
+
+    <div class="relative z-10 flex w-full overflow-hidden whitespace-nowrap">
+      <div class="animate-marquee">
+        <h1
+          class="select-none bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#111111] bg-clip-text pr-8 font-display-xl text-[20rem] uppercase leading-[0.8] tracking-tighter text-transparent md:text-[44rem]"
+        >
+          TORJAI PRODUCTIONS
+        </h1>
+        <h1
+          aria-hidden="true"
+          class="select-none bg-gradient-to-b from-white via-tertiary-fixed-dim to-[#111111] bg-clip-text pr-8 font-display-xl text-[20rem] uppercase leading-[0.8] tracking-tighter text-transparent md:text-[44rem]"
+        >
+          TORJAI PRODUCTIONS
+        </h1>
+      </div>
+    </div>
+
+    <div class="pointer-events-none absolute inset-0 z-20 m-margin-mobile md:m-margin-desktop">
+      <div class="reticle-tl"></div>
+      <div class="reticle-tr"></div>
+      <div class="reticle-bl"></div>
+      <div class="reticle-br"></div>
+    </div>
+
+    <div
+      class="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center opacity-50"
+    >
+      <span class="mb-2 font-label-technical text-label-technical text-on-background">SCROLL</span>
+      <div class="h-16 w-px bg-gradient-to-b from-on-background to-transparent"></div>
+    </div>
+  </section>
+
+  <!-- ===================== CLIENT LOGOS MARQUEE ===================== -->
+  <section class="relative overflow-hidden border-b border-studio-grey bg-background py-12">
+    <div class="flex items-center">
+      <div class="flex animate-marquee-reverse space-x-24 whitespace-nowrap px-12">
+        {
+          clients.map((c) => (
+            <span class="cursor-default font-headline-md text-2xl uppercase tracking-widest text-on-surface-variant/40 transition-all hover:text-on-surface md:text-3xl">
+              {c}
+            </span>
+          ))
+        }
+      </div>
+      <div
+        class="flex animate-marquee-reverse space-x-24 whitespace-nowrap px-12"
+        aria-hidden="true"
+      >
+        {
+          clients.map((c) => (
+            <span class="cursor-default font-headline-md text-2xl uppercase tracking-widest text-on-surface-variant/40 transition-all hover:text-on-surface md:text-3xl">
+              {c}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TYPOGRAPHY + PROJECT GALLERY + ABOUT ===================== -->
+  <section
+    class="bg-diagonal-split relative z-10 overflow-hidden pb-48 pt-32 text-deep-charcoal"
+  >
+    <div class="relative mx-auto mb-20 max-w-container-max px-margin-mobile md:px-margin-desktop">
+      <span class="mb-6 block font-label-technical text-label-technical tracking-widest text-technical-amber">
+        04 // ABOUT TORJAI
+      </span>
+      <!-- Word-art (decorativ, deci <div> nu <h2>) -->
+      <div class="relative z-20 flex flex-col">
+        <div class="flex flex-wrap items-baseline gap-4 md:flex-nowrap md:gap-8">
+          <div class="font-headline-lg text-[3.25rem] uppercase leading-none tracking-tighter text-white md:text-[12rem] md:text-deep-charcoal">
+            FORGED
+          </div>
+          <div class="font-headline-lg text-[3.25rem] uppercase leading-none tracking-tighter text-tertiary md:text-[12rem] md:text-surface-variant">
+            IN BERLIN.
+          </div>
+        </div>
+        <div class="relative mt-[-1rem] flex items-baseline md:mt-[-4rem]">
+          <div class="z-0 font-headline-lg text-[4rem] uppercase leading-none tracking-tighter text-surface-tint opacity-50 md:text-[16rem]">
+            MADE
+          </div>
+          <div class="absolute left-[5%] top-[1.5rem] z-10 flex items-baseline gap-3 md:left-[25%] md:top-[4rem] md:gap-4">
+            <div class="font-headline-lg text-[2.75rem] uppercase leading-none tracking-tighter text-tertiary md:text-[10rem] md:text-surface-variant">
+              FOR
+            </div>
+            <div class="font-headline-lg text-[3.25rem] uppercase leading-none tracking-tighter text-white md:text-[13rem]">
+              CINEMA.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative z-20 mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+      <div class="mt-20 flex flex-col items-end justify-start gap-6 md:flex-row md:gap-8">
+        <!-- Project Card 1 -->
+        <div
+          class="group relative mt-20 h-[500px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mt-0 md:w-[300px]"
+        >
+          <img
+            alt="Concrete interior bathed in cinematic shadow"
+            class="h-full w-full object-cover opacity-90 grayscale transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX4a48OBz2LaejD34_YXMsfHIXi4sD_iA6K-0PcLoiM3SVxWzn5_MtqCUxnIs4zQQwAuJ9tR6u0VP5uvJy-cXe9WMBR8X0yaQci9dxFByTypbEUpWWS-GlG0UyD2ONS3C3grsJB0AGVYGUnTDEWHNChe5FeQl_p0oDAy-SiCQQ95fLxEkcxIrP8k720sWtpb574cF6Q0GxacgOZjAK_exUJ8sRqfw2s_2r4DjKstYHMczI_89qMvEkTDaVYzYWSFExbtkNcEGqD6U"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
+            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">COMMERCIAL</span>
+            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">NEON VEINS</h3>
+            <a href="/projects" class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors hover:bg-white">
+              VIEW PROJECT <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+        <!-- Project Card 2 -->
+        <div
+          class="group relative h-[450px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-12 md:w-[320px]"
+        >
+          <img
+            alt="Black-and-white documentary portrait on set"
+            class="h-full w-full object-cover opacity-90 grayscale transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjq4QbVAZcklZ8hHFt5fXQunTEZ_lvvCt1Z5TwL3lG0C2M1ZA_TWyxBa6WQjQCHjOdkdE6bLx6wHgo6DyPuGu6FRTfRC5iJYqm5V6z_jKXTzBRBbohZTopmEchevCxfRPax5I7p8mTWyn3opOFRJBL5wr7KNNS_XjBJfWc50Ya-PT8YDCY_2OXBlguPZuy3OZr1rJA-eOslJuN9fipxMzBtxRnE0Gsx3cDTpa7bWcEznc187ptAzsfJFFIFB3aELqRiQnwS5R-F6M"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
+            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">DOCUMENTARY</span>
+            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">THE CRAFT</h3>
+            <a href="/projects" class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors hover:bg-white">
+              VIEW PROJECT <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+        <!-- Project Card 3 -->
+        <div
+          class="group relative h-[400px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-[-40px] md:w-[280px]"
+        >
+          <img
+            alt="High-contrast music video still in an industrial space"
+            class="h-full w-full object-cover opacity-90 grayscale transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNrCnzY6Mp7J_iBl7A7iOFzdjGT233TI96h-LBZiAQ90YG9FEG8j_QBT5Qu8TTTPOxarP6EgQtQf4GERmP_7DYHtqLIz1qjmoJ_22YMBhEsfiZkAkxK3sTLDng5o1KMRL9ftkdZdLCvM6xFDah9PqH_EAqEd8Hiu9CYwpbo5n3aA7fbl-2IFLJmG3d0mCVKZrK34Rs7_dxWLDdcwYF6Q-jt3O10wuwyui6O-_ktxnLkPXLtWVsfXoE1pUUn24uALTbgfNgy45qPoM"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
+            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">MUSIC VIDEO</span>
+            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">CONCRETE ECHO</h3>
+            <a href="/projects" class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors hover:bg-white">
+              VIEW PROJECT <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- About (desktop) — peste jumătatea întunecată a split-ului -->
+        <div class="relative z-20 ml-auto hidden w-full self-center pl-8 text-on-background md:block md:w-[400px]">
+          <AboutTorjai />
+        </div>
+      </div>
+
+      <!-- About (mobil) — pe fundal solid întunecat -->
+      <div class="relative z-20 mt-20 w-full text-on-background md:hidden">
+        <AboutTorjai />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES (Precision driven) ===================== -->
+  <section class="bg-white px-margin-mobile pb-20 pt-32 text-deep-charcoal md:px-margin-desktop">
+    <div class="mx-auto max-w-container-max overflow-visible">
+      <div class="mb-20 flex justify-end">
+        <div class="flex w-full flex-col items-end gap-2 md:flex-row md:justify-end">
+          <h2 class="font-headline-md text-3xl uppercase tracking-widest text-deep-charcoal opacity-40 md:text-4xl">
+            PRECISION DRIVEN,
+          </h2>
+          <h2 class="font-headline-lg text-[48px] uppercase leading-[0.85] tracking-tighter text-deep-charcoal md:text-[100px] lg:text-[120px]">
+            CINEMATICALLY CRAFTED
+          </h2>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 items-stretch gap-16 md:grid-cols-2">
+        <!-- Coloana stângă -->
+        <div class="flex flex-col justify-center">
+          <div>
+            <div class="space-y-10">
+              {
+                services.map((s) => (
+                  <div class="group flex items-start gap-6">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-outline transition-all duration-300 group-hover:border-technical-amber group-hover:bg-technical-amber">
+                      <span class="font-label-technical text-xs">{s.n}</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <h3 class="mb-1 font-label-button text-sm uppercase tracking-wider">{s.title}</h3>
+                      <p class="font-body-md text-sm leading-relaxed text-on-primary-container">
+                        {s.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <!-- Coloana dreaptă (imagini) -->
+        <div class="relative flex justify-center md:justify-end">
+          <div class="relative w-full md:h-full md:w-auto">
+            <img
+              alt="High-end camera rig on a factory floor"
+              class="aspect-[4/5] w-full rounded-[2.5rem] object-cover shadow-xl md:h-full md:w-auto"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHURLWf-PKJTEEtQ71XEi3T_eSb4K0_iZWZzsbQm1moQO_WTmJvoC2WWW25ME_-CNM-jyTTBKz--AAO1y-eBSBIsiMskYrE9hyzyfQvBS6XIR3rFlfgW_tqEN92b_DClc2JkvXlQ26PLcMCc92cx4p2zk_qwiKqAFQwnJ27qKAc7oc-7xXKGxX-08K2hLK60-FtW6Yr1hsgYWlXzBuobA7fy311IG-kQkoEjo4nBcnB64eKfupXpzziSapTud61Oppclnq08ay0Es"
+            />
+            <div class="absolute -bottom-12 -left-12 z-10 w-2/3 overflow-hidden rounded-[2rem] border-[6px] border-white shadow-2xl">
+              <img
+                alt="Film set in an industrial warehouse"
+                class="aspect-square w-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs5UJYYBsXgA58qWprG5wtfyknPbd8573gGa_sRUCwaQvy6GNe-kAXN-pmh6IiCj6cImmthECqjX3fepv2bPijlInufd-VRbH2MgpB_cPazhGKFzBPBd3_iADn2q9XjZA0E1gbKVUbbBvqzea5PpCzir7nd8e9FU-0qaUvNLd4DxsLesYtdwFf7iBsqaUaEdDUAUNNrCBLS-XZxt-pGWatYrTjQdTSw-eEtwHT7HnnDYMEzR67ahKts9y4L9lgmlA4rN9k0H5wtls"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <Testimonials />
+
+  <!-- ===================== FAQ ===================== -->
+  <section
+    class="border-t border-slate-100 bg-white px-margin-mobile py-32 text-deep-charcoal md:px-margin-desktop"
+  >
+    <div class="mx-auto max-w-container-max">
+      <div class="grid grid-cols-1 gap-16 md:grid-cols-12">
+        <div class="flex flex-col md:col-span-4">
+          <h2 class="mb-8 font-headline-md text-6xl uppercase leading-tight tracking-tighter text-deep-charcoal md:text-7xl">
+            Frequently asked<br />questions
+          </h2>
+          <div class="mb-8 h-px w-full bg-slate-200"></div>
+          <p class="mb-8 max-w-xs font-body-md text-on-primary-container">
+            Can't find the answer you're looking for? We're here to help.
+          </p>
+          <a
+            href="/contact"
+            class="group flex items-center gap-3 self-start rounded-full bg-deep-charcoal px-8 py-4 text-white transition-colors hover:bg-studio-grey"
+          >
+            <span class="font-label-button uppercase">Get in touch</span>
+            <span class="material-symbols-outlined text-xl" aria-hidden="true">chat_bubble</span>
+          </a>
+        </div>
+
+        <div class="flex flex-col gap-4 md:col-span-8">
+          {
+            faqs.map((item, i) => (
+              <details
+                open={i === 0}
+                class="rounded-2xl border border-slate-100 bg-gray-100 p-8 shadow-sm"
+              >
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-label-button text-lg text-deep-charcoal">
+                  {item.q}
+                  <span
+                    class="material-symbols-outlined shrink-0 text-slate-400"
+                    aria-hidden="true"
+                  >
+                    expand_more
+                  </span>
+                </summary>
+                <p class="mt-6 font-body-md leading-relaxed text-on-primary-container">
+                  {item.a}
+                </p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<!--
+  TODO conținut:
+  - Înlocuiește imaginile placeholder (lh3.googleusercontent.com) cu media reală Torjai.
+  - Înlocuiește logo-urile de clienți cu cele reale (sau confirmă lista).
+  - Textul About/FAQ e draft — adaptează-l la textul tău final.
+  - Secțiunea de testimoniale a fost omisă (conținut Stitch generic) — de adăugat cu citate reale.
+-->

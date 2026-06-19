@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects } from '../data/projects';
+
+const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
+---
+
+<BaseLayout
+  title="Projects — Torjai Productions"
+  description="Selected work from Torjai Productions — commercial, narrative and music video."
+  bodyClass="bg-white text-deep-charcoal"
+>
+  <div class="pb-24 pt-32">
+    <!-- Hero -->
+    <section
+      class="mb-16 flex flex-col items-center px-margin-mobile text-center md:mb-24 md:px-margin-desktop"
+    >
+      <!-- Banner cu fundal industrial (placeholder Stitch — de înlocuit cu o imagine reală Torjai) -->
+      <div class="relative mb-8 h-[400px] w-full overflow-hidden rounded-[40px]">
+        <img
+          alt="Film crew on set in a dimly lit industrial warehouse"
+          class="absolute inset-0 h-full w-full object-cover brightness-50 contrast-125 grayscale"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs5UJYYBsXgA58qWprG5wtfyknPbd8573gGa_sRUCwaQvy6GNe-kAXN-pmh6IiCj6cImmthECqjX3fepv2bPijlInufd-VRbH2MgpB_cPazhGKFzBPBd3_iADn2q9XjZA0E1gbKVUbbBvqzea5PpCzir7nd8e9FU-0qaUvNLd4DxsLesYtdwFf7iBsqaUaEdDUAUNNrCBLS-XZxt-pGWatYrTjQdTSw-eEtwHT7HnnDYMEzR67ahKts9y4L9lgmlA4rN9k0H5wtls"
+        />
+        <div class="absolute inset-0 flex items-center justify-center px-6">
+          <h1
+            class="bg-gradient-to-b from-white via-gray-200 to-gray-400 bg-clip-text font-display-xl text-[64px] uppercase leading-[0.85] tracking-tighter text-transparent opacity-75 sm:text-[96px] md:text-[140px]"
+          >
+            PROJECTS
+          </h1>
+        </div>
+      </div>
+      <div class="flex max-w-2xl flex-wrap justify-center gap-4">
+        {
+          filters.map((f, i) => (
+            <button
+              type="button"
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              class:list={[
+                'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors',
+                i === 0
+                  ? 'border-technical-amber bg-technical-amber/10 text-technical-amber'
+                  : 'border-gray-300 text-gray-600 hover:border-black hover:text-black',
+              ]}
+            >
+              {f}
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+      <div class="grid grid-flow-dense grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4">
+        {
+          projects.map((p, i) => {
+            // Layout pe poziție: la fiecare 8 carduri, poziția 5 (index 4) e MARE,
+            // poziția 8 (index 7) e LATĂ — exact ritmul primului bloc.
+            // Un `size` setat manual pe proiect are prioritate (override).
+            const layout = p.size ?? (i % 8 === 4 ? 'tall' : i % 8 === 7 ? 'wide' : undefined);
+            return (
+              <a
+                href={`/projects/${p.slug}`}
+                class:list={[
+                  'group flex cursor-pointer flex-col gap-3',
+                  layout === 'tall' && 'lg:col-span-2 lg:row-span-2',
+                  layout === 'wide' && 'lg:col-span-2',
+                ]}
+              >
+                <div
+                  class:list={[
+                    'card-image-wrapper',
+                    layout === 'tall'
+                      ? 'h-full min-h-[600px]'
+                      : layout === 'wide'
+                        ? 'aspect-[16/9] lg:aspect-[16/10]'
+                        : 'aspect-[3/4]',
+                  ]}
+                  style="border-radius: 45px;"
+                >
+                  <img
+                    alt={p.alt}
+                    class:list={['card-img', layout === 'tall' && 'h-full object-cover']}
+                    src={p.src}
+                    style="border-radius: 45px;"
+                  />
+                  <div
+                    class:list={[
+                      'pointer-events-none absolute flex items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md',
+                      layout ? 'bottom-8 right-8 px-5 py-2.5' : 'bottom-6 right-6 px-4 py-2',
+                    ]}
+                  >
+                    <span
+                      class:list={[
+                        'font-label-technical font-bold uppercase text-white',
+                        layout ? 'text-[11px] tracking-[0.25em]' : 'text-[10px] tracking-[0.2em]',
+                      ]}
+                    >
+                      {p.client}
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-start justify-between font-label-technical text-label-technical">
+                  <div>
+                    <h3 class:list={['uppercase text-black', layout === 'tall' && 'text-lg']}>
+                      {p.title}
+                    </h3>
+                    <p class="text-gray-600">{p.category}</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class:list={['tech-dot', p.dots[0]]} />
+                    <span class:list={['tech-dot', p.dots[1]]} />
+                  </div>
+                </div>
+              </a>
+            );
+          })
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<!--
+  TODO: înlocuiește imaginile placeholder + badge-urile cu proiectele reale Torjai.
+  Filtrele (ALL/COMMERCIAL/...) sunt momentan statice — adăugăm filtrare reală când avem categoriile finale.
+-->

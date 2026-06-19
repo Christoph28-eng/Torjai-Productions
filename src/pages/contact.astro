@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Formularul trimite la Web3Forms (gratis, fără server).
+// TODO: înlocuiește cu access key-ul tău de pe https://web3forms.com (30 sec).
+const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+
+// TODO: înlocuiește cu datele reale.
+const EMAIL = 'hello@torjai-productions.com';
+const PHONE = '+49 30 1234 567';
+const LOCATION = 'Kreuzberg, Berlin · DE';
+const HOURS = 'Mon–Fri · 09:00–18:00';
+
+const SOCIALS = [
+  { name: 'Instagram', href: '#' },
+  { name: 'Vimeo', href: '#' },
+  { name: 'IMDb', href: '#' },
+];
+
+const PROJECT_TYPES = ['Commercial', 'Industrial', 'Documentary', 'Music Video', 'Other'];
+---
+
+<BaseLayout title="Contact — Torjai Productions">
+  <section class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <!-- Header -->
+    <p class="font-label-technical text-label-technical text-technical-amber">// get in touch</p>
+    <h1 class="mt-3 font-display-xl text-6xl leading-none md:text-7xl">LET'S TALK.</h1>
+    <p class="mt-3 font-label-technical text-label-technical text-on-surface-variant">
+      Berlin · GMT+1 · Worldwide
+    </p>
+
+    <!-- Bento grid -->
+    <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <!-- Formular -->
+      <div
+        class="rounded-2xl border border-studio-grey bg-surface-container-low p-6 md:col-span-2 md:row-span-2 md:p-8"
+      >
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="flex flex-col gap-5">
+          <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+          <input type="hidden" name="subject" value="New inquiry — Torjai Productions" />
+          <input type="hidden" name="from_name" value="Torjai Productions Website" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" aria-hidden="true" />
+
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div class="flex flex-col gap-2">
+              <label for="name" class="font-label-technical text-label-technical text-on-surface-variant">// name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                placeholder="Your name"
+                class="w-full rounded-lg border border-studio-grey bg-background px-3.5 py-2.5 font-body-md text-body-md text-on-background placeholder:text-on-surface-variant/50 transition-colors focus:border-technical-amber focus:outline-none"
+              />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="email" class="font-label-technical text-label-technical text-on-surface-variant">// email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@studio.com"
+                class="w-full rounded-lg border border-studio-grey bg-background px-3.5 py-2.5 font-body-md text-body-md text-on-background placeholder:text-on-surface-variant/50 transition-colors focus:border-technical-amber focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="project_type" class="font-label-technical text-label-technical text-on-surface-variant">// project type</label>
+            <select
+              id="project_type"
+              name="project_type"
+              class="w-full appearance-none rounded-lg border border-studio-grey bg-background px-3.5 py-2.5 font-body-md text-body-md text-on-background transition-colors focus:border-technical-amber focus:outline-none"
+            >
+              {PROJECT_TYPES.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="message" class="font-label-technical text-label-technical text-on-surface-variant">// message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              required
+              placeholder="Tell us about the shoot…"
+              class="w-full resize-none rounded-lg border border-studio-grey bg-background px-3.5 py-2.5 font-body-md text-body-md text-on-background placeholder:text-on-surface-variant/50 transition-colors focus:border-technical-amber focus:outline-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="flex items-center justify-center gap-2 rounded-full bg-technical-amber px-6 py-3 font-label-button text-label-button uppercase tracking-wider text-deep-charcoal transition-opacity hover:opacity-90"
+          >
+            <span class="material-symbols-outlined text-[18px]">send</span>
+            Send message
+          </button>
+
+          <p id="form-status" class="font-label-technical text-label-technical text-on-surface-variant">
+            &gt; ready to transmit…
+          </p>
+        </form>
+      </div>
+
+      <!-- Email -->
+      <a
+        href={`mailto:${EMAIL}`}
+        class="group flex flex-col rounded-2xl border border-studio-grey bg-surface-container-low p-6 transition-colors hover:border-technical-amber"
+      >
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-surface-container text-technical-amber">
+          <span class="material-symbols-outlined text-[20px]">mail</span>
+        </span>
+        <span class="mt-4 font-label-technical text-label-technical text-on-surface-variant">// email</span>
+        <span class="mt-1 break-words font-body-md text-body-md text-on-background transition-colors group-hover:text-technical-amber">{EMAIL}</span>
+        <span class="mt-3 font-label-technical text-label-technical text-on-surface-variant">{PHONE}</span>
+      </a>
+
+      <!-- Disponibilitate -->
+      <div class="flex flex-col justify-center rounded-2xl border border-studio-grey bg-surface-container-low p-6">
+        <div class="flex items-center gap-2">
+          <span class="inline-block h-2.5 w-2.5 animate-pulse rounded-full bg-status-active"></span>
+          <span class="font-label-technical text-label-technical text-status-active">Available</span>
+        </div>
+        <p class="mt-2 font-display-xl text-3xl leading-none">Q3 2026</p>
+        <p class="mt-2 font-label-technical text-label-technical text-on-surface-variant">Booking open</p>
+      </div>
+
+      <!-- Social -->
+      <div class="rounded-2xl border border-studio-grey bg-surface-container-low p-6">
+        <p class="font-label-technical text-label-technical text-on-surface-variant">// find us</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {
+            SOCIALS.map((s) => (
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-full border border-studio-grey px-3.5 py-2 font-label-technical text-label-technical text-on-surface-variant transition-colors hover:border-technical-amber hover:text-technical-amber"
+              >
+                {s.name === 'Instagram' && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
+                  </svg>
+                )}
+                {s.name === 'Vimeo' && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M22 7.42c-.1 2.13-1.59 5.03-4.46 8.7C14.57 19.96 12.05 21.8 10.1 21.8c-1.21 0-2.23-1.12-3.07-3.35-.56-2.05-1.11-4.1-1.67-6.15-.62-2.23-1.28-3.35-1.99-3.35-.15 0-.69.33-1.61.98L.75 8.66c1.01-.89 2.01-1.78 2.99-2.67 1.35-1.17 2.36-1.79 3.04-1.85 1.6-.16 2.59.94 2.96 3.28.4 2.53.68 4.1.83 4.71.46 2.09 1 3.14 1.59 3.14.46 0 1.15-.73 2.07-2.18.92-1.45 1.41-2.56 1.48-3.31.14-1.33-.39-1.99-1.58-1.99-.56 0-1.14.13-1.74.39 1.16-3.78 3.36-5.62 6.62-5.52 2.41.07 3.55 1.64 3.42 4.69z" />
+                  </svg>
+                )}
+                {s.name === 'IMDb' && (
+                  <svg width="26" height="14" viewBox="0 0 64 32" aria-hidden="true">
+                    <rect width="64" height="32" rx="5" fill="currentColor" />
+                    <text x="32" y="22" text-anchor="middle" font-family="'Space Mono', monospace" font-size="16" font-weight="700" fill="#131313">IMDb</text>
+                  </svg>
+                )}
+                {s.name !== 'IMDb' && s.name}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Locație -->
+      <div class="flex items-center gap-3 rounded-2xl border border-studio-grey bg-surface-container-low p-6 md:col-span-2">
+        <span class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-surface-container text-technical-amber">
+          <span class="material-symbols-outlined text-[20px]">location_on</span>
+        </span>
+        <div>
+          <p class="font-body-md text-body-md text-on-background">{LOCATION}</p>
+          <p class="mt-1 font-label-technical text-label-technical text-on-surface-variant">{HOURS}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  if (form && status) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '> transmitting…';
+      status.classList.remove('text-technical-amber', 'text-status-active', 'text-error');
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const json = await res.json();
+        if (json.success) {
+          status.textContent = '> message received. we reply within 48h.';
+          status.classList.add('text-status-active');
+          form.reset();
+        } else {
+          status.textContent = '> transmission failed. email us at hello@torjai-productions.com';
+          status.classList.add('text-error');
+        }
+      } catch (err) {
+        status.textContent = '> transmission failed. email us at hello@torjai-productions.com';
+        status.classList.add('text-error');
+      }
+    });
+  }
+</script>
