@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { projects, galleryPool, type Project } from '../../data/projects';
+import Gallery from '../../components/Gallery.astro';
+import { buildGallery } from '../../lib/gallery';
+import type { ImageMetadata } from 'astro';
+import { projects, type Project } from '../../data/projects';
 
 export function getStaticPaths() {
   return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
@@ -11,10 +14,31 @@ interface Props {
 }
 const { project } = Astro.props;
 
-const filters = ['ALL', 'PHOTO', 'VIDEO'];
+// ============================================================================
+//  GALERIE PER-PROIECT
+//  - Poze: fișiere din src/assets/projects/<slug>/ (optimizate automat de Astro).
+//  - Video: lista `videos` din src/data/projects.ts (Vimeo / YouTube).
+//  Formatul galeriei e în Gallery.astro (același folosit și de pagina BTS).
+// ============================================================================
+const photoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/projects/**/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
 
-// Galerie placeholder (aceleași momentan) — de înlocuit cu media reală per proiect.
-const gallery = galleryPool;
+const localPhotos: { name: string; image: ImageMetadata }[] = [];
+for (const [path, mod] of Object.entries(photoModules)) {
+  const m = path.match(/\/projects\/([^/]+)\/([^/]+)$/);
+  if (!m || m[1] !== project.slug) continue;
+  localPhotos.push({ name: m[2], image: mod.default });
+}
+
+const gallery = await buildGallery({
+  localPhotos,
+  videos: project.videos,
+  photoAlt: project.title,
+  videoAlt: `${project.title} — video`,
+  fallbackAlt: project.title,
+});
 ---
 
 <BaseLayout
@@ -22,143 +46,41 @@ const gallery = galleryPool;
   description={`${project.title} — a ${project.category.toLowerCase()} project by Torjai Productions for ${project.client}.`}
   bodyClass="bg-white text-deep-charcoal"
 >
-  <div class="pb-24 pt-32">
-    <!-- Hero: logo client -->
-    <section
-      class="mb-16 flex flex-col items-center px-margin-mobile text-center md:mb-24 md:px-margin-desktop"
+  <Gallery items={gallery}>
+    <!-- Hero: back-link + logo client + subtitlu -->
+    <a
+      href="/projects"
+      class="mb-10 inline-flex items-center gap-2 font-label-technical text-label-technical uppercase tracking-widest text-gray-500 transition-colors hover:text-black"
     >
-      <a
-        href="/projects"
-        class="mb-10 inline-flex items-center gap-2 font-label-technical text-label-technical uppercase tracking-widest text-gray-500 transition-colors hover:text-black"
-      >
-        <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_back</span>
-        All projects
-      </a>
+      <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_back</span>
+      All projects
+    </a>
 
-      <!-- Logo-ul firmei pentru care e făcut proiectul -->
-      <div class="mb-6 flex min-h-[120px] items-center justify-center md:min-h-[150px]">
-        {
-          project.clientLogo ? (
-            <img
-              src={project.clientLogo}
-              alt={`${project.client} logo`}
-              class="h-[120px] w-auto object-contain md:h-[150px]"
-            />
-          ) : (
-            <span class="font-headline-lg text-5xl uppercase leading-none tracking-tighter text-deep-charcoal md:text-7xl">
-              {project.client}
-            </span>
-          )
-        }
-      </div>
+    <!-- Logo-ul firmei pentru care e făcut proiectul -->
+    <div class="mb-6 flex min-h-[120px] items-center justify-center md:min-h-[150px]">
+      {
+        project.clientLogo ? (
+          <img
+            src={project.clientLogo}
+            alt={`${project.client} logo`}
+            class="h-[120px] w-auto object-contain md:h-[150px]"
+          />
+        ) : (
+          <span class="font-headline-lg text-5xl uppercase leading-none tracking-tighter text-deep-charcoal md:text-7xl">
+            {project.client}
+          </span>
+        )
+      }
+    </div>
 
-      <p class="mb-8 font-label-technical text-label-technical uppercase tracking-widest text-gray-500">
-        {project.title} &middot; {project.category}
-      </p>
-
-      <!-- Filtre galerie: ALL / PHOTO / VIDEO -->
-      <div class="flex flex-wrap justify-center gap-4" id="gallery-filters">
-        {
-          filters.map((f, i) => (
-            <button
-              type="button"
-              data-filter={f.toLowerCase()}
-              aria-pressed={i === 0 ? 'true' : 'false'}
-              class:list={[
-                'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors',
-                i === 0
-                  ? 'border-technical-amber bg-technical-amber/10 text-technical-amber'
-                  : 'border-gray-300 text-gray-600 hover:border-black hover:text-black',
-              ]}
-            >
-              {f}
-            </button>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- Galerie proiect -->
-    <section class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-flow-dense grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4" id="gallery-grid">
-        {
-          gallery.map((item, i) => {
-            // Același ritm ca grila principală: la fiecare 8 elemente,
-            // poziția 5 = MARE (2×2), poziția 8 = LATĂ.
-            const layout = i % 8 === 4 ? 'tall' : i % 8 === 7 ? 'wide' : undefined;
-            return (
-              <article
-                data-type={item.type}
-                class:list={[
-                  'group flex flex-col gap-3',
-                  layout === 'tall' && 'lg:col-span-2 lg:row-span-2',
-                  layout === 'wide' && 'lg:col-span-2',
-                ]}
-              >
-                <div
-                  class:list={[
-                    'card-image-wrapper',
-                    layout === 'tall'
-                      ? 'h-full min-h-[600px]'
-                      : layout === 'wide'
-                        ? 'aspect-[16/9] lg:aspect-[16/10]'
-                        : 'aspect-[3/4]',
-                  ]}
-                  style="border-radius: 45px;"
-                >
-                  <img
-                    alt={`${project.title} — ${item.type} ${i + 1}`}
-                    class:list={['card-img', layout === 'tall' && 'h-full object-cover']}
-                    src={item.src}
-                    style="border-radius: 45px;"
-                  />
-                  {item.type === 'video' && (
-                    <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
-                      <span
-                        class="material-symbols-outlined text-6xl text-white/90 drop-shadow-lg"
-                        aria-hidden="true"
-                      >
-                        play_circle
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </article>
-            );
-          })
-        }
-      </div>
-    </section>
-  </div>
+    <p class="mb-8 font-label-technical text-label-technical uppercase tracking-widest text-gray-500">
+      {project.title} &middot; {project.category}
+    </p>
+  </Gallery>
 </BaseLayout>
 
-<script>
-  const BASE =
-    'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors';
-  const ACTIVE = 'border-technical-amber bg-technical-amber/10 text-technical-amber';
-  const INACTIVE = 'border-gray-300 text-gray-600 hover:border-black hover:text-black';
-
-  const buttons = document.querySelectorAll('#gallery-filters button');
-  const items = document.querySelectorAll('#gallery-grid article');
-
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
-      buttons.forEach((b) => {
-        const active = b === btn;
-        b.className = BASE + ' ' + (active ? ACTIVE : INACTIVE);
-        b.setAttribute('aria-pressed', String(active));
-      });
-      items.forEach((item) => {
-        const show = filter === 'all' || item.getAttribute('data-type') === filter;
-        (item as HTMLElement).style.display = show ? '' : 'none';
-      });
-    });
-  });
-</script>
-
 <!--
-  TODO:
-  - Logo client: pune fișierul în public/logos/ și setează `clientLogo` în src/data/projects.ts.
-  - Galerie: înlocuiește `galleryPool` cu media reală per proiect; setează `type` ('photo'/'video') corect.
+  Cum adaugi media la acest proiect — vezi docs/GHID-CONTINUT.md:
+  - Poze: pune fișierele în src/assets/projects/<slug>/ (numite 01.jpg, 02.jpg, ...).
+  - Video: adaugă în src/data/projects.ts, la proiect, `videos: [{ provider, id }]`.
 -->

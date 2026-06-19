@@ -14,6 +14,22 @@ export interface Project {
   alt: string;
   dots: [string, string];
   size?: 'tall' | 'wide';
+  /** Clipurile video ale proiectului (Vimeo/YouTube). Pozele NU se listează aici —
+   *  se pun ca fișiere în src/assets/projects/<slug>/ și sunt preluate automat. */
+  videos?: ProjectVideo[];
+}
+
+/** Un clip găzduit pe Vimeo sau YouTube. `id` = identificatorul din link
+ *  (Vimeo: vimeo.com/123456789 → id '123456789';
+ *   YouTube: youtu.be/AbCdEfGhIjk → id 'AbCdEfGhIjk'). */
+export interface ProjectVideo {
+  provider: 'vimeo' | 'youtube';
+  id: string;
+  /** Text alternativ scurt (accesibilitate). Opțional. */
+  alt?: string;
+  /** Opțional: numele unui fișier-poster din folderul proiectului (ex. 'poster.jpg').
+   *  Dacă lipsește, se folosește thumbnail-ul automat de la Vimeo/YouTube. */
+  poster?: string;
 }
 
 // URL-uri placeholder (Stitch) — de înlocuit cu media reală Torjai.
@@ -196,3 +212,32 @@ export const galleryPool: GalleryItem[] = [
   { src: images.highway, type: 'video' },
   { src: images.crew, type: 'photo' },
 ];
+
+// ================================================================
+//  HELPERE VIDEO (Vimeo / YouTube)
+// ================================================================
+
+/** URL-ul imaginii-thumbnail pentru un clip (afișată în grilă). */
+export function videoThumb(v: ProjectVideo): string {
+  if (v.provider === 'youtube') return `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
+  return `https://vumbnail.com/${v.id}.jpg`; // thumbnail Vimeo (serviciu public gratuit)
+}
+
+/** URL-ul de embed pentru player (deschis în lightbox la click). */
+export function videoEmbed(v: ProjectVideo): string {
+  if (v.provider === 'youtube')
+    return `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0`;
+  return `https://player.vimeo.com/video/${v.id}?autoplay=1`;
+}
+
+/** Extrage provider + id dintr-un link Vimeo/YouTube. Utilitar pentru când adaugi
+ *  clipuri: dă-i link-ul și obții obiectul gata de pus în `videos`. */
+export function parseVideoUrl(url: string): ProjectVideo | null {
+  const yt = url.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/,
+  );
+  if (yt) return { provider: 'youtube', id: yt[1] };
+  const vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vm) return { provider: 'vimeo', id: vm[1] };
+  return null;
+}

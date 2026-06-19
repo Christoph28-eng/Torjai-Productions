@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Gallery from '../components/Gallery.astro';
+import { buildGallery } from '../lib/gallery';
+import type { ImageMetadata } from 'astro';
+import { btsVideos } from '../data/bts';
+
+// ============================================================================
+//  GALERIE BTS (Behind The Scenes)
+//  - Poze: fișiere din src/assets/bts/ (optimizate automat de Astro).
+//  - Video: lista `btsVideos` din src/data/bts.ts (Vimeo / YouTube).
+//  Formatul galeriei e identic cu cel din interiorul unui proiect (vezi Gallery.astro).
+// ============================================================================
+const photoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/bts/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+
+const localPhotos: { name: string; image: ImageMetadata }[] = [];
+for (const [path, mod] of Object.entries(photoModules)) {
+  const m = path.match(/\/bts\/([^/]+)$/);
+  if (!m) continue;
+  localPhotos.push({ name: m[1], image: mod.default });
+}
+
+const gallery = await buildGallery({
+  localPhotos,
+  videos: btsVideos,
+  photoAlt: 'Behind The Scenes — Torjai Productions',
+  videoAlt: 'Behind The Scenes — video',
+  fallbackAlt: 'Behind The Scenes',
+});
+---
+
+<BaseLayout
+  title="Behind The Scenes — Torjai Productions"
+  description="Behind the scenes — photos and video from Torjai Productions sets and shoots."
+  bodyClass="bg-white text-deep-charcoal"
+>
+  <Gallery items={gallery}>
+    <!-- Hero: titlul paginii -->
+    <div class="mb-8 flex min-h-[120px] items-center justify-center md:min-h-[150px]">
+      <h1
+        class="font-headline-lg text-5xl uppercase leading-none tracking-tighter text-deep-charcoal md:text-7xl"
+      >
+        Behind The Scenes
+      </h1>
+    </div>
+  </Gallery>
+</BaseLayout>
+
+<!--
+  Cum adaugi media la pagina BTS — vezi docs/GHID-CONTINUT.md:
+  - Poze: pune fișierele în src/assets/bts/ (numite 01.jpg, 02.jpg, ...).
+  - Video: adaugă în src/data/bts.ts, în lista `btsVideos`: { provider, id }.
+-->

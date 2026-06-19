@@ -1,13 +1,14 @@
 ---
 const links = [
   { num: '01', label: 'PROJECTS', href: '/projects' },
-  { num: '02', label: 'SERVICES', href: '/services' },
-  { num: '03', label: 'ABOUT', href: '/about' },
-  { num: '04', label: 'CONTACT', href: '/contact' },
+  { num: '02', label: 'BTS', href: '/bts' },
+  { num: '03', label: 'SERVICES', href: '/services' },
+  { num: '04', label: 'ABOUT', href: '/about' },
+  { num: '05', label: 'CONTACT', href: '/contact' },
 ];
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
-  href === '/' ? path === '/' : path.startsWith(href);
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 ---
 
 <header class="fixed top-6 left-1/2 z-50 w-[calc(100%-40px)] max-w-6xl -translate-x-1/2">

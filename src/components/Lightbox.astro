@@ -1,0 +1,154 @@
+---
+// Lightbox.astro — popup pentru galeria de proiect.
+// Click pe o poză/clip → se deschide pe tot ecranul, cu navigare prin
+// săgeți / tastatură (← → Esc) / swipe pe telefon. Pentru clipuri deschide
+// player-ul (iframe). Citește elementele cu [data-lb-item] din #gallery-grid.
+---
+
+<div
+  id="lightbox"
+  class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Project media viewer"
+  aria-hidden="true"
+>
+  <!-- Închidere -->
+  <button
+    type="button"
+    data-lb-close
+    aria-label="Close"
+    class="absolute right-4 top-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:right-6 md:top-6"
+  >
+    <span class="material-symbols-outlined text-3xl" aria-hidden="true">close</span>
+  </button>
+
+  <!-- Contor -->
+  <div
+    id="lb-counter"
+    class="absolute left-1/2 top-6 z-20 -translate-x-1/2 font-label-technical text-label-technical uppercase tracking-widest text-white/70"
+  >
+  </div>
+
+  <!-- Săgeată stânga -->
+  <button
+    type="button"
+    data-lb-prev
+    aria-label="Previous"
+    class="absolute left-3 top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:left-6"
+  >
+    <span class="material-symbols-outlined text-4xl" aria-hidden="true">chevron_left</span>
+  </button>
+
+  <!-- Săgeată dreapta -->
+  <button
+    type="button"
+    data-lb-next
+    aria-label="Next"
+    class="absolute right-3 top-1/2 z-20 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:right-6"
+  >
+    <span class="material-symbols-outlined text-4xl" aria-hidden="true">chevron_right</span>
+  </button>
+
+  <!-- Conținut (poză sau player) -->
+  <div id="lb-stage" class="flex max-h-[88vh] w-full max-w-[92vw] items-center justify-center px-2"></div>
+</div>
+
+<script>
+  type LBItem = { type: 'photo' | 'video'; full: string; embed: string; alt: string };
+
+  const lb = document.getElementById('lightbox');
+  const stage = document.getElementById('lb-stage');
+  const counter = document.getElementById('lb-counter');
+  const grid = document.getElementById('gallery-grid');
+  if (lb && stage && counter && grid) {
+    let items: LBItem[] = [];
+    let index = 0;
+
+    const escapeAttr = (s: string) => s.replace(/"/g, '&quot;');
+
+    function render() {
+      const it = items[index];
+      if (!it) return;
+      if (it.type === 'video' && it.embed) {
+        stage.innerHTML =
+          `<div class="relative aspect-video w-full max-w-[1100px]">` +
+          `<iframe class="absolute inset-0 h-full w-full rounded-[20px]" src="${it.embed}" ` +
+          `title="${escapeAttr(it.alt)}" frameborder="0" ` +
+          `allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
+      } else {
+        stage.innerHTML =
+          `<img src="${it.full}" alt="${escapeAttr(it.alt)}" ` +
+          `class="max-h-[88vh] max-w-full rounded-[16px] object-contain" />`;
+      }
+      counter.textContent = `${index + 1} / ${items.length}`;
+    }
+
+    function open(list: LBItem[], start: number) {
+      items = list;
+      index = start;
+      lb.classList.remove('hidden');
+      lb.classList.add('flex');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      render();
+    }
+
+    function close() {
+      lb.classList.add('hidden');
+      lb.classList.remove('flex');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      stage.innerHTML = ''; // oprește videoul
+    }
+
+    function go(delta: number) {
+      if (!items.length) return;
+      index = (index + delta + items.length) % items.length;
+      render();
+    }
+
+    // Deschidere la click pe un element din grilă — doar cele vizibile (respectă filtrul activ).
+    grid.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const btn = target.closest('[data-lb-item]') as HTMLElement | null;
+      if (!btn) return;
+      const visible = Array.from(grid.querySelectorAll<HTMLElement>('[data-lb-item]')).filter(
+        (el) => el.offsetParent !== null,
+      );
+      const list: LBItem[] = visible.map((el) => ({
+        type: (el.dataset.type as 'photo' | 'video') || 'photo',
+        full: el.dataset.full || '',
+        embed: el.dataset.embed || '',
+        alt: el.dataset.alt || '',
+      }));
+      const start = visible.indexOf(btn);
+      open(list, start < 0 ? 0 : start);
+    });
+
+    lb.querySelector('[data-lb-close]')?.addEventListener('click', close);
+    lb.querySelector('[data-lb-prev]')?.addEventListener('click', () => go(-1));
+    lb.querySelector('[data-lb-next]')?.addEventListener('click', () => go(1));
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) close(); // click pe fundal
+    });
+    document.addEventListener('keydown', (e) => {
+      if (lb.classList.contains('hidden')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+    });
+
+    // Swipe pe touch
+    let startX = 0;
+    lb.addEventListener('touchstart', (e) => (startX = e.touches[0].clientX), { passive: true });
+    lb.addEventListener(
+      'touchend',
+      (e) => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+      },
+      { passive: true },
+    );
+  }
+</script>

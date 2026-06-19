@@ -1,0 +1,132 @@
+---
+// Gallery.astro — galeria comună folosită de pagina de proiect și de pagina BTS.
+// Conține filtrele (ALL/PHOTO/VIDEO), grila cu ritmul tall/wide, popup-ul Lightbox
+// și scriptul de filtrare. Hero-ul specific paginii (logo proiect / titlu BTS) se
+// pasează prin <slot/> — apare deasupra filtrelor.
+import Lightbox from './Lightbox.astro';
+import type { DisplayItem } from '../lib/gallery';
+
+interface Props {
+  items: DisplayItem[];
+  filters?: string[];
+}
+const { items, filters = ['ALL', 'PHOTO', 'VIDEO'] } = Astro.props;
+---
+
+<div class="pb-24 pt-32">
+  <!-- Hero: conținut specific paginii (slot) + filtre galerie -->
+  <section
+    class="mb-16 flex flex-col items-center px-margin-mobile text-center md:mb-24 md:px-margin-desktop"
+  >
+    <slot />
+
+    <!-- Filtre galerie: ALL / PHOTO / VIDEO -->
+    <div class="flex flex-wrap justify-center gap-4" id="gallery-filters">
+      {
+        filters.map((f, i) => (
+          <button
+            type="button"
+            data-filter={f.toLowerCase()}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            class:list={[
+              'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors',
+              i === 0
+                ? 'border-technical-amber bg-technical-amber/10 text-technical-amber'
+                : 'border-gray-300 text-gray-600 hover:border-black hover:text-black',
+            ]}
+          >
+            {f}
+          </button>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Galerie -->
+  <section class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+    <div class="grid grid-flow-dense grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4" id="gallery-grid">
+      {
+        items.map((item, i) => {
+          // La fiecare 8 elemente: poziția 5 = MARE (2×2), poziția 8 = LATĂ.
+          const layout = i % 8 === 4 ? 'tall' : i % 8 === 7 ? 'wide' : undefined;
+          return (
+            <article
+              data-type={item.type}
+              class:list={[
+                'group flex flex-col gap-3',
+                layout === 'tall' && 'lg:col-span-2 lg:row-span-2',
+                layout === 'wide' && 'lg:col-span-2',
+              ]}
+            >
+              <button
+                type="button"
+                data-lb-item
+                data-type={item.type}
+                data-full={item.full}
+                data-embed={item.embed}
+                data-alt={item.alt}
+                aria-label={item.type === 'video' ? 'Play video' : 'View photo'}
+                class:list={[
+                  'card-image-wrapper block w-full appearance-none p-0',
+                  item.type === 'video' ? 'cursor-pointer' : 'cursor-zoom-in',
+                  layout === 'tall'
+                    ? 'h-full min-h-[600px]'
+                    : layout === 'wide'
+                      ? 'aspect-[16/9] lg:aspect-[16/10]'
+                      : 'aspect-[3/4]',
+                ]}
+                style="border-radius: 45px;"
+              >
+                <img
+                  alt={item.alt}
+                  class:list={['card-img', layout === 'tall' && 'h-full object-cover']}
+                  src={item.thumb}
+                  style="border-radius: 45px;"
+                  loading="lazy"
+                />
+                {item.type === 'video' && (
+                  <span class="pointer-events-none absolute inset-0 flex items-center justify-center">
+                    <span
+                      class="material-symbols-outlined text-6xl text-white/90 drop-shadow-lg"
+                      aria-hidden="true"
+                    >
+                      play_circle
+                    </span>
+                  </span>
+                )}
+              </button>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+</div>
+
+<!-- Popup galerie (slider cu săgeți) -->
+<Lightbox />
+
+<script>
+  const BASE =
+    'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors';
+  const ACTIVE = 'border-technical-amber bg-technical-amber/10 text-technical-amber';
+  const INACTIVE = 'border-gray-300 text-gray-600 hover:border-black hover:text-black';
+
+  const buttons = document.querySelectorAll('#gallery-filters button');
+  const items = document.querySelectorAll('#gallery-grid article');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.className = BASE + ' ' + (active ? ACTIVE : INACTIVE);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      items.forEach((item) => {
+        const show = filter === 'all' || item.getAttribute('data-type') === filter;
+        (item as HTMLElement).style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>
