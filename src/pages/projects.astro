@@ -2,7 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { projects } from '../data/projects';
 
-const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
+// Eticheta scurtă pe buton → cuvântul-cheie căutat în categoria proiectului.
+const filters = ['ALL', 'EDITORIALS', 'CAMPAIGNS', 'NARRATIVE'];
 ---
 
 <BaseLayout
@@ -30,11 +31,12 @@ const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
           </h1>
         </div>
       </div>
-      <div class="flex max-w-2xl flex-wrap justify-center gap-4">
+      <div class="flex max-w-2xl flex-wrap justify-center gap-4" id="project-filters">
         {
           filters.map((f, i) => (
             <button
               type="button"
+              data-filter={f.toLowerCase()}
               aria-pressed={i === 0 ? 'true' : 'false'}
               class:list={[
                 'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors',
@@ -52,7 +54,7 @@ const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
 
     <!-- Grid -->
     <section class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-      <div class="grid grid-flow-dense grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4">
+      <div class="grid grid-flow-dense grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4" id="projects-grid">
         {
           projects.map((p, i) => {
             // Layout pe poziție: la fiecare 8 carduri, poziția 5 (index 4) e MARE,
@@ -62,6 +64,7 @@ const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
             return (
               <a
                 href={`/projects/${p.slug}`}
+                data-category={p.category.toLowerCase()}
                 class:list={[
                   'group flex cursor-pointer flex-col gap-3',
                   layout === 'tall' && 'lg:col-span-2 lg:row-span-2',
@@ -85,21 +88,23 @@ const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
                     src={p.src}
                     style="border-radius: 45px;"
                   />
-                  <div
-                    class:list={[
-                      'pointer-events-none absolute flex items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md',
-                      layout ? 'bottom-8 right-8 px-5 py-2.5' : 'bottom-6 right-6 px-4 py-2',
-                    ]}
-                  >
-                    <span
+                  {p.client && (
+                    <div
                       class:list={[
-                        'font-label-technical font-bold uppercase text-white',
-                        layout ? 'text-[11px] tracking-[0.25em]' : 'text-[10px] tracking-[0.2em]',
+                        'pointer-events-none absolute flex items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md',
+                        layout ? 'bottom-8 right-8 px-5 py-2.5' : 'bottom-6 right-6 px-4 py-2',
                       ]}
                     >
-                      {p.client}
-                    </span>
-                  </div>
+                      <span
+                        class:list={[
+                          'font-label-technical font-bold uppercase text-white',
+                          layout ? 'text-[11px] tracking-[0.25em]' : 'text-[10px] tracking-[0.2em]',
+                        ]}
+                      >
+                        {p.client}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div class="flex items-start justify-between font-label-technical text-label-technical">
                   <div>
@@ -122,7 +127,30 @@ const filters = ['ALL', 'COMMERCIAL', 'NARRATIVE', 'MUSIC VIDEO'];
   </div>
 </BaseLayout>
 
-<!--
-  TODO: înlocuiește imaginile placeholder + badge-urile cu proiectele reale Torjai.
-  Filtrele (ALL/COMMERCIAL/...) sunt momentan statice — adăugăm filtrare reală când avem categoriile finale.
--->
+<script>
+  // Filtrare proiecte pe categorie. Butonul are data-filter (ex. 'editorials'),
+  // cardul are data-category (categoria completă, ex. 'editorials & culture').
+  const BASE =
+    'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors';
+  const ACTIVE = 'border-technical-amber bg-technical-amber/10 text-technical-amber';
+  const INACTIVE = 'border-gray-300 text-gray-600 hover:border-black hover:text-black';
+
+  const buttons = document.querySelectorAll('#project-filters button');
+  const cards = document.querySelectorAll('#projects-grid > a');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter') || 'all';
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.className = BASE + ' ' + (active ? ACTIVE : INACTIVE);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      cards.forEach((card) => {
+        const cat = card.getAttribute('data-category') || '';
+        const show = filter === 'all' || cat.includes(filter);
+        (card as HTMLElement).style.display = show ? '' : 'none';
+      });
+    });
+  });
+</script>

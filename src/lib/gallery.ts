@@ -4,7 +4,7 @@
 
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { galleryPool, videoThumb, videoEmbed, type ProjectVideo, type GalleryItem } from '../data/projects';
+import { galleryPool, videoThumb, videoEmbed, type ProjectVideo, type ProjectClip, type GalleryItem } from '../data/projects';
 
 /** Un element afișat în galerie: o poză sau un clip. */
 export type DisplayItem = {
@@ -23,6 +23,8 @@ export interface BuildGalleryOptions {
   localPhotos: { name: string; image: ImageMetadata }[];
   /** Clipurile video ale galeriei (Vimeo/YouTube). */
   videos?: ProjectVideo[];
+  /** Clipuri scurte self-hostate (MP4 din public/). */
+  clips?: ProjectClip[];
   /** Text alternativ pentru poze. */
   photoAlt: string;
   /** Text alternativ de bază pentru clipuri (folosit când clipul n-are `alt` propriu). */
@@ -38,6 +40,7 @@ export interface BuildGalleryOptions {
 export async function buildGallery({
   localPhotos,
   videos = [],
+  clips = [],
   photoAlt,
   videoAlt,
   fallbackAlt,
@@ -55,6 +58,18 @@ export async function buildGallery({
     const thumb = await getImage({ src: image, width: 900, format: 'webp' });
     const full = await getImage({ src: image, width: 2200, format: 'webp' });
     gallery.push({ type: 'photo', thumb: thumb.src, full: full.src, embed: '', alt: photoAlt });
+  }
+
+  // Clipuri scurte self-hostate (MP4 din public/) — redate local în lightbox.
+  for (const c of clips) {
+    gallery.push({
+      type: 'video',
+      thumb: c.poster,
+      full: c.poster,
+      embed: '',
+      videoSrc: c.src,
+      alt: c.alt ?? videoAlt,
+    });
   }
 
   // Clipuri video.

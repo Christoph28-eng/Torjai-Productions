@@ -35,6 +35,7 @@ for (const [path, mod] of Object.entries(photoModules)) {
 const gallery = await buildGallery({
   localPhotos,
   videos: project.videos,
+  clips: project.clips,
   photoAlt: project.title,
   videoAlt: `${project.title} — video`,
   fallbackAlt: project.title,
@@ -43,7 +44,7 @@ const gallery = await buildGallery({
 
 <BaseLayout
   title={`${project.title} — Torjai Productions`}
-  description={`${project.title} — a ${project.category.toLowerCase()} project by Torjai Productions for ${project.client}.`}
+  description={`${project.title} — a ${project.category.toLowerCase()} project by Torjai Productions${project.client ? ` for ${project.client}` : ''}.`}
   bodyClass="bg-white text-deep-charcoal"
 >
   <Gallery items={gallery}>
@@ -56,7 +57,7 @@ const gallery = await buildGallery({
       All projects
     </a>
 
-    <!-- Logo-ul firmei pentru care e făcut proiectul -->
+    <!-- Hero: logo client dacă există, altfel titlul proiectului -->
     <div class="mb-6 flex min-h-[120px] items-center justify-center md:min-h-[150px]">
       {
         project.clientLogo ? (
@@ -67,14 +68,14 @@ const gallery = await buildGallery({
           />
         ) : (
           <span class="font-headline-lg text-5xl uppercase leading-none tracking-tighter text-deep-charcoal md:text-7xl">
-            {project.client}
+            {project.client || project.title}
           </span>
         )
       }
     </div>
 
     <p class="mb-8 font-label-technical text-label-technical uppercase tracking-widest text-gray-500">
-      {project.title} &middot; {project.category}
+      {project.client ? `${project.title} · ${project.category}` : project.category}
     </p>
   </Gallery>
 </BaseLayout>
