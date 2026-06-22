@@ -60,6 +60,16 @@ export async function buildGallery({
     gallery.push({ type: 'photo', thumb: thumb.src, full: full.src, embed: '', alt: photoAlt });
   }
 
+  // Clipuri video (Vimeo/YouTube) — filmele proiectului, înaintea clipurilor scurte.
+  for (const v of videos) {
+    let thumb = videoThumb(v);
+    if (v.poster && posterByName.has(v.poster)) {
+      const p = await getImage({ src: posterByName.get(v.poster)!, width: 900, format: 'webp' });
+      thumb = p.src;
+    }
+    gallery.push({ type: 'video', thumb, full: thumb, embed: videoEmbed(v), alt: v.alt ?? videoAlt });
+  }
+
   // Clipuri scurte self-hostate (MP4 din public/) — redate local în lightbox.
   for (const c of clips) {
     gallery.push({
@@ -70,16 +80,6 @@ export async function buildGallery({
       videoSrc: c.src,
       alt: c.alt ?? videoAlt,
     });
-  }
-
-  // Clipuri video.
-  for (const v of videos) {
-    let thumb = videoThumb(v);
-    if (v.poster && posterByName.has(v.poster)) {
-      const p = await getImage({ src: posterByName.get(v.poster)!, width: 900, format: 'webp' });
-      thumb = p.src;
-    }
-    gallery.push({ type: 'video', thumb, full: thumb, embed: videoEmbed(v), alt: v.alt ?? videoAlt });
   }
 
   // Fallback placeholders (ca pagina să nu fie goală până se adaugă media reală).

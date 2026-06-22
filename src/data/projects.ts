@@ -109,7 +109,7 @@ export const projects: Project[] = [
     alt: 'YWL — film stills.',
     src: '/projects/ywl-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-800'],
-    // Film pe YouTube de adăugat: videos: [{ provider: 'youtube', id: '...' }],
+    videos: [{ provider: 'youtube', id: 'dmyKqZgYtrY', alt: 'YWL — film' }],
   },
   // ── Campaigns & Commercial ───────────────────────────────────────
   {
@@ -123,7 +123,11 @@ export const projects: Project[] = [
     clips: [
       { src: '/projects/ekstrategy/clip-01.mp4', poster: '/projects/ekstrategy/clip-01-poster.webp' },
     ],
-    // Filme pe YouTube de adăugat: videos: [{ provider: 'youtube', id: '...' }],
+    videos: [
+      { provider: 'youtube', id: '6lLWeOm7UDo', alt: 'Ekstrategy — AWAI' },
+      { provider: 'youtube', id: 'wyWpe3Ky3ws', alt: 'Ekstrategy — INTER' },
+      { provider: 'youtube', id: 'GncaYgNBLyc', alt: 'Ekstrategy — VIBE' },
+    ],
   },
   {
     slug: 'playground',
@@ -155,7 +159,7 @@ export const projects: Project[] = [
     alt: 'First Day at Work (Horror) — film stills.',
     src: '/projects/first-day-at-work-cover.webp',
     dots: ['bg-gray-800', 'bg-gray-800'],
-    // Film pe YouTube de adăugat: videos: [{ provider: 'youtube', id: '...' }],
+    videos: [{ provider: 'youtube', id: '4cvxSFMQ79o', alt: 'First Day at Work' }],
   },
   {
     slug: 'schichtwechsel',
@@ -165,7 +169,7 @@ export const projects: Project[] = [
     alt: 'Schichtwechsel (Shift Change) — film stills.',
     src: '/projects/schichtwechsel-cover.webp',
     dots: ['bg-gray-300', 'bg-technical-amber'],
-    // Film pe YouTube de adăugat: videos: [{ provider: 'youtube', id: '...' }],
+    videos: [{ provider: 'youtube', id: 'iCXxy0Bbyj8', alt: 'Schichtwechsel' }],
   },
   {
     slug: 'pointe-shoes',
@@ -178,7 +182,7 @@ export const projects: Project[] = [
     clips: [
       { src: '/projects/pointe-shoes/clip-01.mp4', poster: '/projects/pointe-shoes/clip-01-poster.webp' },
     ],
-    // Film pe YouTube de adăugat: videos: [{ provider: 'youtube', id: '...' }],
+    videos: [{ provider: 'youtube', id: 'qAw6g8bOxx0', alt: 'Pointe Shoes' }],
   },
   {
     slug: 'demonstration',
@@ -188,7 +192,7 @@ export const projects: Project[] = [
     alt: 'Demonstration — reportage film stills.',
     src: '/projects/demonstration-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-300'],
-    // Film pe YouTube de adăugat: videos: [{ provider: 'youtube', id: '...' }],
+    videos: [{ provider: 'youtube', id: 'p7ZSzrwZUyc', alt: 'Demonstration' }],
   },
 ];
 

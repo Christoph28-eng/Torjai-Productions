@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Gallery from '../components/Gallery.astro';
-import { galleryItemsToDisplay } from '../lib/gallery';
+import { galleryItemsToDisplay, type DisplayItem } from '../lib/gallery';
 import { btsGallery } from '../data/btsGallery';
+import { videoEmbed, videoThumb, type ProjectVideo } from '../data/projects';
 
 // ============================================================================
 //  GALERIE BTS (Behind The Scenes)
@@ -10,10 +11,25 @@ import { btsGallery } from '../data/btsGallery';
 //  în src/data/btsGallery.ts. Formatul galeriei e identic cu cel din interiorul
 //  unui proiect (vezi Gallery.astro): click pe poză/clip → lightbox cu navigare.
 // ============================================================================
-const gallery = galleryItemsToDisplay(btsGallery, {
-  photoAlt: 'Behind The Scenes — Torjai Productions',
-  videoAlt: 'Behind The Scenes — video',
-});
+// Clip BTS de la „First Day at Work" (YouTube) — pus primul în galerie.
+const firstDayBts: ProjectVideo = {
+  provider: 'youtube',
+  id: 'omeHJcK75Vs',
+  alt: 'First Day at Work — behind the scenes',
+};
+const gallery: DisplayItem[] = [
+  {
+    type: 'video',
+    thumb: videoThumb(firstDayBts),
+    full: videoThumb(firstDayBts),
+    embed: videoEmbed(firstDayBts),
+    alt: firstDayBts.alt!,
+  },
+  ...galleryItemsToDisplay(btsGallery, {
+    photoAlt: 'Behind The Scenes — Torjai Productions',
+    videoAlt: 'Behind The Scenes — video',
+  }),
+];
 ---
 
 <BaseLayout
