@@ -72,7 +72,7 @@ Clipul apare în galerie cu buton de play; la click se deschide player-ul în po
   slug: 'nume-nou',            // unic, fără spații
   title: 'NUME NOU',
   client: 'NUME CLIENT',
-  category: 'COMMERCIAL',      // sau NARRATIVE / MUSIC VIDEO / DOCUMENTARY ...
+  category: 'CAMPAIGNS & COMMERCIAL',  // una din: NARRATIVE & BROADCAST · PROFILES · CAMPAIGNS & COMMERCIAL · EDITORIALS & CULTURE
   alt: 'descriere scurtă a copertei',
   src: images.concrete,        // copertă (placeholder, până pui una reală)
   dots: ['bg-gray-300', 'bg-technical-amber'],

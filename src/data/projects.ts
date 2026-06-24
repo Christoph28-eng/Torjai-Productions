@@ -204,6 +204,9 @@ export const projects: Project[] = [
       },
     ],
   },
+  // ── Profiles ─────────────────────────────────────────────────────
+  // Categorie nouă, încă fără proiecte. Adaugă aici intrări cu
+  // category: 'PROFILES' (portrete / profile de persoane sau branduri).
 ];
 
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug);
