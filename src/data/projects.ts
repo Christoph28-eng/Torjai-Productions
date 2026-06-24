@@ -42,6 +42,9 @@ export interface ProjectVideo {
   /** Opțional: numele unui fișier-poster din folderul proiectului (ex. 'poster.jpg').
    *  Dacă lipsește, se folosește thumbnail-ul automat de la Vimeo/YouTube. */
   poster?: string;
+  /** Opțional: cale directă către un poster servit din public/ (ex. '/projects/x-cover.webp').
+   *  Are prioritate față de `poster` și de thumbnail-ul automat. Nu apare ca poză separată. */
+  posterSrc?: string;
 }
 
 // URL-uri placeholder (Stitch) — de înlocuit cu media reală Torjai.
@@ -192,7 +195,14 @@ export const projects: Project[] = [
     alt: 'Demonstration — reportage film stills.',
     src: '/projects/demonstration-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-300'],
-    videos: [{ provider: 'youtube', id: 'p7ZSzrwZUyc', alt: 'Demonstration' }],
+    videos: [
+      {
+        provider: 'youtube',
+        id: 'p7ZSzrwZUyc',
+        alt: 'Demonstration',
+        posterSrc: '/projects/demonstration-cover.webp',
+      },
+    ],
   },
 ];
 

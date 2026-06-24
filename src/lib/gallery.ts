@@ -65,7 +65,9 @@ export async function buildGallery({
   // Clipuri video (Vimeo/YouTube) — filmele proiectului, înaintea clipurilor scurte.
   for (const v of videos) {
     let thumb = videoThumb(v);
-    if (v.poster && posterByName.has(v.poster)) {
+    if (v.posterSrc) {
+      thumb = v.posterSrc; // poster direct din public/ (ex. coperta proiectului)
+    } else if (v.poster && posterByName.has(v.poster)) {
       const p = await getImage({ src: posterByName.get(v.poster)!, width: 900, format: 'webp' });
       thumb = p.src;
     }
