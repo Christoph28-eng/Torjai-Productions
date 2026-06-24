@@ -89,10 +89,10 @@ export const projects: Project[] = [
     alt: 'Avanti — editorial photography and short clips.',
     src: '/projects/avanti-cover.webp',
     dots: ['bg-gray-800', 'bg-technical-amber'],
-    clips: [
-      { src: '/projects/avanti/clip-01.mp4', poster: '/projects/avanti/clip-01-poster.webp' },
-      { src: '/projects/avanti/clip-02.mp4', poster: '/projects/avanti/clip-02-poster.webp' },
-      { src: '/projects/avanti/clip-03.mp4', poster: '/projects/avanti/clip-03-poster.webp' },
+    videos: [
+      { provider: 'youtube', id: 'v8f2-ZMJBdY', posterSrc: '/projects/avanti/clip-01-poster.webp', alt: 'AVANTI — clip 1' },
+      { provider: 'youtube', id: 'eOQ_cyvZvQQ', posterSrc: '/projects/avanti/clip-02-poster.webp', alt: 'AVANTI — clip 2' },
+      { provider: 'youtube', id: 'wBfLFq1Ejds', posterSrc: '/projects/avanti/clip-03-poster.webp', alt: 'AVANTI — clip 3' },
     ],
   },
   {
@@ -149,8 +149,8 @@ export const projects: Project[] = [
     alt: 'Paris Bar — short film.',
     src: '/projects/paris-bar-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-300'],
-    clips: [
-      { src: '/projects/paris-bar/clip-01.mp4', poster: '/projects/paris-bar/clip-01-poster.webp' },
+    videos: [
+      { provider: 'youtube', id: '8UpcFhlVdyc', posterSrc: '/projects/paris-bar/clip-01-poster.webp', alt: 'Paris Bar — short film' },
     ],
   },
   // ── Narrative & Broadcast (University projects) ───────────────────
@@ -182,10 +182,10 @@ export const projects: Project[] = [
     alt: 'Pointe Shoes — documentary with Aurora Dickie.',
     src: '/projects/pointe-shoes-cover.webp',
     dots: ['bg-gray-800', 'bg-technical-amber'],
-    clips: [
-      { src: '/projects/pointe-shoes/clip-01.mp4', poster: '/projects/pointe-shoes/clip-01-poster.webp' },
+    videos: [
+      { provider: 'youtube', id: 'qAw6g8bOxx0', alt: 'Pointe Shoes' },
+      { provider: 'youtube', id: '0Ak0S2-BK9c', posterSrc: '/projects/pointe-shoes/clip-01-poster.webp', alt: 'Pointe Shoes — clip' },
     ],
-    videos: [{ provider: 'youtube', id: 'qAw6g8bOxx0', alt: 'Pointe Shoes' }],
   },
   {
     slug: 'demonstration',
