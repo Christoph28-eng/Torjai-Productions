@@ -24,6 +24,16 @@
     <span class="material-symbols-outlined text-3xl" aria-hidden="true">close</span>
   </button>
 
+  <!-- Zoom (apare doar la poze) -->
+  <button
+    type="button"
+    data-lb-zoom
+    aria-label="Zoom photo"
+    class="absolute left-4 top-4 z-20 hidden h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:left-6 md:top-6"
+  >
+    <span class="material-symbols-outlined text-3xl" aria-hidden="true">zoom_in</span>
+  </button>
+
   <!-- Contor -->
   <div
     id="lb-counter"
@@ -66,11 +76,59 @@
     let items: LBItem[] = [];
     let index = 0;
 
+    // ── Zoom (doar pentru poze) ──────────────────────────────────────────
+    const zoomBtn = lb.querySelector('[data-lb-zoom]') as HTMLButtonElement | null;
+    const ZOOM = 2.2;
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    const currentImg = () => stage.querySelector('img') as HTMLImageElement | null;
+
+    function applyTransform() {
+      const img = currentImg();
+      if (!img) return;
+      // Limitează panoramarea ca marginile pozei să nu treacă de centru.
+      const maxX = (img.clientWidth * (zoom - 1)) / 2;
+      const maxY = (img.clientHeight * (zoom - 1)) / 2;
+      panX = Math.max(-maxX, Math.min(maxX, panX));
+      panY = Math.max(-maxY, Math.min(maxY, panY));
+      img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+    }
+
+    function setZoom(on: boolean) {
+      zoom = on ? ZOOM : 1;
+      if (!on) { panX = 0; panY = 0; }
+      const img = currentImg();
+      if (img) {
+        img.style.transition = 'transform 0.2s ease';
+        img.style.cursor = on ? 'grab' : 'zoom-in';
+        img.style.willChange = on ? 'transform' : 'auto';
+      }
+      applyTransform();
+      if (zoomBtn) {
+        const zi = zoomBtn.querySelector('span');
+        if (zi) zi.textContent = on ? 'zoom_out' : 'zoom_in';
+        zoomBtn.setAttribute('aria-label', on ? 'Reset zoom' : 'Zoom photo');
+      }
+    }
+
+    function resetZoom() {
+      zoom = 1;
+      panX = 0;
+      panY = 0;
+      dragging = false;
+    }
+
     const escapeAttr = (s: string) => s.replace(/"/g, '&quot;');
 
     function render() {
       const it = items[index];
       if (!it) return;
+      resetZoom();
       if (it.type === 'video' && it.videoSrc && it.muted) {
         // Clip mut blocat (footage BTS): pornește mut, în buclă, FĂRĂ controale →
         // nu există control de volum și sunetul nu poate fi modificat.
@@ -106,6 +164,18 @@
           `<img src="${it.full}" alt="${escapeAttr(it.alt)}" ` +
           `class="max-h-[88vh] max-w-full rounded-[16px] object-contain" />`;
       }
+      // Butonul de zoom apare DOAR la poze (nu la video / embed-uri).
+      const isPhoto = it.type === 'photo';
+      if (zoomBtn) {
+        zoomBtn.classList.toggle('hidden', !isPhoto);
+        zoomBtn.classList.toggle('flex', isPhoto);
+        const zi = zoomBtn.querySelector('span');
+        if (zi) zi.textContent = 'zoom_in';
+        zoomBtn.setAttribute('aria-label', 'Zoom photo');
+      }
+      const pimg = currentImg();
+      if (isPhoto && pimg) pimg.style.cursor = 'zoom-in';
+
       counter.textContent = `${index + 1} / ${items.length}`;
     }
 
@@ -125,6 +195,7 @@
       lb.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       stage.innerHTML = ''; // oprește videoul
+      resetZoom();
     }
 
     function go(delta: number) {
@@ -159,6 +230,39 @@
     lb.addEventListener('click', (e) => {
       if (e.target === lb) close(); // click pe fundal
     });
+
+    // Buton zoom (toggle 1× ↔ 2.2×) — vizibil doar la poze.
+    zoomBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setZoom(zoom === 1);
+    });
+
+    // Pan prin drag (mouse/touch) cât timp poza e mărită.
+    stage.addEventListener('pointerdown', (e) => {
+      if (zoom === 1) return;
+      dragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      const img = currentImg();
+      if (img) { img.style.transition = 'none'; img.style.cursor = 'grabbing'; }
+      try { stage.setPointerCapture(e.pointerId); } catch {}
+    });
+    stage.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      panX += e.clientX - lastX;
+      panY += e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      applyTransform();
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      const img = currentImg();
+      if (img) img.style.cursor = 'grab';
+    };
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
     document.addEventListener('keydown', (e) => {
       if (lb.classList.contains('hidden')) return;
       if (e.key === 'Escape') close();
@@ -173,7 +277,7 @@
       'touchend',
       (e) => {
         const dx = e.changedTouches[0].clientX - startX;
-        if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+        if (Math.abs(dx) > 50 && zoom === 1) go(dx < 0 ? 1 : -1); // nu naviga cât e zoom activ
       },
       { passive: true },
     );
