@@ -133,4 +133,5 @@ export const btsGallery: GalleryItem[] = [
   { src: '/bts/photos/bts-127.webp', type: 'photo' },
   { src: '/bts/videos/bts-128.mp4', type: 'video', poster: '/bts/posters/bts-128.webp' },
   { src: '/bts/photos/bts-129.webp', type: 'photo' },
+  { src: '/bts/photos/bts-130.webp', type: 'photo' },
 ];
