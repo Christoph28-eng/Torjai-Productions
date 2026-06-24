@@ -15,6 +15,8 @@ export type DisplayItem = {
   embed: string;
   /** Calea unui fișier video local (MP4) servit din public/. Gol pentru poze / embed. */
   videoSrc?: string;
+  /** Dacă `true`, clipul local pornește fără sunet (cu buton de volum în player). */
+  muted?: boolean;
   alt: string;
 };
 
@@ -100,7 +102,8 @@ export async function buildGallery({
  */
 export function galleryItemsToDisplay(
   items: GalleryItem[],
-  { photoAlt, videoAlt }: { photoAlt: string; videoAlt: string },
+  { photoAlt, videoAlt, muteVideos = false }:
+    { photoAlt: string; videoAlt: string; muteVideos?: boolean },
 ): DisplayItem[] {
   return items.map((it) =>
     it.type === 'video'
@@ -110,6 +113,7 @@ export function galleryItemsToDisplay(
           full: it.poster ?? it.src,
           embed: '',
           videoSrc: it.src,
+          muted: muteVideos,
           alt: videoAlt,
         }
       : { type: 'photo', thumb: it.src, full: it.src, embed: '', alt: photoAlt },

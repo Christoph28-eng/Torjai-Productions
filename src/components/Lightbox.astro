@@ -56,7 +56,7 @@
 </div>
 
 <script>
-  type LBItem = { type: 'photo' | 'video'; full: string; embed: string; videoSrc: string; alt: string };
+  type LBItem = { type: 'photo' | 'video'; full: string; embed: string; videoSrc: string; muted: boolean; alt: string };
 
   const lb = document.getElementById('lightbox');
   const stage = document.getElementById('lb-stage');
@@ -73,7 +73,7 @@
       if (!it) return;
       if (it.type === 'video' && it.videoSrc) {
         stage.innerHTML =
-          `<video src="${it.videoSrc}" controls autoplay playsinline ` +
+          `<video src="${it.videoSrc}" controls autoplay playsinline ${it.muted ? 'muted ' : ''}` +
           `class="max-h-[88vh] max-w-full rounded-[16px] bg-black"></video>`;
       } else if (it.type === 'video' && it.embed) {
         stage.innerHTML =
@@ -126,6 +126,7 @@
         full: el.dataset.full || '',
         embed: el.dataset.embed || '',
         videoSrc: el.dataset.videoSrc || '',
+        muted: el.dataset.muted === 'true',
         alt: el.dataset.alt || '',
       }));
       const start = visible.indexOf(btn);
