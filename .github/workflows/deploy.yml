@@ -2,9 +2,9 @@ name: Deploy to Cloudflare Pages
 
 # Auto-deploy the Astro site to Cloudflare Pages on every push to main
 # (the project is a direct-upload Pages project, so this Action replaces
-# the old Netlify auto-deploy). Requires two repo secrets:
-#   CLOUDFLARE_API_TOKEN  – Cloudflare token with "Cloudflare Pages: Edit"
-#   CLOUDFLARE_ACCOUNT_ID – the Torjai Cloudflare account id
+# the old Netlify auto-deploy). Requires ONE repo secret:
+#   CLOUDFLARE_API_TOKEN – Cloudflare token with "Cloudflare Pages: Edit"
+# (the account id is not secret, so it's set inline below).
 
 on:
   push:
@@ -37,5 +37,5 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: "030079b00528e22595e266a829c51196"
           command: pages deploy dist --project-name=torjai-productions --branch=main
