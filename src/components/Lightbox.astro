@@ -62,7 +62,7 @@
   </button>
 
   <!-- Conținut (poză sau player) -->
-  <div id="lb-stage" class="flex max-h-[88vh] w-full max-w-[92vw] items-center justify-center px-2"></div>
+  <div id="lb-stage" class="flex max-h-[88vh] w-full max-w-[92vw] items-center justify-center overflow-hidden rounded-[16px] px-2"></div>
 </div>
 
 <script>
@@ -76,32 +76,69 @@
     let items: LBItem[] = [];
     let index = 0;
 
+    let lastFocused: HTMLElement | null = null;
+
     // ── Zoom (doar pentru poze) ──────────────────────────────────────────
     const zoomBtn = lb.querySelector('[data-lb-zoom]') as HTMLButtonElement | null;
     const ZOOM = 2.2;
+    const TAP = 6; // px: sub atât = click (toggle zoom), peste = pan
     let zoom = 1;
     let panX = 0;
     let panY = 0;
-    let dragging = false;
+    let pointerActive = false;
+    let capturedId = -1;
     let lastX = 0;
     let lastY = 0;
+    let moved = 0;
 
     const currentImg = () => stage.querySelector('img') as HTMLImageElement | null;
+
+    // Dimensiunea REALĂ afișată a pozei (object-contain). La zoom 1 cutia <img> are deja
+    // raportul imaginii, dar o calculăm explicit ca să fim corecți și dacă apare letterbox.
+    // Întoarce null cât timp poza nu e încărcată / fără layout (clientWidth/naturalWidth 0).
+    function displayedSize(img: HTMLImageElement) {
+      const boxW = img.clientWidth, boxH = img.clientHeight;
+      const nw = img.naturalWidth, nh = img.naturalHeight;
+      if (!boxW || !boxH || !nw || !nh) return null;
+      const ar = nw / nh;
+      return boxW / boxH > ar ? { w: boxH * ar, h: boxH } : { w: boxW, h: boxW / ar };
+    }
 
     function applyTransform() {
       const img = currentImg();
       if (!img) return;
-      // Limitează panoramarea ca marginile pozei să nu treacă de centru.
-      const maxX = (img.clientWidth * (zoom - 1)) / 2;
-      const maxY = (img.clientHeight * (zoom - 1)) / 2;
+      const d = displayedSize(img);
+      if (!d) { img.style.transform = `scale(${zoom})`; return; } // neîncărcată: doar scalează
+      // Limitează panoramarea la marginile REALE ale pozei.
+      const maxX = (d.w * (zoom - 1)) / 2;
+      const maxY = (d.h * (zoom - 1)) / 2;
       panX = Math.max(-maxX, Math.min(maxX, panX));
       panY = Math.max(-maxY, Math.min(maxY, panY));
       img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
     }
 
-    function setZoom(on: boolean) {
+    function releaseCapture() {
+      if (capturedId !== -1) {
+        try { stage.releasePointerCapture(capturedId); } catch {}
+        capturedId = -1;
+      }
+    }
+
+    // Mărește/micșorează. Cu focusX/Y, zoom-in se centrează pe punctul atins
+    // (zoom-to-cursor); altfel pe centrul pozei.
+    function applyZoomState(on: boolean, focusX?: number, focusY?: number) {
       zoom = on ? ZOOM : 1;
-      if (!on) { panX = 0; panY = 0; }
+      if (!on) {
+        panX = 0;
+        panY = 0;
+      } else if (typeof focusX === 'number' && typeof focusY === 'number') {
+        const img = currentImg();
+        if (img) {
+          const r = img.getBoundingClientRect();
+          panX = (focusX - (r.left + r.width / 2)) * (1 - ZOOM);
+          panY = (focusY - (r.top + r.height / 2)) * (1 - ZOOM);
+        }
+      }
       const img = currentImg();
       if (img) {
         img.style.transition = 'transform 0.2s ease';
@@ -112,7 +149,7 @@
       if (zoomBtn) {
         const zi = zoomBtn.querySelector('span');
         if (zi) zi.textContent = on ? 'zoom_out' : 'zoom_in';
-        zoomBtn.setAttribute('aria-label', on ? 'Reset zoom' : 'Zoom photo');
+        zoomBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
       }
     }
 
@@ -120,7 +157,9 @@
       zoom = 1;
       panX = 0;
       panY = 0;
-      dragging = false;
+      pointerActive = false;
+      moved = 0;
+      releaseCapture();
     }
 
     const escapeAttr = (s: string) => s.replace(/"/g, '&quot;');
@@ -160,9 +199,11 @@
           `title="${escapeAttr(it.alt)}" frameborder="0" ` +
           `allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>`;
       } else {
+        // draggable=false + select-none → fără drag nativ de imagine care ar fura pan-ul.
+        // [touch-action:none] → pan fiabil pe touch. origin-center → zoom previzibil.
         stage.innerHTML =
-          `<img src="${it.full}" alt="${escapeAttr(it.alt)}" ` +
-          `class="max-h-[88vh] max-w-full rounded-[16px] object-contain" />`;
+          `<img src="${it.full}" alt="${escapeAttr(it.alt)}" draggable="false" ` +
+          `class="max-h-[88vh] max-w-full select-none origin-center rounded-[16px] object-contain [touch-action:none] [-webkit-user-drag:none]" />`;
       }
       // Butonul de zoom apare DOAR la poze (nu la video / embed-uri).
       const isPhoto = it.type === 'photo';
@@ -172,14 +213,22 @@
         const zi = zoomBtn.querySelector('span');
         if (zi) zi.textContent = 'zoom_in';
         zoomBtn.setAttribute('aria-label', 'Zoom photo');
+        zoomBtn.setAttribute('aria-pressed', 'false');
+        zoomBtn.setAttribute('aria-hidden', String(!isPhoto));
+        zoomBtn.tabIndex = isPhoto ? 0 : -1;
       }
       const pimg = currentImg();
-      if (isPhoto && pimg) pimg.style.cursor = 'zoom-in';
+      if (isPhoto && pimg) {
+        pimg.style.cursor = 'zoom-in';
+        // Re-aplică transform-ul după ce poza s-a încărcat (clamp corect, nu blocat la 0).
+        pimg.addEventListener('load', applyTransform);
+      }
 
       counter.textContent = `${index + 1} / ${items.length}`;
     }
 
     function open(list: LBItem[], start: number) {
+      lastFocused = document.activeElement as HTMLElement | null;
       items = list;
       index = start;
       lb.classList.remove('hidden');
@@ -187,6 +236,7 @@
       lb.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       render();
+      (lb.querySelector('[data-lb-close]') as HTMLElement | null)?.focus(); // intră focusul în modal
     }
 
     function close() {
@@ -196,6 +246,7 @@
       document.body.style.overflow = '';
       stage.innerHTML = ''; // oprește videoul
       resetZoom();
+      lastFocused?.focus(); // readu focusul la elementul din care s-a deschis
     }
 
     function go(delta: number) {
@@ -231,43 +282,79 @@
       if (e.target === lb) close(); // click pe fundal
     });
 
-    // Buton zoom (toggle 1× ↔ 2.2×) — vizibil doar la poze.
+    // Buton zoom dedicat (toggle 1× ↔ 2.2×, centrat) — vizibil doar la poze.
     zoomBtn?.addEventListener('click', (e) => {
       e.stopPropagation();
-      setZoom(zoom === 1);
+      applyZoomState(zoom === 1);
     });
 
-    // Pan prin drag (mouse/touch) cât timp poza e mărită.
+    // Interacțiune pe poză: tap = toggle zoom (zoom-in pe punctul atins),
+    // drag = pan cât timp e mărită. Gestul trebuie să înceapă pe <img>.
     stage.addEventListener('pointerdown', (e) => {
-      if (zoom === 1) return;
-      dragging = true;
+      if (!(e.target instanceof HTMLImageElement)) return;
+      pointerActive = true;
+      moved = 0;
       lastX = e.clientX;
       lastY = e.clientY;
-      const img = currentImg();
-      if (img) { img.style.transition = 'none'; img.style.cursor = 'grabbing'; }
-      try { stage.setPointerCapture(e.pointerId); } catch {}
+      if (zoom > 1) {
+        const img = currentImg();
+        if (img) { img.style.transition = 'none'; img.style.cursor = 'grabbing'; }
+        try { stage.setPointerCapture(e.pointerId); capturedId = e.pointerId; } catch {}
+      }
     });
     stage.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      panX += e.clientX - lastX;
-      panY += e.clientY - lastY;
+      if (!pointerActive) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      moved += Math.abs(dx) + Math.abs(dy);
       lastX = e.clientX;
       lastY = e.clientY;
-      applyTransform();
+      if (zoom > 1) {
+        panX += dx;
+        panY += dy;
+        applyTransform();
+      }
     });
-    const endDrag = () => {
-      if (!dragging) return;
-      dragging = false;
+    stage.addEventListener('pointerup', (e) => {
+      if (!pointerActive) return;
+      pointerActive = false;
+      releaseCapture();
+      if (moved < TAP) {
+        // tap pe poză → comută zoom (in pe punctul atins / out)
+        if (zoom === 1) applyZoomState(true, e.clientX, e.clientY);
+        else applyZoomState(false);
+      } else {
+        const img = currentImg();
+        if (img) img.style.cursor = 'grab';
+      }
+    });
+    stage.addEventListener('pointercancel', () => {
+      pointerActive = false;
+      releaseCapture();
       const img = currentImg();
-      if (img) img.style.cursor = 'grab';
-    };
-    stage.addEventListener('pointerup', endDrag);
-    stage.addEventListener('pointercancel', endDrag);
+      if (img && zoom > 1) img.style.cursor = 'grab';
+    });
+
+    // Blochează drag-ul nativ de imagine (ghost) care ar fura gestul de pan.
+    stage.addEventListener('dragstart', (e) => e.preventDefault());
+
     document.addEventListener('keydown', (e) => {
       if (lb.classList.contains('hidden')) return;
-      if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowLeft') go(-1);
-      else if (e.key === 'ArrowRight') go(1);
+      if (e.key === 'Escape') { close(); return; }
+      // Săgețile navighează doar la 1× (la fel ca swipe-ul) ca să nu reseteze zoom-ul.
+      if (e.key === 'ArrowLeft' && zoom === 1) go(-1);
+      else if (e.key === 'ArrowRight' && zoom === 1) go(1);
+      else if (e.key === 'Tab') {
+        // Focus trap: ține focusul pe controalele modalului.
+        const f = Array.from(lb.querySelectorAll<HTMLElement>('button')).filter((el) => el.offsetParent !== null);
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+        else if (!active || !f.includes(active)) { e.preventDefault(); first.focus(); }
+      }
     });
 
     // Swipe pe touch
