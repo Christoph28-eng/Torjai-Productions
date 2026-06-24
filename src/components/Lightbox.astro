@@ -87,6 +87,14 @@
         stage.innerHTML =
           `<video src="${it.videoSrc}" controls autoplay playsinline ` +
           `class="max-h-[88vh] max-w-full rounded-[16px] bg-black"></video>`;
+      } else if (it.type === 'video' && it.embed && it.embed.includes('instagram.com')) {
+        // Card oficial Instagram (cu caption) — format portret: lățime fixă, înălțime
+        // mare. Fundalul cardului e alb, deci wrapper-ul alb maschează spațiul gol.
+        stage.innerHTML =
+          `<div class="h-[88vh] w-full max-w-[400px] overflow-hidden rounded-[16px] bg-white">` +
+          `<iframe class="h-full w-full border-0" src="${it.embed}" ` +
+          `title="${escapeAttr(it.alt)}" scrolling="yes" allowtransparency="true" ` +
+          `allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe></div>`;
       } else if (it.type === 'video' && it.embed) {
         stage.innerHTML =
           `<div class="relative aspect-video w-full max-w-[1100px]">` +

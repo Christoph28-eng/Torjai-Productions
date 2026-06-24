@@ -63,6 +63,32 @@ Clipul apare în galerie cu buton de play; la click se deschide player-ul în po
 
 ---
 
+## 2b. Adaugă o postare INSTAGRAM la un proiect
+
+Instagram **nu** dă o copertă automată (cum dă YouTube), deci ai nevoie de o
+imagine de copertă pentru grilă.
+
+1. Pune o imagine de copertă în `public/projects/<slug>/` (ex. `ig-01.webp`).
+2. Copiază link-ul postării/reel-ului (`https://www.instagram.com/p/COD/` sau
+   `.../reel/COD/`).
+3. În `src/data/projects.ts`, adaugă proiectului un câmp `instagram`:
+
+```ts
+{
+  slug: 'nume-proiect',
+  // ... restul câmpurilor ...
+  instagram: [
+    { url: 'https://www.instagram.com/p/COD/', posterSrc: '/projects/nume-proiect/ig-01.webp' },
+    { url: 'https://www.instagram.com/reel/ALT_COD/', posterSrc: '/projects/nume-proiect/ig-02.webp', alt: 'descriere' },
+  ],
+}
+```
+
+În grilă apare coperta cu buton de play; la click se deschide cardul oficial
+Instagram (cu caption) în popup. `posterSrc` e **obligatoriu**.
+
+---
+
 ## 3. Adaugă un PROIECT NOU
 
 În `src/data/projects.ts`, copiază o intrare existentă și schimbă:

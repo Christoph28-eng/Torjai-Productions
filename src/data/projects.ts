@@ -20,6 +20,11 @@ export interface Project {
   /** Clipuri scurte self-hostate (MP4 în public/projects/<slug>/). Pentru clipuri
    *  scurte care încap sub 100 MB; filmele mari merg pe Vimeo/YouTube via `videos`. */
   clips?: ProjectClip[];
+  /** Postări/reels Instagram embeduite (apar în galeria proiectului, deschise în lightbox). */
+  instagram?: ProjectInstagram[];
+  /** Handle-ul contului Instagram (fără @), ex. 'playground_boxing_'. Dacă e setat,
+   *  pe pagina proiectului apare un buton „View on Instagram" către profil. */
+  instagramProfile?: string;
 }
 
 /** Un clip scurt self-hostat (MP4 servit din public/). */
@@ -28,6 +33,18 @@ export interface ProjectClip {
   src: string;
   /** Calea posterului afișat în grilă (ex. '/projects/avanti/clip-01-poster.webp'). */
   poster: string;
+  alt?: string;
+}
+
+/** O postare sau un reel Instagram embeduit. Spre deosebire de YouTube/Vimeo,
+ *  Instagram NU oferă thumbnail automat, deci `posterSrc` (coperta din grilă) e
+ *  obligatoriu. La click se deschide cardul oficial (cu caption) în lightbox. */
+export interface ProjectInstagram {
+  /** Link-ul public Instagram — post (.../p/COD/) sau reel (.../reel/COD/). */
+  url: string;
+  /** Calea posterului afișat în grilă (ex. '/projects/<slug>/ig-01.webp'). OBLIGATORIU. */
+  posterSrc: string;
+  /** Text alternativ scurt (accesibilitate). Opțional. */
   alt?: string;
 }
 
@@ -140,6 +157,15 @@ export const projects: Project[] = [
     alt: 'Playground Boxing Berlin — photography.',
     src: '/projects/playground-cover.webp',
     dots: ['bg-gray-300', 'bg-gray-800'],
+    instagramProfile: 'playground_boxing_',
+    // Postere placeholder = coperta proiectului. Înlocuiește fiecare `posterSrc`
+    // cu un cadru propriu (ex. /projects/playground/ig-01.webp) când le ai.
+    instagram: [
+      { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — Instagram post' },
+      { url: 'https://www.instagram.com/reel/DZX0XCwoXDx/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — reel' },
+      { url: 'https://www.instagram.com/reel/DZsRYamIniP/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — reel' },
+      { url: 'https://www.instagram.com/reel/DZ5EIpEI4Ze/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — reel' },
+    ],
   },
   {
     slug: 'paris-bar',
@@ -250,6 +276,15 @@ export function videoEmbed(v: ProjectVideo): string {
   if (v.provider === 'youtube')
     return `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0`;
   return `https://player.vimeo.com/video/${v.id}?autoplay=1`;
+}
+
+/** URL-ul de embed Instagram (cardul oficial cu caption). Acceptă linkuri de
+ *  post (/p/COD/), reel (/reel/COD/) sau IGTV (/tv/COD/) și le normalizează la
+ *  endpoint-ul de embed, care randează cardul fără scriptul embed.js. */
+export function instagramEmbed(ig: ProjectInstagram): string {
+  const m = ig.url.match(/instagram\.com\/(?:p|reel|tv)\/([\w-]+)/);
+  if (!m) return '';
+  return `https://www.instagram.com/p/${m[1]}/embed/captioned/`;
 }
 
 /** Extrage provider + id dintr-un link Vimeo/YouTube. Utilitar pentru când adaugi
