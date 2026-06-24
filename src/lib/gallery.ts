@@ -113,7 +113,7 @@ export function galleryItemsToDisplay(
           full: it.poster ?? it.src,
           embed: '',
           videoSrc: it.src,
-          muted: muteVideos,
+          muted: muteVideos && !it.sound,
           alt: videoAlt,
         }
       : { type: 'photo', thumb: it.src, full: it.src, embed: '', alt: photoAlt },

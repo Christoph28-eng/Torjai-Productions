@@ -206,6 +206,9 @@ export interface GalleryItem {
   type: 'photo' | 'video';
   /** Imagine-poster (thumbnail) afișată pentru un video înainte de redare. */
   poster?: string;
+  /** Pentru video BTS: dacă `true`, clipul are sunet + controale normale
+   *  (excepție de la mut-ul global al galeriei BTS). */
+  sound?: boolean;
 }
 
 export const galleryPool: GalleryItem[] = [
