@@ -2,8 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { projects } from '../data/projects';
 
-// Eticheta scurtă pe buton → cuvântul-cheie căutat în categoria proiectului.
-const filters = ['ALL', 'NARRATIVE', 'PROFILES', 'CAMPAIGNS', 'EDITORIALS'];
+// Eticheta = numele complet al categoriei. `data-filter` (lowercased) e
+// căutat în categoria proiectului, deci numele complet se potrivește exact.
+const filters = ['ALL', 'NARRATIVE & BROADCAST', 'PROFILES', 'CAMPAIGNS & COMMERCIAL', 'EDITORIALS & CULTURE'];
 ---
 
 <BaseLayout
@@ -31,7 +32,7 @@ const filters = ['ALL', 'NARRATIVE', 'PROFILES', 'CAMPAIGNS', 'EDITORIALS'];
           </h1>
         </div>
       </div>
-      <div class="flex max-w-2xl flex-wrap justify-center gap-4" id="project-filters">
+      <div class="flex max-w-5xl flex-wrap justify-center gap-4" id="project-filters">
         {
           filters.map((f, i) => (
             <button
