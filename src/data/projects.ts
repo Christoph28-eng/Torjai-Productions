@@ -192,6 +192,21 @@ export const projects: Project[] = [
       { provider: 'youtube', id: '8UpcFhlVdyc', posterSrc: '/projects/paris-bar-cover.webp', alt: 'Paris Bar — short film' },
     ],
   },
+  {
+    slug: 'samsung-qfroost',
+    title: 'Samsung x Qfroost',
+    client: '',
+    category: 'CAMPAIGNS & COMMERCIAL',
+    alt: 'Samsung × Qfroost — campaign reels.',
+    src: '/projects/samsung-qfroost-cover.webp',
+    dots: ['bg-technical-amber', 'bg-gray-800'],
+    instagramProfile: 'qfroost',
+    // Ordine: cel mai recent → cel mai vechi (după data postării pe Instagram).
+    instagram: [
+      { url: 'https://www.instagram.com/reel/DWgYpBtjVW_/', posterSrc: '/projects/samsung-qfroost/ig-01.webp', alt: 'Samsung × Qfroost — reel' }, // 2026-03-30
+      { url: 'https://www.instagram.com/reel/DONoAh2jEYf/', posterSrc: '/projects/samsung-qfroost/ig-02.webp', alt: 'Samsung × Qfroost — reel' }, // 2025-09-05
+    ],
+  },
   // ── Narrative & Broadcast (University projects) ───────────────────
   {
     slug: 'first-day-at-work',
