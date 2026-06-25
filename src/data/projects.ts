@@ -151,9 +151,9 @@ export const projects: Project[] = [
       { src: '/projects/ekstrategy/clip-01.mp4', poster: '/projects/ekstrategy/clip-01-poster.webp' },
     ],
     videos: [
-      { provider: 'youtube', id: '6lLWeOm7UDo', alt: 'Ekstrategy — AWAI' },
-      { provider: 'youtube', id: 'wyWpe3Ky3ws', alt: 'Ekstrategy — INTER' },
-      { provider: 'youtube', id: 'GncaYgNBLyc', alt: 'Ekstrategy — VIBE' },
+      { provider: 'youtube', id: '6lLWeOm7UDo', alt: 'Ekstrategy — AWAI', posterSrc: '/projects/ekstrategy/poster-02.webp' },
+      { provider: 'youtube', id: 'wyWpe3Ky3ws', alt: 'Ekstrategy — INTER', posterSrc: '/projects/ekstrategy/poster-03.webp' },
+      { provider: 'youtube', id: 'GncaYgNBLyc', alt: 'Ekstrategy — VIBE', posterSrc: '/projects/ekstrategy-cover.webp' },
     ],
   },
   {
