@@ -255,8 +255,27 @@ export const projects: Project[] = [
     ],
   },
   // ── Profiles ─────────────────────────────────────────────────────
-  // Categorie nouă, încă fără proiecte. Adaugă aici intrări cu
-  // category: 'PROFILES' (portrete / profile de persoane sau branduri).
+  {
+    slug: 'qfroost',
+    title: 'Quyen Van (qfroost)',
+    client: '',
+    category: 'PROFILES',
+    alt: 'Quyen Van (qfroost) — Instagram reels & profile.',
+    src: '/projects/qfroost-cover.webp',
+    dots: ['bg-technical-amber', 'bg-gray-800'],
+    instagramProfile: 'qfroost',
+    instagram: [
+      { url: 'https://www.instagram.com/reel/C6imOYVKl47/', posterSrc: '/projects/qfroost/ig-01.webp', alt: 'Quyen Van (qfroost) — reel' },
+      { url: 'https://www.instagram.com/reel/DKZIJmFoWSF/', posterSrc: '/projects/qfroost/ig-02.webp', alt: 'Quyen Van (qfroost) — reel' },
+      // Slot ig-03 rezervat pentru reel-ul DNAfxKcIZkm — momentan are embedding-ul
+      // oprit pe Instagram (lightbox-ul ar afișa „content unavailable"). De re-adăugat
+      // după ce se activează „Allow embedding": { url: '.../reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp' }
+      { url: 'https://www.instagram.com/reel/DSj8MtYDS9q/', posterSrc: '/projects/qfroost/ig-04.webp', alt: 'Quyen Van (qfroost) — reel' },
+      { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel' },
+      { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel' },
+      { url: 'https://www.instagram.com/p/CxPpAaQqVv7/', posterSrc: '/projects/qfroost/ig-07.webp', alt: 'Quyen Van (qfroost) — post' },
+    ],
+  },
 ];
 
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug);
