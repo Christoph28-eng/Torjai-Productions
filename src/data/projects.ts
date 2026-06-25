@@ -129,7 +129,14 @@ export const projects: Project[] = [
     alt: 'YWL — film stills.',
     src: '/projects/ywl-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-800'],
-    videos: [{ provider: 'youtube', id: 'dmyKqZgYtrY', alt: 'YWL — film' }],
+    videos: [
+      {
+        provider: 'youtube',
+        id: 'dmyKqZgYtrY',
+        alt: 'YWL — film',
+        posterSrc: '/projects/ywl-cover.webp',
+      },
+    ],
   },
   // ── Campaigns & Commercial ───────────────────────────────────────
   {
