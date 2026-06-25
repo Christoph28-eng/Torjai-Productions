@@ -49,6 +49,20 @@ const { items, filters = ['ALL', 'PHOTO', 'VIDEO'] } = Astro.props;
         items.map((item, i) => {
           // La fiecare 8 elemente: poziția 5 = MARE (2×2), poziția 8 = LATĂ.
           const layout = i % 8 === 4 ? 'tall' : i % 8 === 7 ? 'wide' : undefined;
+          // Link-out (item.href): elementul e un <a> care deschide Instagram în tab nou,
+          // NU un buton de lightbox. Restul rămân butoane cu [data-lb-item].
+          const Tag = item.href ? 'a' : 'button';
+          const wrapperAttrs = item.href
+            ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' }
+            : {
+                type: 'button',
+                'data-lb-item': '',
+                'data-type': item.type,
+                'data-full': item.full,
+                'data-embed': item.embed,
+                'data-video-src': item.videoSrc,
+                'data-muted': item.muted ? 'true' : undefined,
+              };
           return (
             <article
               data-type={item.type}
@@ -58,16 +72,10 @@ const { items, filters = ['ALL', 'PHOTO', 'VIDEO'] } = Astro.props;
                 layout === 'wide' && 'lg:col-span-2',
               ]}
             >
-              <button
-                type="button"
-                data-lb-item
-                data-type={item.type}
-                data-full={item.full}
-                data-embed={item.embed}
-                data-video-src={item.videoSrc}
-                data-muted={item.muted ? 'true' : undefined}
+              <Tag
+                {...wrapperAttrs}
                 data-alt={item.alt}
-                aria-label={item.type === 'video' ? 'Play video' : 'View photo'}
+                aria-label={item.href ? 'Open on Instagram' : item.type === 'video' ? 'Play video' : 'View photo'}
                 class:list={[
                   'card-image-wrapper block w-full appearance-none p-0',
                   item.type === 'video' ? 'cursor-pointer' : 'cursor-zoom-in',
@@ -96,7 +104,7 @@ const { items, filters = ['ALL', 'PHOTO', 'VIDEO'] } = Astro.props;
                     </span>
                   </span>
                 )}
-              </button>
+              </Tag>
             </article>
           );
         })

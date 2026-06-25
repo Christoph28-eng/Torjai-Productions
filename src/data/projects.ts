@@ -49,6 +49,10 @@ export interface ProjectInstagram {
   posterSrc: string;
   /** Text alternativ scurt (accesibilitate). Opțional. */
   alt?: string;
+  /** Dacă `true`, NU se embeduiește în lightbox — la click se deschide `url` pe
+   *  Instagram (tab nou). Pentru reels pe care IG refuză să le embeduiască (ex. audio
+   *  licențiat → embed-ul ar afișa „content unavailable"). */
+  external?: boolean;
 }
 
 /** Un clip găzduit pe Vimeo sau YouTube. `id` = identificatorul din link
@@ -267,9 +271,9 @@ export const projects: Project[] = [
     instagram: [
       { url: 'https://www.instagram.com/reel/C6imOYVKl47/', posterSrc: '/projects/qfroost/ig-01.webp', alt: 'Quyen Van (qfroost) — reel' },
       { url: 'https://www.instagram.com/reel/DKZIJmFoWSF/', posterSrc: '/projects/qfroost/ig-02.webp', alt: 'Quyen Van (qfroost) — reel' },
-      // Slot ig-03 rezervat pentru reel-ul DNAfxKcIZkm — momentan are embedding-ul
-      // oprit pe Instagram (lightbox-ul ar afișa „content unavailable"). De re-adăugat
-      // după ce se activează „Allow embedding": { url: '.../reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp' }
+      // Reel DNAfxKcIZkm — IG refuză embedding-ul (EmbedBrokenMedia, probabil audio
+      // licențiat), deci e link-out: la click se deschide reel-ul pe Instagram (tab nou).
+      { url: 'https://www.instagram.com/reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp', alt: 'Quyen Van (qfroost) — reel (opens on Instagram)', external: true },
       { url: 'https://www.instagram.com/reel/DSj8MtYDS9q/', posterSrc: '/projects/qfroost/ig-04.webp', alt: 'Quyen Van (qfroost) — reel' },
       { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel' },
       { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel' },

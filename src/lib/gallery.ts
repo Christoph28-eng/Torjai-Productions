@@ -17,6 +17,9 @@ export type DisplayItem = {
   videoSrc?: string;
   /** Dacă `true`, clipul local pornește fără sunet (cu buton de volum în player). */
   muted?: boolean;
+  /** Dacă e setat, elementul NU deschide lightbox-ul — e un link extern (tab nou).
+   *  Folosit pentru reels Instagram care nu pot fi embeduite. */
+  href?: string;
   alt: string;
 };
 
@@ -91,6 +94,18 @@ export async function buildGallery({
 
   // Postări/reels Instagram — poster în grilă, card oficial (cu caption) în lightbox.
   for (const ig of instagram) {
+    // Link-out: reels pe care IG nu le embeduiește → la click se deschid pe Instagram.
+    if (ig.external) {
+      gallery.push({
+        type: 'video',
+        thumb: ig.posterSrc,
+        full: ig.posterSrc,
+        embed: '',
+        href: ig.url,
+        alt: ig.alt ?? videoAlt,
+      });
+      continue;
+    }
     const embed = instagramEmbed(ig);
     if (!embed) continue; // link nevalid → sărim peste
     gallery.push({
