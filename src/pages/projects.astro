@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { projects } from '../data/projects';
+import { projectsByRecency } from '../data/projects';
+
+// Ordine: cel mai recent actualizat → cel mai vechi (după `updatedAt`). Se aplică
+// la „ALL"; filtrele pe categorie doar ascund cardurile, deci păstrează aceeași ordine.
+const projects = projectsByRecency();
 
 // Eticheta = numele complet al categoriei. `data-filter` (lowercased) e
 // căutat în categoria proiectului, deci numele complet se potrivește exact.
@@ -58,10 +62,11 @@ const filters = ['ALL', 'NARRATIVE & BROADCAST', 'PROFILES', 'CAMPAIGNS & COMMER
       <div class="grid grid-flow-dense grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4" id="projects-grid">
         {
           projects.map((p, i) => {
-            // Layout pe poziție: la fiecare 8 carduri, poziția 5 (index 4) e MARE,
-            // poziția 8 (index 7) e LATĂ — exact ritmul primului bloc.
-            // Un `size` setat manual pe proiect are prioritate (override).
-            const layout = p.size ?? (i % 8 === 4 ? 'tall' : i % 8 === 7 ? 'wide' : undefined);
+            // Layout pe poziție: la fiecare 8 carduri, poziția 5 (index 4) e MARE (portret-safe).
+            // Placa LATĂ (16:9) o dăm DOAR explicit prin `size: 'wide'` pe proiectele cu
+            // copertă landscape — fiindcă grila se reordonează dinamic (după `updatedAt`),
+            // o copertă portret nimerită într-un slot lat ar fi tăiată urât.
+            const layout = p.size ?? (i % 8 === 4 ? 'tall' : undefined);
             return (
               <a
                 href={`/projects/${p.slug}`}

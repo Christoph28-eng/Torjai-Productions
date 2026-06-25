@@ -9,6 +9,13 @@ export interface Project {
   /** Calea către logo-ul REAL al clientului (ex. '/logos/nike-acg.svg'). Dacă lipsește, se afișează numele ca text. */
   clientLogo?: string;
   category: string;
+  /** Data+ora (ISO) când s-a adăugat ultima oară conținut nou la acest proiect.
+   *  Grila /projects e sortată DESC după acest câmp (cel mai recent = primul), atât
+   *  în „ALL" cât și în fiecare categorie. ⚠️ CONVENȚIE OBLIGATORIE: de fiecare dată
+   *  când adaugi conținut nou la un proiect (reel/clip/film/poză), pune aici
+   *  data+ora curentă ca proiectul să urce automat pe locul 1. Proiect nou = cel mai
+   *  recent `updatedAt` dintre toate. */
+  updatedAt: string;
   /** Imaginea-copertă (din listă). */
   src: string;
   alt: string;
@@ -98,6 +105,7 @@ export const projects: Project[] = [
   // ── Editorials & Culture ─────────────────────────────────────────
   {
     slug: 'berlinale',
+    updatedAt: '2026-06-20T11:00:00',
     title: 'BERLINALE',
     client: '',
     category: 'EDITORIALS & CULTURE',
@@ -107,6 +115,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'avanti',
+    updatedAt: '2026-06-20T10:55:00',
     title: 'AVANTI',
     client: '',
     category: 'EDITORIALS & CULTURE',
@@ -121,6 +130,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'spiky-cherry',
+    updatedAt: '2026-06-20T10:50:00',
     title: 'SPIKY CHERRY',
     client: '',
     category: 'EDITORIALS & CULTURE',
@@ -130,6 +140,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'ywl',
+    updatedAt: '2026-06-20T10:45:00',
     title: 'YWL',
     client: '',
     category: 'EDITORIALS & CULTURE',
@@ -148,6 +159,7 @@ export const projects: Project[] = [
   // ── Campaigns & Commercial ───────────────────────────────────────
   {
     slug: 'ekstrategy',
+    updatedAt: '2026-06-20T10:40:00',
     title: 'EKSTRATEGY & TEKIRDAĞ RAKI',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
@@ -166,6 +178,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'playground',
+    updatedAt: '2026-06-20T10:35:00',
     title: 'PLAYGROUND BOXING BERLIN',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
@@ -182,6 +195,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'paris-bar',
+    updatedAt: '2026-06-20T10:30:00',
     title: 'PARIS BAR',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
@@ -194,12 +208,15 @@ export const projects: Project[] = [
   },
   {
     slug: 'samsung-qfroost',
+    updatedAt: '2026-06-26T15:00:00',
     title: 'Samsung x Qfroost',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
     alt: 'Samsung × Qfroost — campaign reels.',
     src: '/projects/samsung-qfroost-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-800'],
+    size: 'wide', // coperta e 16:10 (landscape) → placă lată indiferent de poziție
+
     instagramProfile: 'qfroost',
     // Ordine: cel mai recent → cel mai vechi (după data postării pe Instagram).
     instagram: [
@@ -210,6 +227,7 @@ export const projects: Project[] = [
   // ── Narrative & Broadcast (University projects) ───────────────────
   {
     slug: 'first-day-at-work',
+    updatedAt: '2026-06-20T10:25:00',
     title: 'FIRST DAY AT WORK',
     client: '',
     category: 'NARRATIVE & BROADCAST',
@@ -227,6 +245,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'schichtwechsel',
+    updatedAt: '2026-06-20T10:20:00',
     title: 'SCHICHTWECHSEL',
     client: '',
     category: 'NARRATIVE & BROADCAST',
@@ -245,6 +264,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'pointe-shoes',
+    updatedAt: '2026-06-20T10:15:00',
     title: 'POINTE SHOES',
     client: '',
     category: 'NARRATIVE & BROADCAST',
@@ -258,6 +278,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'demonstration',
+    updatedAt: '2026-06-20T10:10:00',
     title: 'DEMONSTRATION',
     client: '',
     category: 'NARRATIVE & BROADCAST',
@@ -276,6 +297,7 @@ export const projects: Project[] = [
   // ── Profiles ─────────────────────────────────────────────────────
   {
     slug: 'qfroost',
+    updatedAt: '2026-06-25T18:00:00',
     title: 'Quyen Van (qfroost)',
     client: '',
     category: 'PROFILES',
@@ -300,6 +322,13 @@ export const projects: Project[] = [
 ];
 
 export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug);
+
+/** Proiectele sortate „cel mai recent actualizat → cel mai vechi" (după `updatedAt`).
+ *  Folosit de grila /projects: ordinea ALL e recency-first, iar filtrarea pe categorie
+ *  (client-side) păstrează ordinea DOM, deci și fiecare categorie iese recency-first.
+ *  Astfel, când adaugi conținut nou la un proiect și-i bumpezi `updatedAt`, sare pe locul 1. */
+export const projectsByRecency = (): Project[] =>
+  [...projects].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 
 // Galerie placeholder pentru paginile individuale (de înlocuit cu media reală per proiect).
 // `type` controlează filtrele PHOTO/VIDEO de pe pagina proiectului.
