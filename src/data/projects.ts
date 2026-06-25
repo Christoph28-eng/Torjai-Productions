@@ -165,13 +165,11 @@ export const projects: Project[] = [
     src: '/projects/playground-cover.webp',
     dots: ['bg-gray-300', 'bg-gray-800'],
     instagramProfile: 'playground_boxing_',
-    // Postere placeholder = coperta proiectului. Înlocuiește fiecare `posterSrc`
-    // cu un cadru propriu (ex. /projects/playground/ig-01.webp) când le ai.
     instagram: [
-      { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — Instagram post' },
-      { url: 'https://www.instagram.com/reel/DZX0XCwoXDx/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — reel' },
-      { url: 'https://www.instagram.com/reel/DZsRYamIniP/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — reel' },
-      { url: 'https://www.instagram.com/reel/DZ5EIpEI4Ze/', posterSrc: '/projects/playground-cover.webp', alt: 'Playground Boxing — reel' },
+      { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground/ig-01.webp', alt: 'Playground Boxing — Instagram post' },
+      { url: 'https://www.instagram.com/reel/DZX0XCwoXDx/', posterSrc: '/projects/playground/ig-02.webp', alt: 'Playground Boxing — reel' },
+      { url: 'https://www.instagram.com/reel/DZsRYamIniP/', posterSrc: '/projects/playground/ig-03.webp', alt: 'Playground Boxing — reel' },
+      { url: 'https://www.instagram.com/reel/DZ5EIpEI4Ze/', posterSrc: '/projects/playground/ig-04.webp', alt: 'Playground Boxing — reel' },
     ],
   },
   {
