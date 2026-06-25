@@ -197,7 +197,14 @@ export const projects: Project[] = [
     alt: 'First Day at Work (Horror) — film stills.',
     src: '/projects/first-day-at-work-cover.webp',
     dots: ['bg-gray-800', 'bg-gray-800'],
-    videos: [{ provider: 'youtube', id: '4cvxSFMQ79o', alt: 'First Day at Work' }],
+    videos: [
+      {
+        provider: 'youtube',
+        id: '4cvxSFMQ79o',
+        alt: 'First Day at Work',
+        posterSrc: '/projects/first-day-at-work-cover.webp',
+      },
+    ],
   },
   {
     slug: 'schichtwechsel',
