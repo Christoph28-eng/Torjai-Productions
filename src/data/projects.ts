@@ -185,7 +185,7 @@ export const projects: Project[] = [
     src: '/projects/paris-bar-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-300'],
     videos: [
-      { provider: 'youtube', id: '8UpcFhlVdyc', posterSrc: '/projects/paris-bar/clip-01-poster.webp', alt: 'Paris Bar — short film' },
+      { provider: 'youtube', id: '8UpcFhlVdyc', posterSrc: '/projects/paris-bar-cover.webp', alt: 'Paris Bar — short film' },
     ],
   },
   // ── Narrative & Broadcast (University projects) ───────────────────
