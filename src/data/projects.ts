@@ -25,6 +25,9 @@ export interface Project {
   /** Handle-ul contului Instagram (fără @), ex. 'playground_boxing_'. Dacă e setat,
    *  pe pagina proiectului apare un buton „View on Instagram" către profil. */
   instagramProfile?: string;
+  /** Buton extern în hero-ul proiectului (ex. site-ul clientului): duce la `url`
+   *  și afișează `label`. Poziționat ca butonul „View on Instagram". */
+  website?: { url: string; label: string };
 }
 
 /** Un clip scurt self-hostat (MP4 servit din public/). */
@@ -147,6 +150,7 @@ export const projects: Project[] = [
     alt: 'Ekstrategy × Tekirdağ Rakı — commercial.',
     src: '/projects/ekstrategy-cover.webp',
     dots: ['bg-gray-800', 'bg-technical-amber'],
+    website: { url: 'https://ekstrategy.com', label: 'Explore Ekstrategy' },
     clips: [
       { src: '/projects/ekstrategy/clip-01.mp4', poster: '/projects/ekstrategy/clip-01-poster.webp' },
     ],

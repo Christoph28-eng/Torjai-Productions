@@ -78,7 +78,7 @@ const gallery = await buildGallery({
     <p
       class:list={[
         'font-label-technical text-label-technical uppercase tracking-widest text-gray-500',
-        project.instagramProfile ? 'mb-4' : 'mb-8',
+        project.instagramProfile || project.website ? 'mb-4' : 'mb-8',
       ]}
     >
       {project.client ? `${project.title} · ${project.category}` : project.category}
@@ -96,6 +96,22 @@ const gallery = await buildGallery({
             open_in_new
           </span>
           View on Instagram
+        </a>
+      )
+    }
+
+    {
+      project.website && (
+        <a
+          href={project.website.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-300 px-5 py-2 font-label-technical text-label-technical uppercase tracking-widest text-gray-700 transition-colors hover:border-black hover:text-black"
+        >
+          <span class="material-symbols-outlined text-base" aria-hidden="true">
+            open_in_new
+          </span>
+          {project.website.label}
         </a>
       )
     }
