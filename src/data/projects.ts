@@ -274,6 +274,7 @@ export const projects: Project[] = [
       { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel' },
       { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel' },
       { url: 'https://www.instagram.com/p/CxPpAaQqVv7/', posterSrc: '/projects/qfroost/ig-07.webp', alt: 'Quyen Van (qfroost) — post' },
+      { url: 'https://www.instagram.com/p/DTfKyIXjdio/', posterSrc: '/projects/qfroost/ig-08.webp', alt: 'Quyen Van (qfroost) — Kendama Postcards' },
     ],
   },
 ];
