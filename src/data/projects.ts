@@ -214,7 +214,15 @@ export const projects: Project[] = [
     alt: 'Schichtwechsel (Shift Change) — film stills.',
     src: '/projects/schichtwechsel-cover.webp',
     dots: ['bg-gray-300', 'bg-technical-amber'],
-    videos: [{ provider: 'youtube', id: 'iCXxy0Bbyj8', alt: 'Schichtwechsel' }],
+    size: 'wide', // thumbnail 16:9 → placă lată în grilă (ca titlul să se vadă întreg)
+    videos: [
+      {
+        provider: 'youtube',
+        id: 'iCXxy0Bbyj8',
+        alt: 'Schichtwechsel',
+        posterSrc: '/projects/schichtwechsel-cover.webp',
+      },
+    ],
   },
   {
     slug: 'pointe-shoes',
