@@ -46,8 +46,10 @@ export interface ProjectClip {
   /** Calea posterului afișat în grilă (ex. '/projects/avanti/clip-01-poster.webp'). */
   poster: string;
   alt?: string;
-  /** Data (ISO, ex. '2026-06-26') când a fost adăugat/postat. Media cu `date` urcă
-   *  automat în capul galeriei (cel mai recent primul). Vezi [[gallery-new-media-first]]. */
+  /** Data (ISO, ex. '2026-06-26') la care fișierul a fost ADĂUGAT în proiect — adică
+   *  data la care l-am pus eu aici, NU data postării/clipului în sine. Media cu `date`
+   *  urcă automat în capul galeriei (cea mai recent adăugată prima). Pune mereu data
+   *  curentă când adaugi ceva nou. Vezi [[gallery-new-media-first]]. */
   date?: string;
 }
 
@@ -65,8 +67,10 @@ export interface ProjectInstagram {
    *  Instagram (tab nou). Pentru reels pe care IG refuză să le embeduiască (ex. audio
    *  licențiat → embed-ul ar afișa „content unavailable"). */
   external?: boolean;
-  /** Data (ISO, ex. '2026-06-26') când a fost adăugat/postat. Media cu `date` urcă
-   *  automat în capul galeriei (cel mai recent primul). Vezi [[gallery-new-media-first]]. */
+  /** Data (ISO, ex. '2026-06-26') la care fișierul a fost ADĂUGAT în proiect — adică
+   *  data la care l-am pus eu aici, NU data postării/clipului în sine. Media cu `date`
+   *  urcă automat în capul galeriei (cea mai recent adăugată prima). Pune mereu data
+   *  curentă când adaugi ceva nou. Vezi [[gallery-new-media-first]]. */
   date?: string;
 }
 
@@ -88,8 +92,10 @@ export interface ProjectVideo {
   /** Opțional: cale directă către un poster servit din public/ (ex. '/projects/x-cover.webp').
    *  Are prioritate față de `poster` și de thumbnail-ul automat. Nu apare ca poză separată. */
   posterSrc?: string;
-  /** Data (ISO, ex. '2026-06-26') când a fost adăugat/postat. Media cu `date` urcă
-   *  automat în capul galeriei (cel mai recent primul). Vezi [[gallery-new-media-first]]. */
+  /** Data (ISO, ex. '2026-06-26') la care fișierul a fost ADĂUGAT în proiect — adică
+   *  data la care l-am pus eu aici, NU data postării/clipului în sine. Media cu `date`
+   *  urcă automat în capul galeriei (cea mai recent adăugată prima). Pune mereu data
+   *  curentă când adaugi ceva nou. Vezi [[gallery-new-media-first]]. */
   date?: string;
 }
 
@@ -207,8 +213,9 @@ export const projects: Project[] = [
     dots: ['bg-gray-300', 'bg-gray-800'],
     instagramProfile: 'playground_boxing_',
     instagram: [
-      // `date` setat → reel-ul nou urcă automat primul în galerie.
-      { url: 'https://www.instagram.com/reel/DaC-4i5IcN-/', posterSrc: '/projects/playground/ig-05.webp', alt: 'Playground Boxing — New Era reel (Tisini vs Shekari)', date: '2026-06-26' },
+      // `date` = data adăugării în proiect → urcă automat primul în galerie.
+      // Coperta = coverul reel-ului de pe Instagram (poster „Tisini — Debut, 17 Jul").
+      { url: 'https://www.instagram.com/reel/DaC-4i5IcN-/', posterSrc: '/projects/playground/ig-05.webp', alt: 'Playground Boxing — reel (Jonathan Tisini, 17 Jul)', date: '2026-06-26' },
       { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground/ig-01.webp', alt: 'Playground Boxing — Instagram post' },
       { url: 'https://www.instagram.com/reel/DZX0XCwoXDx/', posterSrc: '/projects/playground/ig-02.webp', alt: 'Playground Boxing — reel' },
       { url: 'https://www.instagram.com/reel/DZsRYamIniP/', posterSrc: '/projects/playground/ig-03.webp', alt: 'Playground Boxing — reel' },
@@ -240,10 +247,11 @@ export const projects: Project[] = [
     size: 'wide', // coperta e 16:10 (landscape) → placă lată indiferent de poziție
 
     instagramProfile: 'qfroost',
-    // `date` = data postării pe Instagram; galeria se sortează automat newest-first.
+    // Adăugate în batch (la crearea proiectului), deci fără `date` → păstrează ordinea
+    // din listă. Trailing = data postării IG (doar referință, NU cheie de sortare).
     instagram: [
-      { url: 'https://www.instagram.com/reel/DWgYpBtjVW_/', posterSrc: '/projects/samsung-qfroost/ig-01.webp', alt: 'Samsung × Qfroost — reel', date: '2026-03-30' },
-      { url: 'https://www.instagram.com/reel/DONoAh2jEYf/', posterSrc: '/projects/samsung-qfroost/ig-02.webp', alt: 'Samsung × Qfroost — reel', date: '2025-09-05' },
+      { url: 'https://www.instagram.com/reel/DWgYpBtjVW_/', posterSrc: '/projects/samsung-qfroost/ig-01.webp', alt: 'Samsung × Qfroost — reel' }, // postat 2026-03-30
+      { url: 'https://www.instagram.com/reel/DONoAh2jEYf/', posterSrc: '/projects/samsung-qfroost/ig-02.webp', alt: 'Samsung × Qfroost — reel' }, // postat 2025-09-05
     ],
   },
   // ── Narrative & Broadcast (University projects) ───────────────────
@@ -347,18 +355,19 @@ export const projects: Project[] = [
     src: '/projects/qfroost-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-800'],
     instagramProfile: 'qfroost',
-    // `date` = data postării pe Instagram; galeria se sortează automat newest-first.
+    // Adăugate în batch (la crearea proiectului), deci fără `date` → păstrează ordinea
+    // din listă. Trailing = data postării IG (doar referință, NU cheie de sortare).
     instagram: [
-      { url: 'https://www.instagram.com/p/DTfKyIXjdio/', posterSrc: '/projects/qfroost/ig-08.webp', alt: 'Quyen Van (qfroost) — Kendama Postcards', date: '2026-01-14' },
-      { url: 'https://www.instagram.com/reel/DSj8MtYDS9q/', posterSrc: '/projects/qfroost/ig-04.webp', alt: 'Quyen Van (qfroost) — reel', date: '2025-12-22' },
+      { url: 'https://www.instagram.com/p/DTfKyIXjdio/', posterSrc: '/projects/qfroost/ig-08.webp', alt: 'Quyen Van (qfroost) — Kendama Postcards' }, // postat 2026-01-14
+      { url: 'https://www.instagram.com/reel/DSj8MtYDS9q/', posterSrc: '/projects/qfroost/ig-04.webp', alt: 'Quyen Van (qfroost) — reel' }, // postat 2025-12-22
       // Reel DNAfxKcIZkm — IG refuză embedding-ul (EmbedBrokenMedia, probabil audio
       // licențiat), deci e link-out: la click se deschide reel-ul pe Instagram (tab nou).
-      { url: 'https://www.instagram.com/reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp', alt: 'Quyen Van (qfroost) — reel (opens on Instagram)', external: true, date: '2025-09-01' }, // dată aproximativă (mijloc 2025)
-      { url: 'https://www.instagram.com/reel/DKZIJmFoWSF/', posterSrc: '/projects/qfroost/ig-02.webp', alt: 'Quyen Van (qfroost) — reel', date: '2025-06-02' },
-      { url: 'https://www.instagram.com/reel/C6imOYVKl47/', posterSrc: '/projects/qfroost/ig-01.webp', alt: 'Quyen Van (qfroost) — reel', date: '2024-05-04' },
-      { url: 'https://www.instagram.com/p/CxPpAaQqVv7/', posterSrc: '/projects/qfroost/ig-07.webp', alt: 'Quyen Van (qfroost) — post', date: '2023-09-16' },
-      { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel', date: '2023-09-15' },
-      { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel', date: '2023-08-17' },
+      { url: 'https://www.instagram.com/reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp', alt: 'Quyen Van (qfroost) — reel (opens on Instagram)', external: true }, // postat ~mijloc 2025
+      { url: 'https://www.instagram.com/reel/DKZIJmFoWSF/', posterSrc: '/projects/qfroost/ig-02.webp', alt: 'Quyen Van (qfroost) — reel' }, // postat 2025-06-02
+      { url: 'https://www.instagram.com/reel/C6imOYVKl47/', posterSrc: '/projects/qfroost/ig-01.webp', alt: 'Quyen Van (qfroost) — reel' }, // postat 2024-05-04
+      { url: 'https://www.instagram.com/p/CxPpAaQqVv7/', posterSrc: '/projects/qfroost/ig-07.webp', alt: 'Quyen Van (qfroost) — post' }, // postat 2023-09-16
+      { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel' }, // postat 2023-09-15
+      { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel' }, // postat 2023-08-17
     ],
   },
 ];
