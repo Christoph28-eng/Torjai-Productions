@@ -118,6 +118,7 @@ export const projects: Project[] = [
     alt: 'Berlinale — Berlin International Film Festival, photography.',
     src: '/projects/berlinale-cover.webp',
     dots: ['bg-gray-300', 'bg-technical-amber'],
+    website: { url: 'https://www.berlinale.de/en/2025/topics/on-scene-2025.html', label: 'Official Berlinale Gallery' },
   },
   {
     slug: 'avanti',
