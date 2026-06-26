@@ -111,7 +111,7 @@ export const projects: Project[] = [
   // ── Editorials & Culture ─────────────────────────────────────────
   {
     slug: 'berlinale',
-    updatedAt: '2026-06-20T11:00:00',
+    updatedAt: '2026-06-26T17:30:00',
     title: 'BERLINALE',
     client: '',
     category: 'EDITORIALS & CULTURE',
@@ -119,6 +119,9 @@ export const projects: Project[] = [
     src: '/projects/berlinale-cover.webp',
     dots: ['bg-gray-300', 'bg-technical-amber'],
     website: { url: 'https://www.berlinale.de/en/2025/topics/on-scene-2025.html', label: 'Official Berlinale Gallery' },
+    instagram: [
+      { url: 'https://www.instagram.com/p/DGImw8aouMS/', posterSrc: '/projects/berlinale/ig-01.webp', alt: 'Berlinale — Instagram post' },
+    ],
   },
   {
     slug: 'avanti',
