@@ -41,9 +41,6 @@ export interface BuildGalleryOptions {
   /** Dacă `false`, NU se mai adaugă placeholder-ele când proiectul n-are media reală
    *  (ex. proiecte care doar fac link extern — conținutul stă pe alt site). Implicit `true`. */
   fallback?: boolean;
-  /** Dacă `true`, postările Instagram apar ÎNAINTEA pozelor (în capul galeriei),
-   *  nu la final. Implicit `false`. */
-  instagramFirst?: boolean;
 }
 
 /**
@@ -59,7 +56,6 @@ export async function buildGallery({
   videoAlt,
   fallbackAlt,
   fallback = true,
-  instagramFirst = false,
 }: BuildGalleryOptions): Promise<DisplayItem[]> {
   // Ordine după numele fișierului (numeric: 01, 02, 10 ...).
   const photos = [...localPhotos].sort((a, b) =>
@@ -67,13 +63,19 @@ export async function buildGallery({
   );
   const posterByName = new Map(photos.map((p) => [p.name, p.image]));
 
-  const gallery: DisplayItem[] = [];
+  // Construim întâi lista în ordinea „de bază" (poze → video → clipuri → Instagram),
+  // fiecare element cu un `date` opțional. La final sortăm: elementele cu `date`
+  // urcă în capul galeriei (cel mai recent primul), iar restul (fără dată — pozele
+  // și media veche) rămân DUPĂ ele, în ordinea lor existentă. Așa, orice media nou
+  // adăugat (cu `date` setat) apare automat primul în galeria proiectului, fără să
+  // rearanjăm ce e deja aici. Vezi convenția din src/data/projects.ts.
+  const entries: { date?: string; item: DisplayItem }[] = [];
 
   // Poze locale (thumb mic pentru grilă + versiune mare pentru lightbox).
   for (const { image } of photos) {
     const thumb = await getImage({ src: image, width: 900, format: 'webp' });
     const full = await getImage({ src: image, width: 2200, format: 'webp' });
-    gallery.push({ type: 'photo', thumb: thumb.src, full: full.src, embed: '', alt: photoAlt });
+    entries.push({ item: { type: 'photo', thumb: thumb.src, full: full.src, embed: '', alt: photoAlt } });
   }
 
   // Clipuri video (Vimeo/YouTube) — filmele proiectului, înaintea clipurilor scurte.
@@ -85,49 +87,45 @@ export async function buildGallery({
       const p = await getImage({ src: posterByName.get(v.poster)!, width: 900, format: 'webp' });
       thumb = p.src;
     }
-    gallery.push({ type: 'video', thumb, full: thumb, embed: videoEmbed(v), alt: v.alt ?? videoAlt });
+    entries.push({ date: v.date, item: { type: 'video', thumb, full: thumb, embed: videoEmbed(v), alt: v.alt ?? videoAlt } });
   }
 
   // Clipuri scurte self-hostate (MP4 din public/) — redate local în lightbox.
   for (const c of clips) {
-    gallery.push({
-      type: 'video',
-      thumb: c.poster,
-      full: c.poster,
-      embed: '',
-      videoSrc: c.src,
-      alt: c.alt ?? videoAlt,
+    entries.push({
+      date: c.date,
+      item: { type: 'video', thumb: c.poster, full: c.poster, embed: '', videoSrc: c.src, alt: c.alt ?? videoAlt },
     });
   }
 
   // Postări/reels Instagram — poster în grilă, card oficial (cu caption) în lightbox.
-  // Cu `instagramFirst` apar în capul galeriei (înaintea pozelor), altfel la final.
-  const igItems: DisplayItem[] = [];
   for (const ig of instagram) {
     // Link-out: reels pe care IG nu le embeduiește → la click se deschid pe Instagram.
     if (ig.external) {
-      igItems.push({
-        type: 'video',
-        thumb: ig.posterSrc,
-        full: ig.posterSrc,
-        embed: '',
-        href: ig.url,
-        alt: ig.alt ?? videoAlt,
+      entries.push({
+        date: ig.date,
+        item: { type: 'video', thumb: ig.posterSrc, full: ig.posterSrc, embed: '', href: ig.url, alt: ig.alt ?? videoAlt },
       });
       continue;
     }
     const embed = instagramEmbed(ig);
     if (!embed) continue; // link nevalid → sărim peste
-    igItems.push({
-      type: 'video',
-      thumb: ig.posterSrc,
-      full: ig.posterSrc,
-      embed,
-      alt: ig.alt ?? videoAlt,
+    entries.push({
+      date: ig.date,
+      item: { type: 'video', thumb: ig.posterSrc, full: ig.posterSrc, embed, alt: ig.alt ?? videoAlt },
     });
   }
-  if (instagramFirst) gallery.unshift(...igItems);
-  else gallery.push(...igItems);
+
+  // Sortare stabilă: media cu `date` în față (cel mai recent primul); fără `date`
+  // rămâne în ordinea de bază, după cele datate. (Array.sort e stabil în JS.)
+  entries.sort((a, b) => {
+    if (a.date && b.date) return b.date.localeCompare(a.date);
+    if (a.date) return -1;
+    if (b.date) return 1;
+    return 0;
+  });
+
+  const gallery: DisplayItem[] = entries.map((e) => e.item);
 
   // Fallback placeholders (ca pagina să nu fie goală până se adaugă media reală).
   if (gallery.length === 0 && fallback) {

@@ -31,8 +31,6 @@ export interface Project {
   clips?: ProjectClip[];
   /** Postări/reels Instagram embeduite (apar în galeria proiectului, deschise în lightbox). */
   instagram?: ProjectInstagram[];
-  /** Dacă `true`, postările Instagram apar ÎNAINTEA pozelor în galerie (în cap), nu la final. */
-  instagramFirst?: boolean;
   /** Handle-ul contului Instagram (fără @), ex. 'playground_boxing_'. Dacă e setat,
    *  pe pagina proiectului apare un buton „View on Instagram" către profil. */
   instagramProfile?: string;
@@ -48,6 +46,9 @@ export interface ProjectClip {
   /** Calea posterului afișat în grilă (ex. '/projects/avanti/clip-01-poster.webp'). */
   poster: string;
   alt?: string;
+  /** Data (ISO, ex. '2026-06-26') când a fost adăugat/postat. Media cu `date` urcă
+   *  automat în capul galeriei (cel mai recent primul). Vezi [[gallery-new-media-first]]. */
+  date?: string;
 }
 
 /** O postare sau un reel Instagram embeduit. Spre deosebire de YouTube/Vimeo,
@@ -64,6 +65,9 @@ export interface ProjectInstagram {
    *  Instagram (tab nou). Pentru reels pe care IG refuză să le embeduiască (ex. audio
    *  licențiat → embed-ul ar afișa „content unavailable"). */
   external?: boolean;
+  /** Data (ISO, ex. '2026-06-26') când a fost adăugat/postat. Media cu `date` urcă
+   *  automat în capul galeriei (cel mai recent primul). Vezi [[gallery-new-media-first]]. */
+  date?: string;
 }
 
 /** Un clip găzduit pe Vimeo, YouTube sau nexx.cloud (platforma ALEX Berlin).
@@ -84,6 +88,9 @@ export interface ProjectVideo {
   /** Opțional: cale directă către un poster servit din public/ (ex. '/projects/x-cover.webp').
    *  Are prioritate față de `poster` și de thumbnail-ul automat. Nu apare ca poză separată. */
   posterSrc?: string;
+  /** Data (ISO, ex. '2026-06-26') când a fost adăugat/postat. Media cu `date` urcă
+   *  automat în capul galeriei (cel mai recent primul). Vezi [[gallery-new-media-first]]. */
+  date?: string;
 }
 
 // URL-uri placeholder (Stitch) — de înlocuit cu media reală Torjai.
@@ -122,9 +129,9 @@ export const projects: Project[] = [
     dots: ['bg-gray-300', 'bg-technical-amber'],
     website: { url: 'https://www.berlinale.de/en/2025/topics/on-scene-2025.html', label: 'Official Berlinale Gallery' },
     instagram: [
-      { url: 'https://www.instagram.com/p/DGImw8aouMS/', posterSrc: '/projects/berlinale/ig-01.webp', alt: 'Berlinale — Instagram post' },
+      // `date` setat → postarea urcă automat prima în galerie (înaintea pozelor).
+      { url: 'https://www.instagram.com/p/DGImw8aouMS/', posterSrc: '/projects/berlinale/ig-01.webp', alt: 'Berlinale — Instagram post', date: '2026-06-26' },
     ],
-    instagramFirst: true, // postarea IG deschide galeria (placa 1); fosta poză 01 e mutată la final
   },
   {
     slug: 'avanti',
@@ -199,9 +206,9 @@ export const projects: Project[] = [
     src: '/projects/playground-cover.webp',
     dots: ['bg-gray-300', 'bg-gray-800'],
     instagramProfile: 'playground_boxing_',
-    instagramFirst: true, // media nou adăugat apare prima în galeria proiectului (clipul cel mai recent în cap)
     instagram: [
-      { url: 'https://www.instagram.com/reel/DaC-4i5IcN-/', posterSrc: '/projects/playground/ig-05.webp', alt: 'Playground Boxing — New Era reel (Tisini vs Shekari)' },
+      // `date` setat → reel-ul nou urcă automat primul în galerie.
+      { url: 'https://www.instagram.com/reel/DaC-4i5IcN-/', posterSrc: '/projects/playground/ig-05.webp', alt: 'Playground Boxing — New Era reel (Tisini vs Shekari)', date: '2026-06-26' },
       { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground/ig-01.webp', alt: 'Playground Boxing — Instagram post' },
       { url: 'https://www.instagram.com/reel/DZX0XCwoXDx/', posterSrc: '/projects/playground/ig-02.webp', alt: 'Playground Boxing — reel' },
       { url: 'https://www.instagram.com/reel/DZsRYamIniP/', posterSrc: '/projects/playground/ig-03.webp', alt: 'Playground Boxing — reel' },
