@@ -226,6 +226,17 @@ export const projects: Project[] = [
   },
   // ── Narrative & Broadcast (University projects) ───────────────────
   {
+    slug: 'tv',
+    updatedAt: '2026-06-26T12:00:00',
+    title: 'TV',
+    client: 'ALEX Berlin',
+    category: 'NARRATIVE & BROADCAST',
+    alt: 'TV — Vierfalt der Talk, NextFrame pe ALEX Berlin.',
+    src: '/projects/tv-cover.webp',
+    dots: ['bg-gray-800', 'bg-gray-300'],
+    website: { url: 'https://www.alex-berlin.de/videos/2090026-vierfalt-der-talk-nextframe', label: 'Watch on ALEX Berlin' },
+  },
+  {
     slug: 'first-day-at-work',
     updatedAt: '2026-06-20T10:25:00',
     title: 'FIRST DAY AT WORK',
