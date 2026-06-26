@@ -20,7 +20,9 @@ export interface Project {
   src: string;
   alt: string;
   dots: [string, string];
-  size?: 'tall' | 'wide';
+  /** Forma plăcii din grilă: `tall` (2×2 portret), `wide` (landscape 16:9/16:10),
+   *  `cinema` (landscape cinematografic 2:1 — pentru copertele de film fără bare negre). */
+  size?: 'tall' | 'wide' | 'cinema';
   /** Clipurile video ale proiectului (Vimeo/YouTube). Pozele NU se listează aici —
    *  se pun ca fișiere în src/assets/projects/<slug>/ și sunt preluate automat. */
   videos?: ProjectVideo[];
@@ -276,7 +278,7 @@ export const projects: Project[] = [
     alt: 'Schichtwechsel (Shift Change) — film stills.',
     src: '/projects/schichtwechsel-cover.webp',
     dots: ['bg-gray-300', 'bg-technical-amber'],
-    size: 'wide', // thumbnail 16:9 → placă lată în grilă (ca titlul să se vadă întreg)
+    size: 'cinema', // coperta e cinematografică 2:1 (fără bare negre) → placă 2:1, titlul întreg
     videos: [
       {
         provider: 'youtube',

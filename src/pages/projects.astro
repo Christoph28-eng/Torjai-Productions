@@ -74,7 +74,7 @@ const filters = ['ALL', 'NARRATIVE & BROADCAST', 'PROFILES', 'CAMPAIGNS & COMMER
                 class:list={[
                   'group flex cursor-pointer flex-col gap-3',
                   layout === 'tall' && 'lg:col-span-2 lg:row-span-2',
-                  layout === 'wide' && 'lg:col-span-2',
+                  (layout === 'wide' || layout === 'cinema') && 'lg:col-span-2',
                 ]}
               >
                 <div
@@ -82,9 +82,11 @@ const filters = ['ALL', 'NARRATIVE & BROADCAST', 'PROFILES', 'CAMPAIGNS & COMMER
                     'card-image-wrapper',
                     layout === 'tall'
                       ? 'h-full min-h-[600px]'
-                      : layout === 'wide'
-                        ? 'aspect-[16/9] lg:aspect-[16/10]'
-                        : 'aspect-[3/4]',
+                      : layout === 'cinema'
+                        ? 'aspect-[2/1]'
+                        : layout === 'wide'
+                          ? 'aspect-[16/9] lg:aspect-[16/10]'
+                          : 'aspect-[3/4]',
                   ]}
                   style="border-radius: 45px;"
                 >
