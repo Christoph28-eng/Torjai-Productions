@@ -62,11 +62,15 @@ export interface ProjectInstagram {
   external?: boolean;
 }
 
-/** Un clip găzduit pe Vimeo sau YouTube. `id` = identificatorul din link
- *  (Vimeo: vimeo.com/123456789 → id '123456789';
- *   YouTube: youtu.be/AbCdEfGhIjk → id 'AbCdEfGhIjk'). */
+/** Un clip găzduit pe Vimeo, YouTube sau nexx.cloud (platforma ALEX Berlin).
+ *  `id` = identificatorul din link:
+ *   - Vimeo: vimeo.com/123456789 → id '123456789';
+ *   - YouTube: youtu.be/AbCdEfGhIjk → id 'AbCdEfGhIjk';
+ *   - nexx: din URL-ul de embed `embed.nexx.cloud/<domeniu>/video/<hash>` se ia
+ *     partea de după host → id '<domeniu>/video/<hash>' (ex. '12278/video/IO7T58LK86UU6VG').
+ *     nexx NU oferă thumbnail automat, deci `posterSrc` e obligatoriu pentru nexx. */
 export interface ProjectVideo {
-  provider: 'vimeo' | 'youtube';
+  provider: 'vimeo' | 'youtube' | 'nexx';
   id: string;
   /** Text alternativ scurt (accesibilitate). Opțional. */
   alt?: string;
@@ -227,14 +231,23 @@ export const projects: Project[] = [
   // ── Narrative & Broadcast (University projects) ───────────────────
   {
     slug: 'tv',
-    updatedAt: '2026-06-26T12:00:00',
+    updatedAt: '2026-06-26T16:00:00',
     title: 'TV',
     client: 'ALEX Berlin',
     category: 'NARRATIVE & BROADCAST',
     alt: 'TV — Vierfalt der Talk, NextFrame pe ALEX Berlin.',
     src: '/projects/tv-cover.webp',
     dots: ['bg-gray-800', 'bg-gray-300'],
-    website: { url: 'https://www.alex-berlin.de/videos/2090026-vierfalt-der-talk-nextframe', label: 'Watch on ALEX Berlin' },
+    // Episodul „Vierfalt — der Talk: NextFrame" rulează pe platforma ALEX Berlin (nexx.cloud).
+    // Apare ca un clip în galerie; la click se deschide playerul nexx în lightbox.
+    videos: [
+      {
+        provider: 'nexx',
+        id: '12278/video/IO7T58LK86UU6VG',
+        posterSrc: '/projects/tv/clip-01-poster.webp',
+        alt: 'Vierfalt — der Talk: NextFrame (ALEX Berlin)',
+      },
+    ],
   },
   {
     slug: 'first-day-at-work',
@@ -372,6 +385,7 @@ export const galleryPool: GalleryItem[] = [
 /** URL-ul imaginii-thumbnail pentru un clip (afișată în grilă). */
 export function videoThumb(v: ProjectVideo): string {
   if (v.provider === 'youtube') return `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
+  if (v.provider === 'nexx') return ''; // nexx n-are thumbnail automat → se folosește `posterSrc`
   return `https://vumbnail.com/${v.id}.jpg`; // thumbnail Vimeo (serviciu public gratuit)
 }
 
@@ -379,6 +393,7 @@ export function videoThumb(v: ProjectVideo): string {
 export function videoEmbed(v: ProjectVideo): string {
   if (v.provider === 'youtube')
     return `https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0`;
+  if (v.provider === 'nexx') return `https://embed.nexx.cloud/${v.id}`; // ex. /12278/video/IO7T58LK86UU6VG
   return `https://player.vimeo.com/video/${v.id}?autoplay=1`;
 }
 
