@@ -41,6 +41,9 @@ export interface BuildGalleryOptions {
   /** Dacă `false`, NU se mai adaugă placeholder-ele când proiectul n-are media reală
    *  (ex. proiecte care doar fac link extern — conținutul stă pe alt site). Implicit `true`. */
   fallback?: boolean;
+  /** Dacă `true`, postările Instagram apar ÎNAINTEA pozelor (în capul galeriei),
+   *  nu la final. Implicit `false`. */
+  instagramFirst?: boolean;
 }
 
 /**
@@ -56,6 +59,7 @@ export async function buildGallery({
   videoAlt,
   fallbackAlt,
   fallback = true,
+  instagramFirst = false,
 }: BuildGalleryOptions): Promise<DisplayItem[]> {
   // Ordine după numele fișierului (numeric: 01, 02, 10 ...).
   const photos = [...localPhotos].sort((a, b) =>
@@ -97,10 +101,12 @@ export async function buildGallery({
   }
 
   // Postări/reels Instagram — poster în grilă, card oficial (cu caption) în lightbox.
+  // Cu `instagramFirst` apar în capul galeriei (înaintea pozelor), altfel la final.
+  const igItems: DisplayItem[] = [];
   for (const ig of instagram) {
     // Link-out: reels pe care IG nu le embeduiește → la click se deschid pe Instagram.
     if (ig.external) {
-      gallery.push({
+      igItems.push({
         type: 'video',
         thumb: ig.posterSrc,
         full: ig.posterSrc,
@@ -112,7 +118,7 @@ export async function buildGallery({
     }
     const embed = instagramEmbed(ig);
     if (!embed) continue; // link nevalid → sărim peste
-    gallery.push({
+    igItems.push({
       type: 'video',
       thumb: ig.posterSrc,
       full: ig.posterSrc,
@@ -120,6 +126,8 @@ export async function buildGallery({
       alt: ig.alt ?? videoAlt,
     });
   }
+  if (instagramFirst) gallery.unshift(...igItems);
+  else gallery.push(...igItems);
 
   // Fallback placeholders (ca pagina să nu fie goală până se adaugă media reală).
   if (gallery.length === 0 && fallback) {

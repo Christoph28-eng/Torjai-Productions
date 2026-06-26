@@ -31,6 +31,8 @@ export interface Project {
   clips?: ProjectClip[];
   /** Postări/reels Instagram embeduite (apar în galeria proiectului, deschise în lightbox). */
   instagram?: ProjectInstagram[];
+  /** Dacă `true`, postările Instagram apar ÎNAINTEA pozelor în galerie (în cap), nu la final. */
+  instagramFirst?: boolean;
   /** Handle-ul contului Instagram (fără @), ex. 'playground_boxing_'. Dacă e setat,
    *  pe pagina proiectului apare un buton „View on Instagram" către profil. */
   instagramProfile?: string;
@@ -122,6 +124,7 @@ export const projects: Project[] = [
     instagram: [
       { url: 'https://www.instagram.com/p/DGImw8aouMS/', posterSrc: '/projects/berlinale/ig-01.webp', alt: 'Berlinale — Instagram post' },
     ],
+    instagramFirst: true, // postarea IG deschide galeria (placa 1); fosta poză 01 e mutată la final
   },
   {
     slug: 'avanti',
