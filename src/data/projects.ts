@@ -234,7 +234,7 @@ export const projects: Project[] = [
   {
     slug: 'tv',
     updatedAt: '2026-06-26T16:00:00',
-    title: 'TV',
+    title: 'NextFrame',
     client: 'ALEX Berlin',
     category: 'NARRATIVE & BROADCAST',
     alt: 'TV — Vierfalt der Talk, NextFrame pe ALEX Berlin.',
