@@ -191,7 +191,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'playground',
-    updatedAt: '2026-06-20T10:35:00',
+    updatedAt: '2026-06-26T18:00:00',
     title: 'PLAYGROUND BOXING BERLIN',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
@@ -199,7 +199,9 @@ export const projects: Project[] = [
     src: '/projects/playground-cover.webp',
     dots: ['bg-gray-300', 'bg-gray-800'],
     instagramProfile: 'playground_boxing_',
+    instagramFirst: true, // media nou adăugat apare prima în galeria proiectului (clipul cel mai recent în cap)
     instagram: [
+      { url: 'https://www.instagram.com/reel/DaC-4i5IcN-/', posterSrc: '/projects/playground/ig-05.webp', alt: 'Playground Boxing — New Era reel (Tisini vs Shekari)' },
       { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground/ig-01.webp', alt: 'Playground Boxing — Instagram post' },
       { url: 'https://www.instagram.com/reel/DZX0XCwoXDx/', posterSrc: '/projects/playground/ig-02.webp', alt: 'Playground Boxing — reel' },
       { url: 'https://www.instagram.com/reel/DZsRYamIniP/', posterSrc: '/projects/playground/ig-03.webp', alt: 'Playground Boxing — reel' },
