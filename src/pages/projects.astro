@@ -94,23 +94,6 @@ const filters = ['ALL', 'NARRATIVE & BROADCAST', 'PROFILES', 'CAMPAIGNS & COMMER
                     src={p.src}
                     style="border-radius: 45px;"
                   />
-                  {p.client && (
-                    <div
-                      class:list={[
-                        'pointer-events-none absolute flex items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md',
-                        layout ? 'bottom-8 right-8 px-5 py-2.5' : 'bottom-6 right-6 px-4 py-2',
-                      ]}
-                    >
-                      <span
-                        class:list={[
-                          'font-label-technical font-bold uppercase text-white',
-                          layout ? 'text-[11px] tracking-[0.25em]' : 'text-[10px] tracking-[0.2em]',
-                        ]}
-                      >
-                        {p.client}
-                      </span>
-                    </div>
-                  )}
                 </div>
                 <div class="flex items-start justify-between font-label-technical text-label-technical">
                   <div>

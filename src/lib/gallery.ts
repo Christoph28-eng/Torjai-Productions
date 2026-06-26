@@ -38,6 +38,9 @@ export interface BuildGalleryOptions {
   videoAlt: string;
   /** Text alternativ pentru imaginile placeholder (când nu există încă media reală). */
   fallbackAlt: string;
+  /** Dacă `false`, NU se mai adaugă placeholder-ele când proiectul n-are media reală
+   *  (ex. proiecte care doar fac link extern — conținutul stă pe alt site). Implicit `true`. */
+  fallback?: boolean;
 }
 
 /**
@@ -52,6 +55,7 @@ export async function buildGallery({
   photoAlt,
   videoAlt,
   fallbackAlt,
+  fallback = true,
 }: BuildGalleryOptions): Promise<DisplayItem[]> {
   // Ordine după numele fișierului (numeric: 01, 02, 10 ...).
   const photos = [...localPhotos].sort((a, b) =>
@@ -118,7 +122,7 @@ export async function buildGallery({
   }
 
   // Fallback placeholders (ca pagina să nu fie goală până se adaugă media reală).
-  if (gallery.length === 0) {
+  if (gallery.length === 0 && fallback) {
     for (const g of galleryPool) {
       gallery.push({ type: g.type, thumb: g.src, full: g.src, embed: '', alt: fallbackAlt });
     }

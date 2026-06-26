@@ -40,6 +40,9 @@ const gallery = await buildGallery({
   photoAlt: project.title,
   videoAlt: `${project.title} — video`,
   fallbackAlt: project.title,
+  // Proiectele care doar fac link extern (ex. TV → ALEX Berlin) n-au media pe site,
+  // deci nu afișăm placeholder-ele de exemplu — doar hero-ul + butonul extern.
+  fallback: !project.website,
 });
 ---
 

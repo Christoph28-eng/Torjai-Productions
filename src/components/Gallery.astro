@@ -20,26 +20,28 @@ const { items, filters = ['ALL', 'PHOTO', 'VIDEO'] } = Astro.props;
   >
     <slot />
 
-    <!-- Filtre galerie: ALL / PHOTO / VIDEO -->
-    <div class="flex flex-wrap justify-center gap-4" id="gallery-filters">
-      {
-        filters.map((f, i) => (
-          <button
-            type="button"
-            data-filter={f.toLowerCase()}
-            aria-pressed={i === 0 ? 'true' : 'false'}
-            class:list={[
-              'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors',
-              i === 0
-                ? 'border-technical-amber bg-technical-amber/10 text-technical-amber'
-                : 'border-gray-300 text-gray-600 hover:border-black hover:text-black',
-            ]}
-          >
-            {f}
-          </button>
-        ))
-      }
-    </div>
+    <!-- Filtre galerie: ALL / PHOTO / VIDEO (doar dacă există media) -->
+    {
+      items.length > 0 && (
+        <div class="flex flex-wrap justify-center gap-4" id="gallery-filters">
+          {filters.map((f, i) => (
+            <button
+              type="button"
+              data-filter={f.toLowerCase()}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              class:list={[
+                'rounded-full border px-6 py-2 font-label-technical text-label-technical uppercase transition-colors',
+                i === 0
+                  ? 'border-technical-amber bg-technical-amber/10 text-technical-amber'
+                  : 'border-gray-300 text-gray-600 hover:border-black hover:text-black',
+              ]}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+      )
+    }
   </section>
 
   <!-- Galerie -->
