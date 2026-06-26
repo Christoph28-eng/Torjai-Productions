@@ -240,10 +240,10 @@ export const projects: Project[] = [
     size: 'wide', // coperta e 16:10 (landscape) → placă lată indiferent de poziție
 
     instagramProfile: 'qfroost',
-    // Ordine: cel mai recent → cel mai vechi (după data postării pe Instagram).
+    // `date` = data postării pe Instagram; galeria se sortează automat newest-first.
     instagram: [
-      { url: 'https://www.instagram.com/reel/DWgYpBtjVW_/', posterSrc: '/projects/samsung-qfroost/ig-01.webp', alt: 'Samsung × Qfroost — reel' }, // 2026-03-30
-      { url: 'https://www.instagram.com/reel/DONoAh2jEYf/', posterSrc: '/projects/samsung-qfroost/ig-02.webp', alt: 'Samsung × Qfroost — reel' }, // 2025-09-05
+      { url: 'https://www.instagram.com/reel/DWgYpBtjVW_/', posterSrc: '/projects/samsung-qfroost/ig-01.webp', alt: 'Samsung × Qfroost — reel', date: '2026-03-30' },
+      { url: 'https://www.instagram.com/reel/DONoAh2jEYf/', posterSrc: '/projects/samsung-qfroost/ig-02.webp', alt: 'Samsung × Qfroost — reel', date: '2025-09-05' },
     ],
   },
   // ── Narrative & Broadcast (University projects) ───────────────────
@@ -347,18 +347,18 @@ export const projects: Project[] = [
     src: '/projects/qfroost-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-800'],
     instagramProfile: 'qfroost',
-    // Ordine: cel mai recent → cel mai vechi (după data postării pe Instagram).
+    // `date` = data postării pe Instagram; galeria se sortează automat newest-first.
     instagram: [
-      { url: 'https://www.instagram.com/p/DTfKyIXjdio/', posterSrc: '/projects/qfroost/ig-08.webp', alt: 'Quyen Van (qfroost) — Kendama Postcards' }, // 2026-01-14
-      { url: 'https://www.instagram.com/reel/DSj8MtYDS9q/', posterSrc: '/projects/qfroost/ig-04.webp', alt: 'Quyen Van (qfroost) — reel' }, // 2025-12-22
+      { url: 'https://www.instagram.com/p/DTfKyIXjdio/', posterSrc: '/projects/qfroost/ig-08.webp', alt: 'Quyen Van (qfroost) — Kendama Postcards', date: '2026-01-14' },
+      { url: 'https://www.instagram.com/reel/DSj8MtYDS9q/', posterSrc: '/projects/qfroost/ig-04.webp', alt: 'Quyen Van (qfroost) — reel', date: '2025-12-22' },
       // Reel DNAfxKcIZkm — IG refuză embedding-ul (EmbedBrokenMedia, probabil audio
       // licențiat), deci e link-out: la click se deschide reel-ul pe Instagram (tab nou).
-      { url: 'https://www.instagram.com/reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp', alt: 'Quyen Van (qfroost) — reel (opens on Instagram)', external: true }, // ~2025 (mediu)
-      { url: 'https://www.instagram.com/reel/DKZIJmFoWSF/', posterSrc: '/projects/qfroost/ig-02.webp', alt: 'Quyen Van (qfroost) — reel' }, // 2025-06-02
-      { url: 'https://www.instagram.com/reel/C6imOYVKl47/', posterSrc: '/projects/qfroost/ig-01.webp', alt: 'Quyen Van (qfroost) — reel' }, // 2024-05-04
-      { url: 'https://www.instagram.com/p/CxPpAaQqVv7/', posterSrc: '/projects/qfroost/ig-07.webp', alt: 'Quyen Van (qfroost) — post' }, // 2023-09-16
-      { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel' }, // 2023-09-15
-      { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel' }, // 2023-08-17
+      { url: 'https://www.instagram.com/reel/DNAfxKcIZkm/', posterSrc: '/projects/qfroost/ig-03.webp', alt: 'Quyen Van (qfroost) — reel (opens on Instagram)', external: true, date: '2025-09-01' }, // dată aproximativă (mijloc 2025)
+      { url: 'https://www.instagram.com/reel/DKZIJmFoWSF/', posterSrc: '/projects/qfroost/ig-02.webp', alt: 'Quyen Van (qfroost) — reel', date: '2025-06-02' },
+      { url: 'https://www.instagram.com/reel/C6imOYVKl47/', posterSrc: '/projects/qfroost/ig-01.webp', alt: 'Quyen Van (qfroost) — reel', date: '2024-05-04' },
+      { url: 'https://www.instagram.com/p/CxPpAaQqVv7/', posterSrc: '/projects/qfroost/ig-07.webp', alt: 'Quyen Van (qfroost) — post', date: '2023-09-16' },
+      { url: 'https://www.instagram.com/reel/CxNHpGdqsNK/', posterSrc: '/projects/qfroost/ig-06.webp', alt: 'Quyen Van (qfroost) — reel', date: '2023-09-15' },
+      { url: 'https://www.instagram.com/reel/CwCH4lnqCfo/', posterSrc: '/projects/qfroost/ig-05.webp', alt: 'Quyen Van (qfroost) — reel', date: '2023-08-17' },
     ],
   },
 ];
