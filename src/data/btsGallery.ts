@@ -134,4 +134,8 @@ export const btsGallery: GalleryItem[] = [
   { src: '/bts/videos/bts-128.mp4', type: 'video', poster: '/bts/posters/bts-128.webp' },
   { src: '/bts/photos/bts-129.webp', type: 'photo' },
   { src: '/bts/photos/bts-130.webp', type: 'photo' },
+  // Adăugate manual din /Volumes/Sandisk 4TB/PLAYGROUND (NU din folderul-sursă T7).
+  // La o regenerare a galeriei se pierd — copiază sursele în folderul T7 BTS pt. permanență.
+  { src: '/bts/photos/bts-131.webp', type: 'photo' },
+  { src: '/bts/photos/bts-132.webp', type: 'photo' },
 ];
