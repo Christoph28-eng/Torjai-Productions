@@ -17,6 +17,15 @@ const firstDayBts: ProjectVideo = {
   id: 'omeHJcK75Vs',
   alt: 'First Day at Work — behind the scenes',
 };
+// Ordine după recență: fișierele cu `date` (adăugate recent) urcă în capul galeriei,
+// cel mai recent primul; cele fără `date` rămân în ordinea lor (sortare stabilă).
+// Așa, când adaugi media nouă în btsGallery.ts cu `date` setat, apare automat prima.
+const btsByRecency = [...btsGallery].sort((a, b) => {
+  if (a.date && b.date) return b.date.localeCompare(a.date);
+  if (a.date) return -1;
+  if (b.date) return 1;
+  return 0;
+});
 const gallery: DisplayItem[] = [
   {
     type: 'video',
@@ -25,7 +34,7 @@ const gallery: DisplayItem[] = [
     embed: videoEmbed(firstDayBts),
     alt: firstDayBts.alt!,
   },
-  ...galleryItemsToDisplay(btsGallery, {
+  ...galleryItemsToDisplay(btsByRecency, {
     photoAlt: 'Behind The Scenes — Torjai Productions',
     videoAlt: 'Behind The Scenes — video',
     muteVideos: true, // clipurile-footage BTS pornesc fără sunet (cu buton de volum)

@@ -1,6 +1,10 @@
 // AUTO-GENERAT — galeria reală BEHIND THE SCENES (BTS).
 // Sursă: /Volumes/T7 Shield/Footage-ALL/BTS-all/website, ordine după nume (A→Z).
 // Index global bts-NNN = poziția fișierului în folder. Nu edita manual.
+//
+// ORDINEA PE PAGINĂ (bts.astro): după recență — itemele cu `date` (adăugate recent)
+// apar primele (cel mai recent primul); restul (fără `date`) rămân în ordinea de mai jos.
+// Când adaugi media nouă, pune `date: 'AAAA-LL-ZZ'` (data adăugării) ca să urce automat sus.
 import type { GalleryItem } from './projects';
 
 export const btsGallery: GalleryItem[] = [
@@ -136,6 +140,7 @@ export const btsGallery: GalleryItem[] = [
   { src: '/bts/photos/bts-130.webp', type: 'photo' },
   // Adăugate manual din /Volumes/Sandisk 4TB/PLAYGROUND (NU din folderul-sursă T7).
   // La o regenerare a galeriei se pierd — copiază sursele în folderul T7 BTS pt. permanență.
-  { src: '/bts/photos/bts-131.webp', type: 'photo' },
-  { src: '/bts/photos/bts-132.webp', type: 'photo' },
+  // `date` = data adăugării pe pagină → urcă automat în capul galeriei (cele mai recente primele).
+  { src: '/bts/photos/bts-131.webp', type: 'photo', date: '2026-06-27' },
+  { src: '/bts/photos/bts-132.webp', type: 'photo', date: '2026-06-27' },
 ];

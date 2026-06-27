@@ -393,6 +393,11 @@ export interface GalleryItem {
   /** Pentru video BTS: dacă `true`, clipul are sunet + controale normale
    *  (excepție de la mut-ul global al galeriei BTS). */
   sound?: boolean;
+  /** Data (ISO, ex. '2026-06-27') la care fișierul a fost ADĂUGAT pe pagină — NU data
+   *  pozei/clipului în sine. Itemele cu `date` urcă automat în capul galeriei BTS (cel
+   *  mai recent adăugat primul); cele fără `date` rămân în ordinea lor. Vezi
+   *  [[gallery-new-media-first]]. Pune data curentă când adaugi fișiere noi. */
+  date?: string;
 }
 
 export const galleryPool: GalleryItem[] = [
