@@ -186,10 +186,10 @@ export const projects: Project[] = [
   {
     slug: 'ekstrategy',
     updatedAt: '2026-06-20T10:40:00',
-    title: 'EKSTRATEGY & TEKIRDAĞ RAKI',
+    title: 'EKSTRATEGY & TEKİRDAĞ RAKISI',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
-    alt: 'Ekstrategy × Tekirdağ Rakı — commercial.',
+    alt: 'Ekstrategy × Tekirdağ Rakısı — commercial.',
     src: '/projects/ekstrategy-cover.webp',
     dots: ['bg-gray-800', 'bg-technical-amber'],
     website: { url: 'https://ekstrategy.com', label: 'Explore Ekstrategy' },
