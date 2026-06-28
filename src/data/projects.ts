@@ -204,7 +204,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'playground',
-    updatedAt: '2026-06-27T21:10:00',
+    updatedAt: '2026-06-28T17:50:00',
     title: 'PLAYGROUND BOXING BERLIN',
     client: '',
     category: 'CAMPAIGNS & COMMERCIAL',
@@ -215,6 +215,7 @@ export const projects: Project[] = [
     instagram: [
       // `date` = data adăugării în proiect → urcă automat primul în galerie.
       // Coperta = coverul reel-ului de pe Instagram (EmbeddedMediaImage, fără play button).
+      { url: 'https://www.instagram.com/reel/DaIQ0wFI40I/', posterSrc: '/projects/playground/ig-07.webp', alt: 'Playground Boxing — reel (Milan Iannone vs Alex Klein, New Era, 17 Jul)', date: '2026-06-28' },
       { url: 'https://www.instagram.com/reel/DaAymx0qwMn/', posterSrc: '/projects/playground/ig-06.webp', alt: 'Playground Boxing — reel', date: '2026-06-27' },
       { url: 'https://www.instagram.com/reel/DaC-4i5IcN-/', posterSrc: '/projects/playground/ig-05.webp', alt: 'Playground Boxing — reel (Jonathan Tisini, 17 Jul)', date: '2026-06-26' },
       { url: 'https://www.instagram.com/p/DZVEMAnCM1Z/', posterSrc: '/projects/playground/ig-01.webp', alt: 'Playground Boxing — Instagram post' },
