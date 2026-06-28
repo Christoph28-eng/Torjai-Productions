@@ -17,6 +17,7 @@ const clients = [
   { name: 'Berlinale', logo: '/logos/berlinale.png', href: '/projects/berlinale', h: 72 },
   { name: 'Playground Boxing Berlin', logo: '/logos/playground.png', href: '/projects/playground', h: 34 },
   { name: 'BBB Bürgschaftsbank Berlin', logo: '/logos/bbb.png', href: '/projects/ekstrategy', h: 58 },
+  { name: 'Tekirdağ Rakısı', logo: '/logos/tekirdag.png', href: '/projects/ekstrategy', h: 48 },
 ];
 
 // Proces de producție (coloana stângă din secțiunea "Precision driven")
@@ -131,14 +132,14 @@ const faqs = [
     {/* O singură pistă cu lista de DOUĂ ori; keyframe-ul translateX(-50%) mută
         exact o copie → loop fără cusătură. Spațierea = padding simetric pe fiecare
         item (px-…), ca șirul să fie perfect periodic (altfel apar suprapuneri). */}
-    <div class="animate-marquee-reverse items-center">
+    <div class="logo-track animate-marquee-reverse items-center">
       {
         [...clients, ...clients].map((c, i) => {
           const dup = i >= clients.length;
           return (
             <a
               href={c.href}
-              class="group flex shrink-0 items-center px-8 md:px-10"
+              class="group flex shrink-0 items-center px-6 sm:px-8 md:px-10"
               aria-label={dup ? undefined : `${c.name} — open project`}
               aria-hidden={dup ? 'true' : undefined}
               tabindex={dup ? -1 : undefined}
@@ -147,8 +148,8 @@ const faqs = [
                 src={c.logo}
                 alt={dup ? '' : `${c.name} logo`}
                 draggable={false}
-                style={`height:${c.h}px`}
-                class="w-auto max-w-none select-none opacity-40 transition-all duration-300 group-hover:opacity-100"
+                style={`--logo-h:${c.h}px`}
+                class="marquee-logo w-auto max-w-none select-none opacity-40 transition-all duration-300 group-hover:opacity-100"
               />
             </a>
           );
