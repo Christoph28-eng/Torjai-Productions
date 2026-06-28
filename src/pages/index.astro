@@ -376,6 +376,69 @@ const faqs = [
   </section>
 </BaseLayout>
 
+<!-- Marquee fără flicker: drive-uim transform-ul cu requestAnimationFrame în loc de
+     animația CSS. Animația CSS are un „iteration boundary" (resetul -50%) la care
+     unele browsere repictează stratul mare → micro-pauză/flicker o dată pe ciclu.
+     rAF e continuu (wrap manual cu o lățime de copie, conținut identic) → fără reset.
+     CSS-ul rămâne ca fallback dacă JS nu rulează. Respectă prefers-reduced-motion. -->
+<script>
+  function setupMarquee(el, dir, copies, secondsPerCopy) {
+    if (!el) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    let raf = 0, x = 0, oneCopy = 0, speed = 0, last = 0, running = false;
+
+    function measure(initial) {
+      oneCopy = el.scrollWidth / copies;
+      speed = oneCopy / secondsPerCopy; // px / s
+      if (initial) {
+        x = dir > 0 ? -oneCopy : 0;
+      } else if (oneCopy > 0) {
+        // păstrează faza la resize/swap de font (fără salt vizibil)
+        x = x % oneCopy;
+        if (x > 0) x -= oneCopy;
+      }
+    }
+    function frame(now) {
+      if (!last) last = now;
+      const dt = Math.min(0.05, (now - last) / 1000); // clamp (revenire din tab inactiv)
+      last = now;
+      x += dir * speed * dt;
+      if (x <= -oneCopy) x += oneCopy;
+      else if (x > 0) x -= oneCopy;
+      el.style.transform = 'translate3d(' + x + 'px,0,0)';
+      raf = requestAnimationFrame(frame);
+    }
+    function start() {
+      if (running || reduce.matches) return;
+      running = true;
+      el.style.animation = 'none'; // dezactivează animația CSS, preluăm cu rAF
+      measure(true);
+      last = 0;
+      raf = requestAnimationFrame(frame);
+    }
+    function stop() {
+      running = false;
+      cancelAnimationFrame(raf);
+    }
+
+    let rt;
+    addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => { if (running) measure(false); }, 150);
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => { if (running) measure(false); });
+    }
+    reduce.addEventListener('change', () => (reduce.matches ? stop() : start()));
+    start();
+  }
+
+  // Hero „TORJAI PRODUCTIONS": 2 copii, dreapta→stânga, ~45s/copie.
+  setupMarquee(document.querySelector('.animate-marquee'), -1, 2, 45);
+  // Logo-uri clienți: 4 copii, stânga→dreapta, ~35s/copie (viteză ca înainte).
+  setupMarquee(document.querySelector('.logo-track'), 1, 4, 35);
+</script>
+
 <!--
   TODO conținut:
   - Înlocuiește imaginile placeholder (lh3.googleusercontent.com) cu media reală Torjai.
