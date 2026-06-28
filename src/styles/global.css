@@ -203,32 +203,38 @@ body {
   border-right: 2px solid;
 }
 
-/* Marquee (Home) */
+/* Marquee (Home). translate3d + will-change → strat propriu de compositor pe GPU,
+   ca să NU mai apară micro-flicker-ul/hitch-ul de la finalul fiecărei iterații. */
 @keyframes marquee {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 @keyframes marquee-reverse {
   0% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
   100% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
+}
+.animate-marquee,
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 .animate-marquee {
   animation: marquee 45s linear infinite;
-  display: flex;
-  width: max-content;
 }
+/* Durata 70s (nu 35) fiindcă pista de logo-uri are lista de 4× (vezi index.astro):
+   translateX(-50%) parcurge 2 copii, deci 70s păstrează aceeași viteză ca înainte. */
 .animate-marquee-reverse {
-  animation: marquee-reverse 35s linear infinite;
-  display: flex;
-  width: max-content;
+  animation: marquee-reverse 70s linear infinite;
 }
 
 /* Logo-urile clienților din marquee: înălțimea per-logo e setată inline ca

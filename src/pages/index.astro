@@ -129,12 +129,15 @@ const faqs = [
 
   <!-- ===================== CLIENT LOGOS MARQUEE ===================== -->
   <section class="relative overflow-hidden border-b border-studio-grey bg-background py-10 md:py-12">
-    {/* O singură pistă cu lista de DOUĂ ori; keyframe-ul translateX(-50%) mută
-        exact o copie → loop fără cusătură. Spațierea = padding simetric pe fiecare
-        item (px-…), ca șirul să fie perfect periodic (altfel apar suprapuneri). */}
+    {/* O singură pistă cu lista de 4× (clients × 4); keyframe-ul translateX(-50%)
+        mută exact 2 copii → loop fără cusătură. 4× (nu 2×) ca o jumătate de pistă
+        să fie mereu mai lată decât viewport-ul chiar și pe monitoare 1440p/ultrawide
+        (altfel s-ar vedea un gol gol care derulează = „pauza"/flicker-ul de la loop).
+        Spațierea = padding simetric pe fiecare item (px-…), ca șirul să fie perfect
+        periodic. Doar primele `clients.length` sunt accesibile; restul = aria-hidden. */}
     <div class="logo-track animate-marquee-reverse items-center">
       {
-        [...clients, ...clients].map((c, i) => {
+        [...clients, ...clients, ...clients, ...clients].map((c, i) => {
           const dup = i >= clients.length;
           return (
             <a
