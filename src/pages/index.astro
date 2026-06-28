@@ -3,17 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AboutTorjai from '../components/home/AboutTorjai.astro';
 import Testimonials from '../components/home/Testimonials.astro';
 
-// Logo-uri REALE de client. Fiecare e un PNG alb (silueta) în public/logos/,
-// afișat dim (opacity 40%) și luminat la hover — păstrează cromatica gri→alb a
+// Logo-uri REALE de client. Fiecare e o siluetă albă (PNG/SVG) în public/logos/,
+// afișată dim (opacity 40%) și luminată la hover — păstrează cromatica gri→alb a
 // marquee-ului. `href` = pagina de proiect deschisă la click.
+// `h` = înălțimea afișată (px). NU e uniformă pe bună dreptate: logo-urile cu mai
+// multe rânduri / iconiță (Berlinale, BBB, ALEX) primesc o cutie mai înaltă ca
+// textul lor să fie la fel de lizibil ca un wordmark pe un rând (ex. EK Strategy).
 const clients = [
-  { name: 'Avanti', logo: '/logos/avanti.png', href: '/projects/avanti' },
-  { name: 'EK Strategy', logo: '/logos/ekstrategy.png', href: '/projects/ekstrategy' },
-  { name: 'Samsung', logo: '/logos/samsung.svg', href: '/projects/samsung-qfroost' },
-  { name: 'ALEX Kosmos', logo: '/logos/alex-kosmos.png', href: '/projects/tv' },
-  { name: 'Berlinale', logo: '/logos/berlinale.png', href: '/projects/berlinale' },
-  { name: 'Playground Boxing Berlin', logo: '/logos/playground.png', href: '/projects/playground' },
-  { name: 'BBB Bürgschaftsbank Berlin', logo: '/logos/bbb.png', href: '/projects/ekstrategy' },
+  { name: 'Avanti', logo: '/logos/avanti.png', href: '/projects/avanti', h: 46 },
+  { name: 'EK Strategy', logo: '/logos/ekstrategy.png', href: '/projects/ekstrategy', h: 40 },
+  { name: 'Samsung', logo: '/logos/samsung.svg', href: '/projects/samsung-qfroost', h: 40 },
+  { name: 'ALEX Kosmos', logo: '/logos/alex-kosmos.png', href: '/projects/tv', h: 56 },
+  { name: 'Berlinale', logo: '/logos/berlinale.png', href: '/projects/berlinale', h: 72 },
+  { name: 'Playground Boxing Berlin', logo: '/logos/playground.png', href: '/projects/playground', h: 34 },
+  { name: 'BBB Bürgschaftsbank Berlin', logo: '/logos/bbb.png', href: '/projects/ekstrategy', h: 58 },
 ];
 
 // Proces de producție (coloana stângă din secțiunea "Precision driven")
@@ -124,43 +127,33 @@ const faqs = [
   </section>
 
   <!-- ===================== CLIENT LOGOS MARQUEE ===================== -->
-  <section class="relative overflow-hidden border-b border-studio-grey bg-background py-12">
-    <div class="flex items-center">
-      <div class="flex animate-marquee-reverse items-center space-x-16 whitespace-nowrap px-8 md:space-x-24 md:px-12">
-        {
-          clients.map((c) => (
+  <section class="relative overflow-hidden border-b border-studio-grey bg-background py-10 md:py-12">
+    {/* O singură pistă cu lista de DOUĂ ori; keyframe-ul translateX(-50%) mută
+        exact o copie → loop fără cusătură. Spațierea = padding simetric pe fiecare
+        item (px-…), ca șirul să fie perfect periodic (altfel apar suprapuneri). */}
+    <div class="animate-marquee-reverse items-center">
+      {
+        [...clients, ...clients].map((c, i) => {
+          const dup = i >= clients.length;
+          return (
             <a
               href={c.href}
-              class="group flex shrink-0 items-center"
-              aria-label={`${c.name} — open project`}
+              class="group flex shrink-0 items-center px-8 md:px-10"
+              aria-label={dup ? undefined : `${c.name} — open project`}
+              aria-hidden={dup ? 'true' : undefined}
+              tabindex={dup ? -1 : undefined}
             >
               <img
                 src={c.logo}
-                alt={`${c.name} logo`}
+                alt={dup ? '' : `${c.name} logo`}
                 draggable={false}
-                class="h-7 w-auto select-none opacity-40 transition-all duration-300 group-hover:opacity-100 md:h-9"
+                style={`height:${c.h}px`}
+                class="w-auto max-w-none select-none opacity-40 transition-all duration-300 group-hover:opacity-100"
               />
             </a>
-          ))
-        }
-      </div>
-      <div
-        class="flex animate-marquee-reverse items-center space-x-16 whitespace-nowrap px-8 md:space-x-24 md:px-12"
-        aria-hidden="true"
-      >
-        {
-          clients.map((c) => (
-            <a href={c.href} class="group flex shrink-0 items-center" tabindex={-1}>
-              <img
-                src={c.logo}
-                alt=""
-                draggable={false}
-                class="h-7 w-auto select-none opacity-40 transition-all duration-300 group-hover:opacity-100 md:h-9"
-              />
-            </a>
-          ))
-        }
-      </div>
+          );
+        })
+      }
     </div>
   </section>
 
