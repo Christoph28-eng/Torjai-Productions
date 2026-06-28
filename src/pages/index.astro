@@ -197,60 +197,71 @@ const faqs = [
 
     <div class="relative z-20 mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
       <div class="mt-20 flex flex-col items-end justify-start gap-6 md:flex-row md:gap-8">
-        <!-- Project Card 1 -->
-        <div
-          class="group relative mt-20 h-[500px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mt-0 md:w-[300px]"
+        {/* 3 carduri „live", fiecare cu media în loop din proiectul real; tot cardul
+            e link către pagina proiectului. Vezi <style> + media în public/. */}
+        <!-- Card 1 — Samsung × Qfroost (coperțile reel-urilor, Ken Burns + cross-fade) -->
+        <a
+          href="/projects/samsung-qfroost"
+          aria-label="Samsung × Qfroost — open project"
+          class="group relative mt-20 block h-[500px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mt-0 md:w-[300px]"
         >
-          <img
-            alt="Concrete interior bathed in cinematic shadow"
-            class="h-full w-full object-cover opacity-90 grayscale transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX4a48OBz2LaejD34_YXMsfHIXi4sD_iA6K-0PcLoiM3SVxWzn5_MtqCUxnIs4zQQwAuJ9tR6u0VP5uvJy-cXe9WMBR8X0yaQci9dxFByTypbEUpWWS-GlG0UyD2ONS3C3grsJB0AGVYGUnTDEWHNChe5FeQl_p0oDAy-SiCQQ95fLxEkcxIrP8k720sWtpb574cF6Q0GxacgOZjAK_exUJ8sRqfw2s_2r4DjKstYHMczI_89qMvEkTDaVYzYWSFExbtkNcEGqD6U"
-          />
+          <img src="/projects/samsung-qfroost/ig-01.webp" alt="" class="showcase-media kb-a" />
+          <img src="/projects/samsung-qfroost/ig-02.webp" alt="" class="showcase-media kb-b" />
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
-            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">COMMERCIAL</span>
-            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">NEON VEINS</h3>
-            <a href="/projects" class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors hover:bg-white">
+            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">CAMPAIGN</span>
+            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">SAMSUNG × QFROOST</h3>
+            <span class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors group-hover:bg-white">
               VIEW PROJECT <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
-            </a>
+            </span>
           </div>
-        </div>
-        <!-- Project Card 2 -->
-        <div
-          class="group relative h-[450px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-12 md:w-[320px]"
+        </a>
+        <!-- Card 2 — Berlinale (slideshow foto live, cross-fade) -->
+        <a
+          href="/projects/berlinale"
+          aria-label="Berlinale — open project"
+          class="group relative block h-[450px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-12 md:w-[320px]"
         >
-          <img
-            alt="Black-and-white documentary portrait on set"
-            class="h-full w-full object-cover opacity-90 grayscale transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjq4QbVAZcklZ8hHFt5fXQunTEZ_lvvCt1Z5TwL3lG0C2M1ZA_TWyxBa6WQjQCHjOdkdE6bLx6wHgo6DyPuGu6FRTfRC5iJYqm5V6z_jKXTzBRBbohZTopmEchevCxfRPax5I7p8mTWyn3opOFRJBL5wr7KNNS_XjBJfWc50Ya-PT8YDCY_2OXBlguPZuy3OZr1rJA-eOslJuN9fipxMzBtxRnE0Gsx3cDTpa7bWcEznc187ptAzsfJFFIFB3aELqRiQnwS5R-F6M"
-          />
+          <img src="/home/about/berlinale-1.webp" alt="" class="showcase-media berl-slide" />
+          <img src="/home/about/berlinale-2.webp" alt="" class="showcase-media berl-slide" />
+          <img src="/home/about/berlinale-3.webp" alt="" class="showcase-media berl-slide" />
+          <img src="/home/about/berlinale-4.webp" alt="" class="showcase-media berl-slide" />
+          <img src="/home/about/berlinale-5.webp" alt="" class="showcase-media berl-slide" />
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
-            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">DOCUMENTARY</span>
-            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">THE CRAFT</h3>
-            <a href="/projects" class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors hover:bg-white">
+            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">EDITORIAL</span>
+            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">BERLINALE</h3>
+            <span class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors group-hover:bg-white">
               VIEW PROJECT <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
-            </a>
+            </span>
           </div>
-        </div>
-        <!-- Project Card 3 -->
-        <div
-          class="group relative h-[400px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-[-40px] md:w-[280px]"
+        </a>
+        <!-- Card 3 — Schichtwechsel (teaser short film, autoplay muted loop) -->
+        <a
+          href="/projects/schichtwechsel"
+          aria-label="Schichtwechsel — open project"
+          class="group relative block h-[400px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-[-40px] md:w-[280px]"
         >
-          <img
-            alt="High-contrast music video still in an industrial space"
-            class="h-full w-full object-cover opacity-90 grayscale transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:grayscale-0"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNrCnzY6Mp7J_iBl7A7iOFzdjGT233TI96h-LBZiAQ90YG9FEG8j_QBT5Qu8TTTPOxarP6EgQtQf4GERmP_7DYHtqLIz1qjmoJ_22YMBhEsfiZkAkxK3sTLDng5o1KMRL9ftkdZdLCvM6xFDah9PqH_EAqEd8Hiu9CYwpbo5n3aA7fbl-2IFLJmG3d0mCVKZrK34Rs7_dxWLDdcwYF6Q-jt3O10wuwyui6O-_ktxnLkPXLtWVsfXoE1pUUn24uALTbgfNgy45qPoM"
-          />
+          <video
+            class="showcase-media"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/projects/schichtwechsel/loop-poster.jpg"
+          >
+            <source src="/projects/schichtwechsel/loop.mp4" type="video/mp4" />
+          </video>
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
-            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">MUSIC VIDEO</span>
-            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">CONCRETE ECHO</h3>
-            <a href="/projects" class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors hover:bg-white">
+            <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">SHORT FILM</span>
+            <h3 class="mb-4 font-headline-md text-3xl uppercase tracking-tighter text-white">SCHICHTWECHSEL</h3>
+            <span class="flex items-center gap-2 self-start rounded-full bg-surface-tint px-4 py-2 font-label-button text-xs uppercase text-deep-charcoal transition-colors group-hover:bg-white">
               VIEW PROJECT <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
-            </a>
+            </span>
           </div>
-        </div>
+        </a>
 
         <!-- About (desktop) — peste jumătatea întunecată a split-ului -->
         <div class="relative z-20 ml-auto hidden w-full self-center pl-8 text-on-background md:block md:w-[400px]">
@@ -437,6 +448,14 @@ const faqs = [
   setupMarquee(document.querySelector('.animate-marquee'), -1, 2, 45);
   // Logo-uri clienți: 4 copii, stânga→dreapta, ~35s/copie (viteză ca înainte).
   setupMarquee(document.querySelector('.logo-track'), 1, 4, 35);
+
+  // Showcase „live" din About: respectă prefers-reduced-motion (oprește videoul).
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video.showcase-media').forEach((v) => {
+      v.removeAttribute('autoplay');
+      v.pause();
+    });
+  }
 </script>
 
 <!--

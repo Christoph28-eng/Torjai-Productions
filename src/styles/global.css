@@ -259,6 +259,67 @@ body {
   height: calc(var(--logo-h, 40px) * var(--logo-scale, 1));
 }
 
+/* === Showcase „live" din secțiunea 04 // About (3 carduri cu media în loop) === */
+.showcase-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Samsung × Qfroost: 2 coperți reel cu zoom lent (Ken Burns) + cross-fade între ele */
+@keyframes kb-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+@keyframes kb-fade-a {
+  0%, 44% { opacity: 1; }
+  50%, 94% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes kb-fade-b {
+  0%, 44% { opacity: 0; }
+  50%, 94% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.kb-a {
+  animation: kb-zoom 9s ease-in-out infinite alternate, kb-fade-a 16s linear infinite;
+}
+.kb-b {
+  opacity: 0;
+  animation: kb-zoom 9s ease-in-out infinite alternate, kb-fade-b 16s linear infinite;
+}
+
+/* Berlinale: slideshow foto (5 imagini), fiecare apare ~5s cu cross-fade + zoom lent */
+@keyframes berl-slide {
+  0% { opacity: 0; transform: scale(1); }
+  3% { opacity: 1; }
+  18% { opacity: 1; }
+  21% { opacity: 0; transform: scale(1.07); }
+  100% { opacity: 0; transform: scale(1.07); }
+}
+.berl-slide {
+  opacity: 0;
+  animation: berl-slide 25s linear infinite;
+}
+.berl-slide:nth-child(1) { animation-delay: 0s; }
+.berl-slide:nth-child(2) { animation-delay: 5s; }
+.berl-slide:nth-child(3) { animation-delay: 10s; }
+.berl-slide:nth-child(4) { animation-delay: 15s; }
+.berl-slide:nth-child(5) { animation-delay: 20s; }
+
+/* Accesibilitate: oprește mișcarea dacă utilizatorul preferă reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .kb-a, .kb-b, .berl-slide { animation: none; }
+  .kb-a, .berl-slide:nth-child(1) { opacity: 1; }
+  .kb-b, .berl-slide:nth-child(n + 2) { opacity: 0; }
+}
+
 /* Diagonal split background (Home about) — pe mobil e fundal solid întunecat
    (split-ul diagonal e un efect gândit pentru desktop). */
 .bg-diagonal-split {
