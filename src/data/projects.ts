@@ -125,6 +125,24 @@ const images = {
 export const projects: Project[] = [
   // ── Editorials & Culture ─────────────────────────────────────────
   {
+    slug: 'presse-ball-berlin',
+    updatedAt: '2026-06-29T19:35:00',
+    title: 'PRESSE BALL BERLIN',
+    client: '',
+    category: 'EDITORIALS & CULTURE',
+    alt: 'Presse Ball Berlin — gala event film.',
+    src: '/projects/presse-ball-berlin-cover.webp',
+    dots: ['bg-gray-300', 'bg-technical-amber'],
+    videos: [
+      {
+        provider: 'youtube',
+        id: 'ANxLu9GFYEc',
+        posterSrc: '/projects/presse-ball-berlin-cover.webp',
+        alt: 'Presse Ball Berlin',
+      },
+    ],
+  },
+  {
     slug: 'berlinale',
     updatedAt: '2026-06-26T17:30:00',
     title: 'BERLINALE',
