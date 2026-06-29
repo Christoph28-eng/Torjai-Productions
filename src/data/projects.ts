@@ -138,7 +138,10 @@ export const projects: Project[] = [
       {
         provider: 'youtube',
         id: 'ANxLu9GFYEc',
-        posterSrc: '/projects/presse-ball-berlin-cover.webp',
+        // Poster dedicat (portret) pentru placa din galerie — încadrat pe un subiect
+        // centrat (vioristă) ca să se înțeleagă în formatul 3:4; coperta proiectului
+        // (16:9, banner) rămâne `src`.
+        posterSrc: '/projects/presse-ball-berlin-poster.webp',
         alt: 'Presse Ball Berlin',
       },
     ],
