@@ -199,14 +199,23 @@ const faqs = [
       <div class="mt-20 flex flex-col items-end justify-start gap-6 md:flex-row md:gap-8">
         {/* 3 carduri „live", fiecare cu media în loop din proiectul real; tot cardul
             e link către pagina proiectului. Vezi <style> + media în public/. */}
-        <!-- Card 1 — Samsung × Qfroost (coperțile reel-urilor, Ken Burns + cross-fade) -->
+        <!-- Card 1 — Samsung × Qfroost (cele 2 reel-uri, autoplay mut în loop) -->
         <a
           href="/projects/samsung-qfroost"
           aria-label="Samsung × Qfroost — open project"
           class="group relative mt-20 block h-[500px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mt-0 md:w-[300px]"
         >
-          <img src="/projects/samsung-qfroost/ig-01.webp" alt="" class="showcase-media kb-a" />
-          <img src="/projects/samsung-qfroost/ig-02.webp" alt="" class="showcase-media kb-b" />
+          <video
+            class="showcase-media"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="/projects/samsung-qfroost/loop-poster.jpg"
+          >
+            <source src="/projects/samsung-qfroost/loop.mp4" type="video/mp4" />
+          </video>
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
             <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">CAMPAIGN</span>

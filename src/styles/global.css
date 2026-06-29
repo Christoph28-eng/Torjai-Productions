@@ -268,33 +268,6 @@ body {
   object-fit: cover;
 }
 
-/* Samsung × Qfroost: 2 coperți reel cu zoom lent (Ken Burns) + cross-fade între ele */
-@keyframes kb-zoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.12);
-  }
-}
-@keyframes kb-fade-a {
-  0%, 44% { opacity: 1; }
-  50%, 94% { opacity: 0; }
-  100% { opacity: 1; }
-}
-@keyframes kb-fade-b {
-  0%, 44% { opacity: 0; }
-  50%, 94% { opacity: 1; }
-  100% { opacity: 0; }
-}
-.kb-a {
-  animation: kb-zoom 9s ease-in-out infinite alternate, kb-fade-a 16s linear infinite;
-}
-.kb-b {
-  opacity: 0;
-  animation: kb-zoom 9s ease-in-out infinite alternate, kb-fade-b 16s linear infinite;
-}
-
 /* Berlinale: slideshow foto (5 imagini), fiecare apare ~5s cu cross-fade + zoom lent */
 @keyframes berl-slide {
   0% { opacity: 0; transform: scale(1); }
@@ -315,9 +288,9 @@ body {
 
 /* Accesibilitate: oprește mișcarea dacă utilizatorul preferă reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .kb-a, .kb-b, .berl-slide { animation: none; }
-  .kb-a, .berl-slide:nth-child(1) { opacity: 1; }
-  .kb-b, .berl-slide:nth-child(n + 2) { opacity: 0; }
+  .berl-slide { animation: none; }
+  .berl-slide:nth-child(1) { opacity: 1; }
+  .berl-slide:nth-child(n + 2) { opacity: 0; }
 }
 
 /* Diagonal split background (Home about) — pe mobil e fundal solid întunecat
