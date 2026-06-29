@@ -3,6 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AboutTorjai from '../components/home/AboutTorjai.astro';
 import Testimonials from '../components/home/Testimonials.astro';
 
+// Media „live" din secțiunea 04 // About — importate (nu din public/) ca Astro să
+// le dea nume cu hash de conținut → cache-busting automat la fiecare schimbare.
+import berl1 from '../assets/home/about/berlinale-1.webp';
+import berl2 from '../assets/home/about/berlinale-2.webp';
+import berl3 from '../assets/home/about/berlinale-3.webp';
+import berl4 from '../assets/home/about/berlinale-4.webp';
+import berl5 from '../assets/home/about/berlinale-5.webp';
+import berl6 from '../assets/home/about/berlinale-6.webp';
+import samsungLoop from '../assets/home/about/samsung-loop.mp4';
+import samsungPoster from '../assets/home/about/samsung-poster.jpg';
+import schichtLoop from '../assets/home/about/schichtwechsel-loop.mp4';
+import schichtPoster from '../assets/home/about/schichtwechsel-poster.jpg';
+const berlinaleSlides = [berl1, berl2, berl3, berl4, berl5, berl6];
+
 // Logo-uri REALE de client. Fiecare e o siluetă albă (PNG/SVG) în public/logos/,
 // afișată dim (opacity 40%) și luminată la hover — păstrează cromatica gri→alb a
 // marquee-ului. `href` = pagina de proiect deschisă la click.
@@ -212,9 +226,9 @@ const faqs = [
             loop
             playsinline
             preload="metadata"
-            poster="/projects/samsung-qfroost/loop-poster.jpg"
+            poster={samsungPoster.src}
           >
-            <source src="/projects/samsung-qfroost/loop.mp4" type="video/mp4" />
+            <source src={samsungLoop} type="video/mp4" />
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
@@ -231,12 +245,9 @@ const faqs = [
           aria-label="Berlinale — open project"
           class="group relative block h-[450px] w-full shrink-0 overflow-hidden rounded-[2rem] shadow-2xl md:mb-12 md:w-[320px]"
         >
-          <img src="/home/about/berlinale-1.webp" alt="" class="showcase-media berl-slide" />
-          <img src="/home/about/berlinale-2.webp" alt="" class="showcase-media berl-slide" />
-          <img src="/home/about/berlinale-3.webp" alt="" class="showcase-media berl-slide" />
-          <img src="/home/about/berlinale-4.webp" alt="" class="showcase-media berl-slide" />
-          <img src="/home/about/berlinale-5.webp" alt="" class="showcase-media berl-slide" />
-          <img src="/home/about/berlinale-6.webp" alt="" class="showcase-media berl-slide" />
+          {berlinaleSlides.map((img) => (
+            <img src={img.src} alt="" class="showcase-media berl-slide" />
+          ))}
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
             <span class="font-label-technical text-[10px] uppercase tracking-widest text-tertiary">EDITORIAL</span>
@@ -259,9 +270,9 @@ const faqs = [
             loop
             playsinline
             preload="metadata"
-            poster="/projects/schichtwechsel/loop-poster.jpg"
+            poster={schichtPoster.src}
           >
-            <source src="/projects/schichtwechsel/loop.mp4" type="video/mp4" />
+            <source src={schichtLoop} type="video/mp4" />
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-deep-charcoal/90 via-deep-charcoal/20 to-transparent"></div>
           <div class="absolute bottom-0 left-0 flex w-full flex-col gap-2 p-6">
