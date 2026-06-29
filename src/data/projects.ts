@@ -349,12 +349,12 @@ export const projects: Project[] = [
   // ── Profiles ─────────────────────────────────────────────────────
   {
     slug: 'qfroost',
-    updatedAt: '2026-06-25T18:00:00',
+    updatedAt: '2026-06-29T13:15:00',
     title: 'Quyen Van (qfroost)',
     client: '',
     category: 'PROFILES',
     alt: 'Quyen Van (qfroost) — Instagram reels & profile.',
-    src: '/projects/qfroost-cover.webp',
+    src: '/projects/qfroost-cover-2.webp',
     dots: ['bg-technical-amber', 'bg-gray-800'],
     instagramProfile: 'qfroost',
     // Adăugate în batch (la crearea proiectului), deci fără `date` → păstrează ordinea
