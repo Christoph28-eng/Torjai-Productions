@@ -353,17 +353,17 @@ export const projects: Project[] = [
   {
     slug: 'demonstration',
     updatedAt: '2026-06-20T10:10:00',
-    title: 'DEMONSTRATION',
+    title: 'FIELD INTERVIEWS',
     client: '',
     category: 'NARRATIVE & BROADCAST',
-    alt: 'Demonstration — reportage film stills.',
+    alt: 'Field Interviews — reportage film stills.',
     src: '/projects/demonstration-cover.webp',
     dots: ['bg-technical-amber', 'bg-gray-300'],
     videos: [
       {
         provider: 'youtube',
         id: 'p7ZSzrwZUyc',
-        alt: 'Demonstration',
+        alt: 'Field Interviews',
         posterSrc: '/projects/demonstration-cover.webp',
       },
     ],
