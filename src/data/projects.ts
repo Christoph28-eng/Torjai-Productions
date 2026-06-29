@@ -133,6 +133,7 @@ export const projects: Project[] = [
     alt: 'Presse Ball Berlin — gala event film.',
     src: '/projects/presse-ball-berlin-cover.webp',
     dots: ['bg-gray-300', 'bg-technical-amber'],
+    size: 'wide', // coperta e 16:9 (banner landscape) → placă lată, fără crop pe portret
     videos: [
       {
         provider: 'youtube',
